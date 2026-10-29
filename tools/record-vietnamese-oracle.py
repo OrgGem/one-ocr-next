@@ -34,7 +34,7 @@ def main():
                   manifestSha256=hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
                   modelSha256=hashlib.sha256((args.artifacts / 'oneocr.onemodel').read_bytes()).hexdigest(),
                   dllSha256=hashlib.sha256((args.artifacts / 'oneocr.dll').read_bytes()).hexdigest(), samples=samples)
-    (args.corpus / 'native-oracle.json').write_text(json.dumps(result, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
+    (args.corpus / 'native-oracle.json').write_text(json.dumps(result, ensure_ascii=False, indent=2)+'\n', encoding='utf-8', newline='\n')
 
 
 if __name__ == '__main__':

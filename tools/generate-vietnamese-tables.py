@@ -150,7 +150,7 @@ def main():
                                 stress='Same measurements, diagnostic only; never silently lowers required accuracy thresholds',
                                 cellAssignment='Center of each word quadrilateral in the authored cell polygon; preserve detected line/word order'),
                     samples=samples)
-    (args.output / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
+    (args.output / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n', encoding='utf-8', newline='\n')
     print(f'Generated {len(samples)} fixtures and authored labels in {args.output}')
 
 

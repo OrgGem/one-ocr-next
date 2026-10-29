@@ -191,7 +191,7 @@ không mount model; API key nằm trong `.env` không commit. Công cụ
 không có mount hoặc DLL Windows. `verify-service.mjs` kiểm tra deployment
 Compose qua HTTP, gồm PNG/JPEG/WebP và bảng 23 ô/13 giá trị số.
 
-19/19 nhóm test runtime/HTTP đạt trên Linux amd64. Receipt mới tại
+20/20 nhóm test runtime/HTTP và integrity đạt trên Linux amd64. Receipt mới tại
 `evidence/docker-verification.json` và `evidence/service-verification.json`.
 Các receipt/lịch sử nghiên cứu trước đó phản ánh source ở thời điểm ghi;
 không dùng chúng để thay cho kiểm chứng API mới. Chất lượng OCR/giới hạn parity

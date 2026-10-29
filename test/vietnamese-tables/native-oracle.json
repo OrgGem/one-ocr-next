@@ -1,6 +1,6 @@
 {
   "source": "caller-supplied Windows OneOCR; comparator, not ground truth",
-  "manifestSha256": "9a257c15dde06cad23ed78daf38c41a701573e137a302cfbb6e7ebf33f1c3913",
+  "manifestSha256": "76ddc9fb155fb7ceb083c1a375595d6e12f6bfc6c95e21116eb60e73b510c22c",
   "modelSha256": "076001d9d8ca2982e88d32e20d074efc52dcccf4982119ce1e97b005215220dc",
   "dllSha256": "1310e46ffa6971101da73191f7a30580f7f7d983ab02c5fca28b5f6fd4351242",
   "samples": {
