@@ -1,6 +1,6 @@
 {
   "status": "failed",
-  "generatedAt": "2026-10-29T01:25:59.665Z",
+  "generatedAt": "2026-10-29T02:43:30.060Z",
   "scope": "Synthetic printed text and table cell OCR; no table-structure extraction or real-scan accuracy claim",
   "policy": {
     "required": "Full text and every required cell exact after NFC and whitespace normalization; exact reading order; valid word geometry; no unassigned words",
@@ -10,22 +10,23 @@
   "platform": "linux",
   "architecture": "x64",
   "node": "v24.22.1",
-  "manifestSha256": "9a257c15dde06cad23ed78daf38c41a701573e137a302cfbb6e7ebf33f1c3913",
+  "manifestSha256": "76ddc9fb155fb7ceb083c1a375595d6e12f6bfc6c95e21116eb60e73b510c22c",
   "modelSha256": "076001d9d8ca2982e88d32e20d074efc52dcccf4982119ce1e97b005215220dc",
   "sourceSha256": {
     "cli.mjs": "f3b7cd77c16244af17e935b9c3759675815188f01a5c8b6bc619f7cb91f8eaab",
     "detector.mjs": "81a0c11a0d4c55768813320b7ef19620beccd46e1544cb1be2e6dc3e569b8984",
     "features.mjs": "8b4ea618b5cc7390f7f8547f51dd985ba4dbe227694f53ee310ab31cbda14905",
     "geometry.mjs": "9f945ab42021be33f635042be9af70fcf8f5170c8948f507dfba94dbf9f3a381",
+    "http.mjs": "ace49a33d6c8c1c86786a98be2819075de7a56be7496d2ea9123d994bc2c239a",
     "index.mjs": "b7c4e9c7d5ee0851ecf29b996b078b0aa4abd37262a4eda744cd38fd7a8a42ea",
     "lattice.mjs": "d40492412d2e94ff75b42e526d391b59641ec05fcc8b6825c642e6f9a81422f8",
-    "models.mjs": "67493b6a03ee96fd3bffd45407369c217e7322ad90c4be36aeeed44d5c6bfca1",
+    "models.mjs": "9376ef8be7519512e6e28a0b8f0e4f18410b38a1f0809f25cff0a5748e87a59d",
     "onemodel.mjs": "7e2a3296fdf28f5e979b1d32df92ea053a9e9913188b3b13b6ee316265fec908",
     "onnx-portable.mjs": "61322cd10bd4ad820d00318709606d6569f7a02f92e0906396f0bf29489b12bb",
     "protobuf.mjs": "2670f82c269ae5b95c5a687bc6c1bd664df376989636ad28f2a8b13630a9f57c",
     "raster.mjs": "c2edade95f73353b1c4bae0ec05416928f1b6ca545bb3cc161298a4d16456dd2",
     "recognizer.mjs": "2dfce4e35bbc0fd6ea584bb87620836495ba1989ba0b444fe813930f7e8329f6",
-    "server.mjs": "6f011fc3d4a9b9e75668712b435b8ffc171519b638860f5c8c977578b0fff5d6"
+    "server.mjs": "8b644858d1b164f8f009e0835350adf263cea65195ef090834f4cc1105f8c35f"
   },
   "required": {
     "port": {
@@ -302,7 +303,7 @@
         ]
       },
       "textMatchesNative": false,
-      "elapsedMs": 287.84938
+      "elapsedMs": 294.66766699999994
     },
     {
       "id": "vi-invoice",
@@ -539,7 +540,7 @@
         ]
       },
       "textMatchesNative": true,
-      "elapsedMs": 209.57793600000002
+      "elapsedMs": 241.99327199999993
     },
     {
       "id": "vi-table-grid",
@@ -1286,7 +1287,7 @@
         ]
       },
       "textMatchesNative": true,
-      "elapsedMs": 248.82706099999996
+      "elapsedMs": 246.894766
     },
     {
       "id": "vi-table-borderless",
@@ -2033,7 +2034,7 @@
         ]
       },
       "textMatchesNative": false,
-      "elapsedMs": 233.10929099999998
+      "elapsedMs": 252.19804399999998
     },
     {
       "id": "vi-table-merged",
@@ -2840,7 +2841,7 @@
         ]
       },
       "textMatchesNative": true,
-      "elapsedMs": 265.2345469999998
+      "elapsedMs": 277.97526500000004
     },
     {
       "id": "vi-table-small",
@@ -3587,7 +3588,7 @@
         ]
       },
       "textMatchesNative": true,
-      "elapsedMs": 227.041287
+      "elapsedMs": 233.7389169999999
     },
     {
       "id": "vi-table-skew3",
@@ -4334,7 +4335,7 @@
         ]
       },
       "textMatchesNative": true,
-      "elapsedMs": 239.533146
+      "elapsedMs": 260.5511939999999
     },
     {
       "id": "vi-table-faded",
@@ -5081,7 +5082,7 @@
         ]
       },
       "textMatchesNative": true,
-      "elapsedMs": 228.74970499999995
+      "elapsedMs": 271.8676210000003
     }
   ]
 }

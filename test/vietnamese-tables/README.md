@@ -55,7 +55,7 @@ không chứng minh khả năng tự suy ra hàng/cột, ô gộp hoặc xuất 
 
 ## Kết quả Linux x64, Node.js 24.22.1, ngày 2026-10-29
 
-11/11 nhóm test runtime/cách chấm đạt. Suite ảnh đạt 4/5 ca bắt buộc và 3/3
+20/20 nhóm test runtime/HTTP/cách chấm và integrity đạt. Suite ảnh đạt 4/5 ca bắt buộc và 3/3
 ca thử giới hạn, tổng 7/8 ảnh. Sáu bảng đúng toàn bộ nội dung ô, thứ tự đọc
 và 78/78 giá trị số; hóa đơn đúng toàn văn.
 
