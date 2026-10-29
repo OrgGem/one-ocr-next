@@ -1,0 +1,1700 @@
+{
+  "source": "native feature generator at RVA 0xcc410; observed intermediate character statistics and lattice alternatives",
+  "oneocr_sha256": "1310e46ffa6971101da73191f7a30580f7f7d983ab02c5fca28b5f6fd4351242",
+  "cases": [
+    {
+      "sourceImage": "latin.png",
+      "text": "native",
+      "characters": [
+        {
+          "character": {
+            "id": 78,
+            "physicalId": 46,
+            "type": 1,
+            "text": "n"
+          },
+          "rawCharacter": {
+            "id": 78,
+            "physicalId": 79,
+            "type": 1,
+            "text": "n"
+          },
+          "firstFrame": 2,
+          "lastFrame": 2,
+          "posterior": 0.9872492551803589,
+          "blank": 0.010880615562200546,
+          "space": 0,
+          "competitor": 0.010880615562200546
+        },
+        {
+          "character": {
+            "id": 65,
+            "physicalId": 66,
+            "type": 1,
+            "text": "a"
+          },
+          "rawCharacter": {
+            "id": 65,
+            "physicalId": 66,
+            "type": 1,
+            "text": "a"
+          },
+          "firstFrame": 15,
+          "lastFrame": 15,
+          "posterior": 0.998379111289978,
+          "blank": 0.00024231671704910696,
+          "space": 0,
+          "competitor": 0.0002682539343368262
+        },
+        {
+          "character": {
+            "id": 84,
+            "physicalId": 85,
+            "type": 1,
+            "text": "t"
+          },
+          "rawCharacter": {
+            "id": 84,
+            "physicalId": 85,
+            "type": 1,
+            "text": "t"
+          },
+          "firstFrame": 24,
+          "lastFrame": 24,
+          "posterior": 0.997532069683075,
+          "blank": 0.0005587469786405563,
+          "space": 0,
+          "competitor": 0.0005587469786405563
+        },
+        {
+          "character": {
+            "id": 73,
+            "physicalId": 74,
+            "type": 1,
+            "text": "i"
+          },
+          "rawCharacter": {
+            "id": 73,
+            "physicalId": 74,
+            "type": 1,
+            "text": "i"
+          },
+          "firstFrame": 28,
+          "lastFrame": 28,
+          "posterior": 0.9978468418121338,
+          "blank": 0.0007199998944997787,
+          "space": 0,
+          "competitor": 0.0007199998944997787
+        },
+        {
+          "character": {
+            "id": 86,
+            "physicalId": 87,
+            "type": 1,
+            "text": "v"
+          },
+          "rawCharacter": {
+            "id": 86,
+            "physicalId": 87,
+            "type": 1,
+            "text": "v"
+          },
+          "firstFrame": 33,
+          "lastFrame": 33,
+          "posterior": 0.9975895881652832,
+          "blank": 0.00031141750514507294,
+          "space": 0,
+          "competitor": 0.0007215517107397318
+        },
+        {
+          "character": {
+            "id": 69,
+            "physicalId": 70,
+            "type": 1,
+            "text": "e"
+          },
+          "rawCharacter": {
+            "id": 69,
+            "physicalId": 70,
+            "type": 1,
+            "text": "e"
+          },
+          "firstFrame": 42,
+          "lastFrame": 42,
+          "posterior": 0.9974526762962341,
+          "blank": 0.0006964231142774224,
+          "space": 0,
+          "competitor": 0.0006964231142774224
+        }
+      ],
+      "alternatives": [
+        {
+          "text": "native",
+          "score": -0.13022789359092712
+        }
+      ],
+      "expected": [
+        1.7917594909667969,
+        -0.021704649552702904,
+        0,
+        0,
+        0,
+        -0.004007548559457064,
+        -0.006325248628854752,
+        -0.00625252490863204,
+        -0.004007548559457064,
+        -0.012832732871174812,
+        -0.003999711479991674,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "sourceImage": "latin.png",
+      "text": "invoice",
+      "characters": [
+        {
+          "character": {
+            "id": 73,
+            "physicalId": 41,
+            "type": 1,
+            "text": "i"
+          },
+          "rawCharacter": {
+            "id": 73,
+            "physicalId": 74,
+            "type": 1,
+            "text": "i"
+          },
+          "firstFrame": 1,
+          "lastFrame": 1,
+          "posterior": 0.95691978931427,
+          "blank": 0.00048203120240941644,
+          "space": 0,
+          "competitor": 0.039483994245529175
+        },
+        {
+          "character": {
+            "id": 78,
+            "physicalId": 79,
+            "type": 1,
+            "text": "n"
+          },
+          "rawCharacter": {
+            "id": 78,
+            "physicalId": 79,
+            "type": 1,
+            "text": "n"
+          },
+          "firstFrame": 6,
+          "lastFrame": 6,
+          "posterior": 0.997761607170105,
+          "blank": 0.0005411477759480476,
+          "space": 0,
+          "competitor": 0.0005411477759480476
+        },
+        {
+          "character": {
+            "id": 86,
+            "physicalId": 87,
+            "type": 1,
+            "text": "v"
+          },
+          "rawCharacter": {
+            "id": 86,
+            "physicalId": 87,
+            "type": 1,
+            "text": "v"
+          },
+          "firstFrame": 16,
+          "lastFrame": 16,
+          "posterior": 0.996606171131134,
+          "blank": 0.0004795449203811586,
+          "space": 0,
+          "competitor": 0.0007456506136804819
+        },
+        {
+          "character": {
+            "id": 79,
+            "physicalId": 80,
+            "type": 1,
+            "text": "o"
+          },
+          "rawCharacter": {
+            "id": 79,
+            "physicalId": 80,
+            "type": 1,
+            "text": "o"
+          },
+          "firstFrame": 25,
+          "lastFrame": 25,
+          "posterior": 0.9977794289588928,
+          "blank": 0.00038747480721212924,
+          "space": 0,
+          "competitor": 0.00038747480721212924
+        },
+        {
+          "character": {
+            "id": 73,
+            "physicalId": 74,
+            "type": 1,
+            "text": "i"
+          },
+          "rawCharacter": {
+            "id": 73,
+            "physicalId": 74,
+            "type": 1,
+            "text": "i"
+          },
+          "firstFrame": 33,
+          "lastFrame": 33,
+          "posterior": 0.9969822764396667,
+          "blank": 0.0006222104420885444,
+          "space": 0,
+          "competitor": 0.0006222104420885444
+        },
+        {
+          "character": {
+            "id": 67,
+            "physicalId": 68,
+            "type": 1,
+            "text": "c"
+          },
+          "rawCharacter": {
+            "id": 67,
+            "physicalId": 68,
+            "type": 1,
+            "text": "c"
+          },
+          "firstFrame": 38,
+          "lastFrame": 38,
+          "posterior": 0.9982951283454895,
+          "blank": 0.00023893312027212232,
+          "space": 0,
+          "competitor": 0.00023893312027212232
+        },
+        {
+          "character": {
+            "id": 69,
+            "physicalId": 70,
+            "type": 1,
+            "text": "e"
+          },
+          "rawCharacter": {
+            "id": 69,
+            "physicalId": 70,
+            "type": 1,
+            "text": "e"
+          },
+          "firstFrame": 47,
+          "lastFrame": 47,
+          "posterior": 0.9977792501449585,
+          "blank": 0.0005200196173973382,
+          "space": 0,
+          "competitor": 0.0005200196173973382
+        }
+      ],
+      "alternatives": [
+        {
+          "text": "invoice",
+          "score": -0.15483230352401733
+        }
+      ],
+      "expected": [
+        1.945910096168518,
+        -0.02211889997124672,
+        0,
+        0,
+        0,
+        -0.008407297544181347,
+        -0.014598864130675793,
+        -0.008874746970832348,
+        -0.008407297544181347,
+        -0.04403570666909218,
+        -0.008302368223667145,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "sourceImage": "latin.png",
+      "text": "ocr",
+      "characters": [
+        {
+          "character": {
+            "id": 79,
+            "physicalId": 47,
+            "type": 1,
+            "text": "o"
+          },
+          "rawCharacter": {
+            "id": 79,
+            "physicalId": 80,
+            "type": 1,
+            "text": "o"
+          },
+          "firstFrame": 57,
+          "lastFrame": 57,
+          "posterior": 0.9981204271316528,
+          "blank": 0.00012564286589622498,
+          "space": 0,
+          "competitor": 0.0004527611890807748
+        },
+        {
+          "character": {
+            "id": 67,
+            "physicalId": 35,
+            "type": 1,
+            "text": "c"
+          },
+          "rawCharacter": {
+            "id": 67,
+            "physicalId": 68,
+            "type": 1,
+            "text": "c"
+          },
+          "firstFrame": 71,
+          "lastFrame": 71,
+          "posterior": 0.9958426356315613,
+          "blank": 0.0004452691355254501,
+          "space": 0,
+          "competitor": 0.0004718212876468897
+        },
+        {
+          "character": {
+            "id": 82,
+            "physicalId": 50,
+            "type": 1,
+            "text": "r"
+          },
+          "rawCharacter": {
+            "id": 82,
+            "physicalId": 83,
+            "type": 1,
+            "text": "r"
+          },
+          "firstFrame": 83,
+          "lastFrame": 83,
+          "posterior": 0.9950160980224609,
+          "blank": 0.0005632821121253073,
+          "space": 0,
+          "competitor": 0.0009929608786478639
+        }
+      ],
+      "alternatives": [
+        {
+          "text": "ocr",
+          "score": -0.07699557393789291
+        }
+      ],
+      "expected": [
+        1.0986123085021973,
+        -0.025665191933512688,
+        0,
+        0,
+        0,
+        -0.0036812450271099806,
+        -0.004320661071687937,
+        -0.004059385973960161,
+        -0.0036812450271099806,
+        -0.004996363073587418,
+        -0.0036803174298256636,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "sourceImage": "latin.png",
+      "text": "2026",
+      "characters": [
+        {
+          "character": {
+            "id": 18,
+            "physicalId": 18,
+            "type": 0,
+            "text": "2"
+          },
+          "rawCharacter": {
+            "id": 18,
+            "physicalId": 18,
+            "type": 0,
+            "text": "2"
+          },
+          "firstFrame": 102,
+          "lastFrame": 102,
+          "posterior": 0.9981132745742798,
+          "blank": 0.0003654487954918295,
+          "space": 0,
+          "competitor": 0.0003654487954918295
+        },
+        {
+          "character": {
+            "id": 16,
+            "physicalId": 16,
+            "type": 0,
+            "text": "0"
+          },
+          "rawCharacter": {
+            "id": 16,
+            "physicalId": 16,
+            "type": 0,
+            "text": "0"
+          },
+          "firstFrame": 110,
+          "lastFrame": 110,
+          "posterior": 0.9983579516410828,
+          "blank": 0.00041934929322451353,
+          "space": 0,
+          "competitor": 0.00041934929322451353
+        },
+        {
+          "character": {
+            "id": 18,
+            "physicalId": 18,
+            "type": 0,
+            "text": "2"
+          },
+          "rawCharacter": {
+            "id": 18,
+            "physicalId": 18,
+            "type": 0,
+            "text": "2"
+          },
+          "firstFrame": 121,
+          "lastFrame": 121,
+          "posterior": 0.9971076846122742,
+          "blank": 0.0007505369139835238,
+          "space": 0,
+          "competitor": 0.0007505369139835238
+        },
+        {
+          "character": {
+            "id": 22,
+            "physicalId": 22,
+            "type": 0,
+            "text": "6"
+          },
+          "rawCharacter": {
+            "id": 22,
+            "physicalId": 22,
+            "type": 0,
+            "text": "6"
+          },
+          "firstFrame": 129,
+          "lastFrame": 129,
+          "posterior": 0.9921337366104126,
+          "blank": 0.0057268887758255005,
+          "space": 0,
+          "competitor": 0.0057268887758255005
+        }
+      ],
+      "alternatives": [
+        {
+          "text": "2026",
+          "score": -0.0578945130109787
+        }
+      ],
+      "expected": [
+        1.3862943649291992,
+        -0.014473628252744675,
+        0,
+        0,
+        0,
+        -0.0035814442671835423,
+        -0.005401226691901684,
+        -0.005401226691901684,
+        -0.0035814442671835423,
+        -0.00789736583828926,
+        -0.0035782624036073685,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "sourceImage": "latin.png",
+      "text": "total",
+      "characters": [
+        {
+          "character": {
+            "id": 84,
+            "physicalId": 85,
+            "type": 1,
+            "text": "t"
+          },
+          "rawCharacter": {
+            "id": 84,
+            "physicalId": 85,
+            "type": 1,
+            "text": "t"
+          },
+          "firstFrame": 60,
+          "lastFrame": 60,
+          "posterior": 0.9978623390197754,
+          "blank": 0.0003873007954098284,
+          "space": 0,
+          "competitor": 0.0003873007954098284
+        },
+        {
+          "character": {
+            "id": 79,
+            "physicalId": 80,
+            "type": 1,
+            "text": "o"
+          },
+          "rawCharacter": {
+            "id": 79,
+            "physicalId": 80,
+            "type": 1,
+            "text": "o"
+          },
+          "firstFrame": 65,
+          "lastFrame": 65,
+          "posterior": 0.9987247586250305,
+          "blank": 0.00024975367705337703,
+          "space": 0,
+          "competitor": 0.00024975367705337703
+        },
+        {
+          "character": {
+            "id": 84,
+            "physicalId": 85,
+            "type": 1,
+            "text": "t"
+          },
+          "rawCharacter": {
+            "id": 84,
+            "physicalId": 85,
+            "type": 1,
+            "text": "t"
+          },
+          "firstFrame": 74,
+          "lastFrame": 74,
+          "posterior": 0.997703492641449,
+          "blank": 0.00039350794395431876,
+          "space": 0,
+          "competitor": 0.00040960090700536966
+        },
+        {
+          "character": {
+            "id": 65,
+            "physicalId": 66,
+            "type": 1,
+            "text": "a"
+          },
+          "rawCharacter": {
+            "id": 65,
+            "physicalId": 66,
+            "type": 1,
+            "text": "a"
+          },
+          "firstFrame": 80,
+          "lastFrame": 80,
+          "posterior": 0.9821979403495789,
+          "blank": 0.01650947518646717,
+          "space": 0,
+          "competitor": 0.01650947518646717
+        },
+        {
+          "character": {
+            "id": 76,
+            "physicalId": 77,
+            "type": 1,
+            "text": "l"
+          },
+          "rawCharacter": {
+            "id": 76,
+            "physicalId": 77,
+            "type": 1,
+            "text": "l"
+          },
+          "firstFrame": 87,
+          "lastFrame": 87,
+          "posterior": 0.9949005842208862,
+          "blank": 0.0032883179374039173,
+          "space": 0,
+          "competitor": 0.0032883179374039173
+        }
+      ],
+      "alternatives": [
+        {
+          "text": "total",
+          "score": -0.09366288036108017
+        }
+      ],
+      "expected": [
+        1.6094379425048828,
+        -0.018732575699687004,
+        0,
+        0,
+        0,
+        -0.0057580070570111275,
+        -0.009955580346286297,
+        -0.009952361695468426,
+        -0.0057580070570111275,
+        -0.017962422221899033,
+        -0.0057385992258787155,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "sourceImage": "latin.png",
+      "text": "123.45",
+      "characters": [
+        {
+          "character": {
+            "id": 17,
+            "physicalId": 17,
+            "type": 0,
+            "text": "1"
+          },
+          "rawCharacter": {
+            "id": 17,
+            "physicalId": 17,
+            "type": 0,
+            "text": "1"
+          },
+          "firstFrame": 99,
+          "lastFrame": 99,
+          "posterior": 0.9987677335739136,
+          "blank": 0.0002392573660472408,
+          "space": 0,
+          "competitor": 0.0002392573660472408
+        },
+        {
+          "character": {
+            "id": 18,
+            "physicalId": 18,
+            "type": 0,
+            "text": "2"
+          },
+          "rawCharacter": {
+            "id": 18,
+            "physicalId": 18,
+            "type": 0,
+            "text": "2"
+          },
+          "firstFrame": 108,
+          "lastFrame": 108,
+          "posterior": 0.9979721903800964,
+          "blank": 0.00034853449324145913,
+          "space": 0,
+          "competitor": 0.00034853449324145913
+        },
+        {
+          "character": {
+            "id": 19,
+            "physicalId": 19,
+            "type": 0,
+            "text": "3"
+          },
+          "rawCharacter": {
+            "id": 19,
+            "physicalId": 19,
+            "type": 0,
+            "text": "3"
+          },
+          "firstFrame": 117,
+          "lastFrame": 117,
+          "posterior": 0.9973675608634949,
+          "blank": 0.00027026687166653574,
+          "space": 0,
+          "competitor": 0.00036219184403307736
+        },
+        {
+          "character": {
+            "id": 14,
+            "physicalId": 14,
+            "type": 7,
+            "text": "."
+          },
+          "rawCharacter": {
+            "id": 14,
+            "physicalId": 14,
+            "type": 7,
+            "text": "."
+          },
+          "firstFrame": 125,
+          "lastFrame": 125,
+          "posterior": 0.9676501154899597,
+          "blank": 0.03039044328033924,
+          "space": 0.00021897107944823802,
+          "competitor": 0.03039044328033924
+        },
+        {
+          "character": {
+            "id": 20,
+            "physicalId": 20,
+            "type": 0,
+            "text": "4"
+          },
+          "rawCharacter": {
+            "id": 20,
+            "physicalId": 20,
+            "type": 0,
+            "text": "4"
+          },
+          "firstFrame": 131,
+          "lastFrame": 131,
+          "posterior": 0.9974216222763062,
+          "blank": 0.0004504424287006259,
+          "space": 0,
+          "competitor": 0.0004504424287006259
+        },
+        {
+          "character": {
+            "id": 21,
+            "physicalId": 21,
+            "type": 0,
+            "text": "5"
+          },
+          "rawCharacter": {
+            "id": 21,
+            "physicalId": 21,
+            "type": 0,
+            "text": "5"
+          },
+          "firstFrame": 140,
+          "lastFrame": 140,
+          "posterior": 0.9976826906204224,
+          "blank": 0.00024772738106548786,
+          "space": 0,
+          "competitor": 0.00024772738106548786
+        }
+      ],
+      "alternatives": [
+        {
+          "text": "123.45",
+          "score": -0.10093927383422852
+        }
+      ],
+      "expected": [
+        1.7917594909667969,
+        -0.016823211684823036,
+        0,
+        0,
+        0,
+        -0.007280869875103235,
+        -0.012699239887297153,
+        -0.012683906592428684,
+        -0.007317371666431427,
+        -0.032884709537029266,
+        -0.007215661462396383,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "sourceImage": "arabic.png",
+      "text": "اخ",
+      "characters": [
+        {
+          "character": {
+            "id": 110,
+            "physicalId": 111,
+            "type": 0,
+            "text": "ا"
+          },
+          "rawCharacter": {
+            "id": 110,
+            "physicalId": 111,
+            "type": 0,
+            "text": "ا"
+          },
+          "firstFrame": 2,
+          "lastFrame": 2,
+          "posterior": 0.9823901653289795,
+          "blank": 0.0004089100693818182,
+          "space": 0,
+          "competitor": 0.012058724649250507
+        },
+        {
+          "character": {
+            "id": 117,
+            "physicalId": 118,
+            "type": 0,
+            "text": "خ"
+          },
+          "rawCharacter": {
+            "id": 117,
+            "physicalId": 118,
+            "type": 0,
+            "text": "خ"
+          },
+          "firstFrame": 8,
+          "lastFrame": 8,
+          "posterior": 0.9999676942825317,
+          "blank": 0,
+          "space": 0,
+          "competitor": 0
+        }
+      ],
+      "alternatives": [
+        {
+          "text": "اخ",
+          "score": -0.10254654288291931
+        }
+      ],
+      "expected": [
+        0.6931471824645996,
+        -0.051273271441459656,
+        0,
+        0,
+        0,
+        -0.008899519219994545,
+        -0.014965534210205078,
+        -0.009104005061089993,
+        -0.008899519219994545,
+        -0.017766732722520828,
+        -0.008860206231474876,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "sourceImage": "arabic.png",
+      "text": "مرحبا",
+      "characters": [
+        {
+          "character": {
+            "id": 135,
+            "physicalId": 136,
+            "type": 0,
+            "text": "م"
+          },
+          "rawCharacter": {
+            "id": 135,
+            "physicalId": 136,
+            "type": 0,
+            "text": "م"
+          },
+          "firstFrame": 5,
+          "lastFrame": 5,
+          "posterior": 0.9999827146530151,
+          "blank": 0,
+          "space": 0,
+          "competitor": 0
+        },
+        {
+          "character": {
+            "id": 120,
+            "physicalId": 121,
+            "type": 0,
+            "text": "ر"
+          },
+          "rawCharacter": {
+            "id": 120,
+            "physicalId": 121,
+            "type": 0,
+            "text": "ر"
+          },
+          "firstFrame": 14,
+          "lastFrame": 14,
+          "posterior": 0.9999285936355591,
+          "blank": 0,
+          "space": 0,
+          "competitor": 0
+        },
+        {
+          "character": {
+            "id": 116,
+            "physicalId": 117,
+            "type": 0,
+            "text": "ح"
+          },
+          "rawCharacter": {
+            "id": 116,
+            "physicalId": 117,
+            "type": 0,
+            "text": "ح"
+          },
+          "firstFrame": 20,
+          "lastFrame": 20,
+          "posterior": 0.9989696741104126,
+          "blank": 0,
+          "space": 0,
+          "competitor": 0.0006161793135106564
+        },
+        {
+          "character": {
+            "id": 111,
+            "physicalId": 112,
+            "type": 0,
+            "text": "ب"
+          },
+          "rawCharacter": {
+            "id": 111,
+            "physicalId": 112,
+            "type": 0,
+            "text": "ب"
+          },
+          "firstFrame": 34,
+          "lastFrame": 34,
+          "posterior": 0.9987612962722778,
+          "blank": 0,
+          "space": 0,
+          "competitor": 0.0007622871198691428
+        },
+        {
+          "character": {
+            "id": 110,
+            "physicalId": 111,
+            "type": 0,
+            "text": "ا"
+          },
+          "rawCharacter": {
+            "id": 110,
+            "physicalId": 111,
+            "type": 0,
+            "text": "ا"
+          },
+          "firstFrame": 39,
+          "lastFrame": 39,
+          "posterior": 0.9993172883987427,
+          "blank": 0,
+          "space": 0,
+          "competitor": 0.0005408598808571696
+        }
+      ],
+      "alternatives": [
+        {
+          "text": "مرحبا",
+          "score": -0.6607774496078491
+        },
+        {
+          "text": "مرح با",
+          "score": -1.479724407196045
+        },
+        {
+          "text": "م رحبا",
+          "score": -3.2626962661743164
+        },
+        {
+          "text": "م رح با",
+          "score": -4.081642150878906
+        }
+      ],
+      "expected": [
+        1.6094379425048828,
+        -0.13215549290180206,
+        0,
+        0,
+        0,
+        -0.0006083935732021928,
+        -0.0009923847392201424,
+        -0.0006083935732021928,
+        -0.0006083935732021928,
+        -0.0012394716031849384,
+        -0.0006082715699449182,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "sourceImage": "arabic.png",
+      "text": "تبار",
+      "characters": [
+        {
+          "character": {
+            "id": 113,
+            "physicalId": 114,
+            "type": 0,
+            "text": "ت"
+          },
+          "rawCharacter": {
+            "id": 113,
+            "physicalId": 114,
+            "type": 0,
+            "text": "ت"
+          },
+          "firstFrame": 22,
+          "lastFrame": 22,
+          "posterior": 0.999984622001648,
+          "blank": 0,
+          "space": 0,
+          "competitor": 0
+        },
+        {
+          "character": {
+            "id": 111,
+            "physicalId": 112,
+            "type": 0,
+            "text": "ب"
+          },
+          "rawCharacter": {
+            "id": 111,
+            "physicalId": 112,
+            "type": 0,
+            "text": "ب"
+          },
+          "firstFrame": 36,
+          "lastFrame": 36,
+          "posterior": 0.9999029636383057,
+          "blank": 0,
+          "space": 0,
+          "competitor": 0
+        },
+        {
+          "character": {
+            "id": 110,
+            "physicalId": 111,
+            "type": 0,
+            "text": "ا"
+          },
+          "rawCharacter": {
+            "id": 110,
+            "physicalId": 111,
+            "type": 0,
+            "text": "ا"
+          },
+          "firstFrame": 40,
+          "lastFrame": 40,
+          "posterior": 0.9939731955528259,
+          "blank": 0.00425677141174674,
+          "space": 0,
+          "competitor": 0.00425677141174674
+        },
+        {
+          "character": {
+            "id": 120,
+            "physicalId": 121,
+            "type": 0,
+            "text": "ر"
+          },
+          "rawCharacter": {
+            "id": 120,
+            "physicalId": 121,
+            "type": 0,
+            "text": "ر"
+          },
+          "firstFrame": 48,
+          "lastFrame": 48,
+          "posterior": 0.9999728202819824,
+          "blank": 0,
+          "space": 0,
+          "competitor": 0
+        }
+      ],
+      "alternatives": [
+        {
+          "text": "ت بار",
+          "score": -0.5380211472511292
+        },
+        {
+          "text": "تبار",
+          "score": -1.0022395849227905
+        }
+      ],
+      "expected": [
+        1.3862943649291992,
+        -0.25055989623069763,
+        -0.25,
+        0,
+        -0.11605460941791534,
+        -0.0015461595030501485,
+        -0.002612627111375332,
+        -0.002612627111375332,
+        -0.0015461595030501485,
+        -0.006045038811862469,
+        -0.0015428040642291307,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "sourceImage": "arabic.png",
+      "text": "١ل",
+      "characters": [
+        {
+          "character": {
+            "id": 150,
+            "physicalId": 151,
+            "type": 0,
+            "text": "١"
+          },
+          "rawCharacter": {
+            "id": 150,
+            "physicalId": 151,
+            "type": 0,
+            "text": "١"
+          },
+          "firstFrame": 56,
+          "lastFrame": 56,
+          "posterior": 0.9214900732040405,
+          "blank": 0.001323077012784779,
+          "space": 0.000168261380167678,
+          "competitor": 0.06839614361524582
+        },
+        {
+          "character": {
+            "id": 134,
+            "physicalId": 135,
+            "type": 0,
+            "text": "ل"
+          },
+          "rawCharacter": {
+            "id": 134,
+            "physicalId": 135,
+            "type": 0,
+            "text": "ل"
+          },
+          "firstFrame": 65,
+          "lastFrame": 65,
+          "posterior": 0.991511881351471,
+          "blank": 0.0002854930062312633,
+          "space": 0,
+          "competitor": 0.00542485574260354
+        }
+      ],
+      "alternatives": [
+        {
+          "text": "١ل",
+          "score": -0.1233425885438919
+        },
+        {
+          "text": "ال",
+          "score": -2.724018096923828
+        }
+      ],
+      "expected": [
+        0.6931471824645996,
+        -0.06167129427194595,
+        0,
+        0,
+        0,
+        -0.04514381289482117,
+        -0.08328742533922195,
+        -0.045948576182127,
+        -0.04522795230150223,
+        -0.08176327496767044,
+        -0.04447343572974205,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "sourceImage": "arabic.png",
+      "text": "ن",
+      "characters": [
+        {
+          "character": {
+            "id": 136,
+            "physicalId": 137,
+            "type": 0,
+            "text": "ن"
+          },
+          "rawCharacter": {
+            "id": 136,
+            "physicalId": 137,
+            "type": 0,
+            "text": "ن"
+          },
+          "firstFrame": 73,
+          "lastFrame": 73,
+          "posterior": 0.9978775978088379,
+          "blank": 0.0005321436328813434,
+          "space": 0,
+          "competitor": 0.0005321436328813434
+        }
+      ],
+      "alternatives": [
+        {
+          "text": "ن",
+          "score": -0.002826545387506485
+        }
+      ],
+      "expected": [
+        0,
+        -0.002826545387506485,
+        0,
+        0,
+        0,
+        -0.0021246576216071844,
+        -0.0026569494511932135,
+        -0.0026569494511932135,
+        -0.0021246576216071844,
+        -0.0021246576216071844,
+        -0.0021246576216071844,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "sourceImage": "arabic.png",
+      "text": "بالعالم",
+      "characters": [
+        {
+          "character": {
+            "id": 111,
+            "physicalId": 112,
+            "type": 0,
+            "text": "ب"
+          },
+          "rawCharacter": {
+            "id": 111,
+            "physicalId": 112,
+            "type": 0,
+            "text": "ب"
+          },
+          "firstFrame": 55,
+          "lastFrame": 55,
+          "posterior": 0.9999783039093018,
+          "blank": 0,
+          "space": 0,
+          "competitor": 0
+        },
+        {
+          "character": {
+            "id": 110,
+            "physicalId": 111,
+            "type": 0,
+            "text": "ا"
+          },
+          "rawCharacter": {
+            "id": 110,
+            "physicalId": 111,
+            "type": 0,
+            "text": "ا"
+          },
+          "firstFrame": 59,
+          "lastFrame": 59,
+          "posterior": 0.9993706345558167,
+          "blank": 0,
+          "space": 0,
+          "competitor": 0.0004923392552882433
+        },
+        {
+          "character": {
+            "id": 134,
+            "physicalId": 135,
+            "type": 0,
+            "text": "ل"
+          },
+          "rawCharacter": {
+            "id": 134,
+            "physicalId": 135,
+            "type": 0,
+            "text": "ل"
+          },
+          "firstFrame": 67,
+          "lastFrame": 67,
+          "posterior": 0.33657675981521606,
+          "blank": 0.015249952673912048,
+          "space": 0.00929909385740757,
+          "competitor": 0.2784476578235626
+        },
+        {
+          "character": {
+            "id": 128,
+            "physicalId": 129,
+            "type": 0,
+            "text": "ع"
+          },
+          "rawCharacter": {
+            "id": 128,
+            "physicalId": 129,
+            "type": 0,
+            "text": "ع"
+          },
+          "firstFrame": 72,
+          "lastFrame": 72,
+          "posterior": 0.9997190833091736,
+          "blank": 0,
+          "space": 0,
+          "competitor": 0.00020172810764051974
+        },
+        {
+          "character": {
+            "id": 110,
+            "physicalId": 111,
+            "type": 0,
+            "text": "ا"
+          },
+          "rawCharacter": {
+            "id": 110,
+            "physicalId": 111,
+            "type": 0,
+            "text": "ا"
+          },
+          "firstFrame": 80,
+          "lastFrame": 80,
+          "posterior": 0.9973113536834717,
+          "blank": 0,
+          "space": 0,
+          "competitor": 0.001918800757266581
+        },
+        {
+          "character": {
+            "id": 134,
+            "physicalId": 135,
+            "type": 0,
+            "text": "ل"
+          },
+          "rawCharacter": {
+            "id": 134,
+            "physicalId": 135,
+            "type": 0,
+            "text": "ل"
+          },
+          "firstFrame": 88,
+          "lastFrame": 88,
+          "posterior": 0.7906972169876099,
+          "blank": 0.0003391723439563066,
+          "space": 0,
+          "competitor": 0.08055371791124344
+        },
+        {
+          "character": {
+            "id": 135,
+            "physicalId": 136,
+            "type": 0,
+            "text": "م"
+          },
+          "rawCharacter": {
+            "id": 135,
+            "physicalId": 136,
+            "type": 0,
+            "text": "م"
+          },
+          "firstFrame": 93,
+          "lastFrame": 94,
+          "posterior": 0.9150290489196777,
+          "blank": 0.08131521195173264,
+          "space": 0,
+          "competitor": 0.08131521195173264
+        }
+      ],
+      "alternatives": [
+        {
+          "text": "بالعالم",
+          "score": -1.5659059286117554
+        },
+        {
+          "text": "باڵعالم",
+          "score": -1.7555021047592163
+        },
+        {
+          "text": "باکعالم",
+          "score": -2.794694423675537
+        },
+        {
+          "text": "باڈعالم",
+          "score": -3.4553604125976562
+        },
+        {
+          "text": "بالعاکم",
+          "score": -4.064333438873291
+        },
+        {
+          "text": "با لعالم",
+          "score": -4.0678863525390625
+        },
+        {
+          "text": "باڵعاکم",
+          "score": -4.253929615020752
+        },
+        {
+          "text": "با ڵعالم",
+          "score": -4.257482528686523
+        },
+        {
+          "text": "باکعاکم",
+          "score": -5.242300033569336
+        },
+        {
+          "text": "با کعالم",
+          "score": -5.245853900909424
+        },
+        {
+          "text": "باڈعاکم",
+          "score": -5.739351272583008
+        },
+        {
+          "text": "با ڈعالم",
+          "score": -5.742905139923096
+        }
+      ],
+      "expected": [
+        1.945910096168518,
+        -0.2237008512020111,
+        0,
+        0,
+        0,
+        -0.20231330394744873,
+        -0.2734220325946808,
+        -0.2166731357574463,
+        -0.20364795625209808,
+        -1.0889290571212769,
+        -0.14772436022758484,
+        0,
+        0,
+        0,
+        -0.1428571492433548,
+        0,
+        0,
+        0,
+        -0.1428571492433548,
+        0,
+        -0.7142857313156128
+      ]
+    },
+    {
+      "sourceImage": "arabic.png",
+      "text": "ص",
+      "characters": [
+        {
+          "character": {
+            "id": 124,
+            "physicalId": 125,
+            "type": 0,
+            "text": "ص"
+          },
+          "rawCharacter": {
+            "id": 124,
+            "physicalId": 125,
+            "type": 0,
+            "text": "ص"
+          },
+          "firstFrame": 91,
+          "lastFrame": 91,
+          "posterior": 0.9998133778572083,
+          "blank": 0,
+          "space": 0,
+          "competitor": 0
+        }
+      ],
+      "alternatives": [
+        {
+          "text": "ص",
+          "score": -0.010236810892820358
+        }
+      ],
+      "expected": [
+        0,
+        -0.010236810892820358,
+        0,
+        0,
+        0,
+        -0.0001866395614342764,
+        -0.0001866395614342764,
+        -0.0001866395614342764,
+        -0.0001866395614342764,
+        -0.0001866395614342764,
+        -0.0001866395614342764,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "sourceImage": "arabic.png",
+      "text": "2026",
+      "characters": [
+        {
+          "character": {
+            "id": 18,
+            "physicalId": 18,
+            "type": 0,
+            "text": "2"
+          },
+          "rawCharacter": {
+            "id": 18,
+            "physicalId": 18,
+            "type": 0,
+            "text": "2"
+          },
+          "firstFrame": 104,
+          "lastFrame": 104,
+          "posterior": 0.9999178647994995,
+          "blank": 0,
+          "space": 0,
+          "competitor": 0
+        },
+        {
+          "character": {
+            "id": 16,
+            "physicalId": 16,
+            "type": 0,
+            "text": "0"
+          },
+          "rawCharacter": {
+            "id": 16,
+            "physicalId": 16,
+            "type": 0,
+            "text": "0"
+          },
+          "firstFrame": 114,
+          "lastFrame": 114,
+          "posterior": 0.9999797344207764,
+          "blank": 0,
+          "space": 0,
+          "competitor": 0
+        },
+        {
+          "character": {
+            "id": 18,
+            "physicalId": 18,
+            "type": 0,
+            "text": "2"
+          },
+          "rawCharacter": {
+            "id": 18,
+            "physicalId": 18,
+            "type": 0,
+            "text": "2"
+          },
+          "firstFrame": 123,
+          "lastFrame": 123,
+          "posterior": 0.9999237060546875,
+          "blank": 0,
+          "space": 0,
+          "competitor": 0
+        },
+        {
+          "character": {
+            "id": 22,
+            "physicalId": 22,
+            "type": 0,
+            "text": "6"
+          },
+          "rawCharacter": {
+            "id": 22,
+            "physicalId": 22,
+            "type": 0,
+            "text": "6"
+          },
+          "firstFrame": 133,
+          "lastFrame": 133,
+          "posterior": 0.9999122619628906,
+          "blank": 0,
+          "space": 0,
+          "competitor": 0
+        }
+      ],
+      "alternatives": [
+        {
+          "text": "2026",
+          "score": -0.00026642243028618395
+        }
+      ],
+      "expected": [
+        1.3862943649291992,
+        -6.660560757154599e-05,
+        0,
+        0,
+        0,
+        -6.661077350145206e-05,
+        -6.661077350145206e-05,
+        -6.661077350145206e-05,
+        -6.661077350145206e-05,
+        -8.77418860909529e-05,
+        -6.664021202595904e-05,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ]
+    }
+  ]
+}

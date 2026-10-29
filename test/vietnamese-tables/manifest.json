@@ -1,0 +1,4041 @@
+{
+  "schemaVersion": 1,
+  "language": "vi",
+  "scope": "Synthetic printed text and table cell OCR; no table-structure extraction or real-scan accuracy claim",
+  "generator": {
+    "script": "tools/generate-vietnamese-tables.py",
+    "pillow": "13.0.0",
+    "fonts": {
+      "arial.ttf": "c9b76220a5be42ead4733611e417cd65c5fd8aeaa33eb56576ac378a37d130a1",
+      "arialbd.ttf": "766f06ac8761f82f25d032a220e89438f6064591af9915061f20b949efdedf69"
+    }
+  },
+  "policy": {
+    "required": "Full text and every required cell exact after NFC and whitespace normalization; exact reading order; valid word geometry; no unassigned words",
+    "stress": "Same measurements, diagnostic only; never silently lowers required accuracy thresholds",
+    "cellAssignment": "Center of each word quadrilateral in the authored cell polygon; preserve detected line/word order"
+  },
+  "samples": [
+    {
+      "id": "vi-diacritics",
+      "file": "fixtures/vi-diacritics.png",
+      "description": "NFC Vietnamese letters, upper/lowercase and all vowel tone combinations",
+      "tier": "required",
+      "width": 1500,
+      "height": 780,
+      "cells": [
+        {
+          "id": "line-1",
+          "row": 0,
+          "column": 0,
+          "text": "Tiếng Việt có dấu: Trường Đại học Bách khoa",
+          "polygon": [
+            [
+              35,
+              55
+            ],
+            [
+              1465,
+              55
+            ],
+            [
+              1465,
+              150
+            ],
+            [
+              35,
+              150
+            ]
+          ]
+        },
+        {
+          "id": "line-2",
+          "row": 1,
+          "column": 0,
+          "text": "ă â ê ô ơ ư đ - Ă Â Ê Ô Ơ Ư Đ",
+          "polygon": [
+            [
+              35,
+              155
+            ],
+            [
+              1465,
+              155
+            ],
+            [
+              1465,
+              250
+            ],
+            [
+              35,
+              250
+            ]
+          ]
+        },
+        {
+          "id": "line-3",
+          "row": 2,
+          "column": 0,
+          "text": "á à ả ã ạ - ắ ằ ẳ ẵ ặ - ấ ầ ẩ ẫ ậ",
+          "polygon": [
+            [
+              35,
+              255
+            ],
+            [
+              1465,
+              255
+            ],
+            [
+              1465,
+              350
+            ],
+            [
+              35,
+              350
+            ]
+          ]
+        },
+        {
+          "id": "line-4",
+          "row": 3,
+          "column": 0,
+          "text": "é è ẻ ẽ ẹ - ế ề ể ễ ệ - í ì ỉ ĩ ị",
+          "polygon": [
+            [
+              35,
+              355
+            ],
+            [
+              1465,
+              355
+            ],
+            [
+              1465,
+              450
+            ],
+            [
+              35,
+              450
+            ]
+          ]
+        },
+        {
+          "id": "line-5",
+          "row": 4,
+          "column": 0,
+          "text": "ó ò ỏ õ ọ - ố ồ ổ ỗ ộ - ớ ờ ở ỡ ợ",
+          "polygon": [
+            [
+              35,
+              455
+            ],
+            [
+              1465,
+              455
+            ],
+            [
+              1465,
+              550
+            ],
+            [
+              35,
+              550
+            ]
+          ]
+        },
+        {
+          "id": "line-6",
+          "row": 5,
+          "column": 0,
+          "text": "ú ù ủ ũ ụ - ứ ừ ử ữ ự - ý ỳ ỷ ỹ ỵ",
+          "polygon": [
+            [
+              35,
+              555
+            ],
+            [
+              1465,
+              555
+            ],
+            [
+              1465,
+              650
+            ],
+            [
+              35,
+              650
+            ]
+          ]
+        }
+      ],
+      "expectedText": "Tiếng Việt có dấu: Trường Đại học Bách khoa\nă â ê ô ơ ư đ - Ă Â Ê Ô Ơ Ư Đ\ná à ả ã ạ - ắ ằ ẳ ẵ ặ - ấ ầ ẩ ẫ ậ\né è ẻ ẽ ẹ - ế ề ể ễ ệ - í ì ỉ ĩ ị\nó ò ỏ õ ọ - ố ồ ổ ỗ ộ - ớ ờ ở ỡ ợ\nú ù ủ ũ ụ - ứ ừ ử ữ ự - ý ỳ ỷ ỹ ỵ",
+      "imageSha256": "8722d741bc584d815ece1e4e25b112b7942b657559319bf41c469d7a8f9d0738"
+    },
+    {
+      "id": "vi-invoice",
+      "file": "fixtures/vi-invoice.png",
+      "description": "Invoice fields with Vietnamese accents, date, tax identifier and amount",
+      "tier": "required",
+      "width": 1500,
+      "height": 780,
+      "cells": [
+        {
+          "id": "line-1",
+          "row": 0,
+          "column": 0,
+          "text": "HÓA ĐƠN GIÁ TRỊ GIA TĂNG",
+          "polygon": [
+            [
+              35,
+              55
+            ],
+            [
+              1465,
+              55
+            ],
+            [
+              1465,
+              150
+            ],
+            [
+              35,
+              150
+            ]
+          ]
+        },
+        {
+          "id": "line-2",
+          "row": 1,
+          "column": 0,
+          "text": "Công ty Cổ phần Thương mại Việt Nam",
+          "polygon": [
+            [
+              35,
+              155
+            ],
+            [
+              1465,
+              155
+            ],
+            [
+              1465,
+              250
+            ],
+            [
+              35,
+              250
+            ]
+          ]
+        },
+        {
+          "id": "line-3",
+          "row": 2,
+          "column": 0,
+          "text": "Địa chỉ: 123 Nguyễn Trãi, Hà Nội",
+          "polygon": [
+            [
+              35,
+              255
+            ],
+            [
+              1465,
+              255
+            ],
+            [
+              1465,
+              350
+            ],
+            [
+              35,
+              350
+            ]
+          ]
+        },
+        {
+          "id": "line-4",
+          "row": 3,
+          "column": 0,
+          "text": "Ngày lập: 29/10/2026",
+          "polygon": [
+            [
+              35,
+              355
+            ],
+            [
+              1465,
+              355
+            ],
+            [
+              1465,
+              450
+            ],
+            [
+              35,
+              450
+            ]
+          ]
+        },
+        {
+          "id": "line-5",
+          "row": 4,
+          "column": 0,
+          "text": "Mã số thuế: 0101234567",
+          "polygon": [
+            [
+              35,
+              455
+            ],
+            [
+              1465,
+              455
+            ],
+            [
+              1465,
+              550
+            ],
+            [
+              35,
+              550
+            ]
+          ]
+        },
+        {
+          "id": "line-6",
+          "row": 5,
+          "column": 0,
+          "text": "Tổng thanh toán: 1.234.567 VND",
+          "polygon": [
+            [
+              35,
+              555
+            ],
+            [
+              1465,
+              555
+            ],
+            [
+              1465,
+              650
+            ],
+            [
+              35,
+              650
+            ]
+          ]
+        }
+      ],
+      "expectedText": "HÓA ĐƠN GIÁ TRỊ GIA TĂNG\nCông ty Cổ phần Thương mại Việt Nam\nĐịa chỉ: 123 Nguyễn Trãi, Hà Nội\nNgày lập: 29/10/2026\nMã số thuế: 0101234567\nTổng thanh toán: 1.234.567 VND",
+      "imageSha256": "e8c9771cff2bc76ea52a47495a5cf4e7f2a3c49ff57a5b5a0a1b26b4fd8f50b3"
+    },
+    {
+      "id": "vi-table-grid",
+      "file": "fixtures/vi-table-grid.png",
+      "description": "Vietnamese invoice table; borders=True, merged headers=False, font=34px",
+      "tier": "required",
+      "width": 1360,
+      "height": 760,
+      "cells": [
+        {
+          "id": "title",
+          "row": -2,
+          "column": 0,
+          "text": "HÓA ĐƠN BÁN HÀNG",
+          "polygon": [
+            [
+              40,
+              20
+            ],
+            [
+              1300,
+              20
+            ],
+            [
+              1300,
+              110
+            ],
+            [
+              40,
+              110
+            ]
+          ]
+        },
+        {
+          "id": "r0c0",
+          "row": 0,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Mặt hàng",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              145
+            ],
+            [
+              535,
+              145
+            ],
+            [
+              535,
+              235
+            ],
+            [
+              65,
+              235
+            ]
+          ]
+        },
+        {
+          "id": "r0c1",
+          "row": 0,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "Số lượng",
+          "numeric": false,
+          "polygon": [
+            [
+              535,
+              145
+            ],
+            [
+              750,
+              145
+            ],
+            [
+              750,
+              235
+            ],
+            [
+              535,
+              235
+            ]
+          ]
+        },
+        {
+          "id": "r0c2",
+          "row": 0,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "Đơn giá",
+          "numeric": false,
+          "polygon": [
+            [
+              750,
+              145
+            ],
+            [
+              1015,
+              145
+            ],
+            [
+              1015,
+              235
+            ],
+            [
+              750,
+              235
+            ]
+          ]
+        },
+        {
+          "id": "r0c3",
+          "row": 0,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "Thành tiền",
+          "numeric": false,
+          "polygon": [
+            [
+              1015,
+              145
+            ],
+            [
+              1295,
+              145
+            ],
+            [
+              1295,
+              235
+            ],
+            [
+              1015,
+              235
+            ]
+          ]
+        },
+        {
+          "id": "r1c0",
+          "row": 1,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Cà phê sữa",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              235
+            ],
+            [
+              535,
+              235
+            ],
+            [
+              535,
+              325
+            ],
+            [
+              65,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r1c1",
+          "row": 1,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "2",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              235
+            ],
+            [
+              750,
+              235
+            ],
+            [
+              750,
+              325
+            ],
+            [
+              535,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r1c2",
+          "row": 1,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "25.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              235
+            ],
+            [
+              1015,
+              235
+            ],
+            [
+              1015,
+              325
+            ],
+            [
+              750,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r1c3",
+          "row": 1,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "50.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              235
+            ],
+            [
+              1295,
+              235
+            ],
+            [
+              1295,
+              325
+            ],
+            [
+              1015,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r2c0",
+          "row": 2,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Bánh mì thịt",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              325
+            ],
+            [
+              535,
+              325
+            ],
+            [
+              535,
+              415
+            ],
+            [
+              65,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r2c1",
+          "row": 2,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "3",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              325
+            ],
+            [
+              750,
+              325
+            ],
+            [
+              750,
+              415
+            ],
+            [
+              535,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r2c2",
+          "row": 2,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "30.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              325
+            ],
+            [
+              1015,
+              325
+            ],
+            [
+              1015,
+              415
+            ],
+            [
+              750,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r2c3",
+          "row": 2,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "90.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              325
+            ],
+            [
+              1295,
+              325
+            ],
+            [
+              1295,
+              415
+            ],
+            [
+              1015,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r3c0",
+          "row": 3,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Nước ép cam",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              415
+            ],
+            [
+              535,
+              415
+            ],
+            [
+              535,
+              505
+            ],
+            [
+              65,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r3c1",
+          "row": 3,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "1",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              415
+            ],
+            [
+              750,
+              415
+            ],
+            [
+              750,
+              505
+            ],
+            [
+              535,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r3c2",
+          "row": 3,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "45.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              415
+            ],
+            [
+              1015,
+              415
+            ],
+            [
+              1015,
+              505
+            ],
+            [
+              750,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r3c3",
+          "row": 3,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "45.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              415
+            ],
+            [
+              1295,
+              415
+            ],
+            [
+              1295,
+              505
+            ],
+            [
+              1015,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r4c0",
+          "row": 4,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Sữa chua",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              505
+            ],
+            [
+              535,
+              505
+            ],
+            [
+              535,
+              595
+            ],
+            [
+              65,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r4c1",
+          "row": 4,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "4",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              505
+            ],
+            [
+              750,
+              505
+            ],
+            [
+              750,
+              595
+            ],
+            [
+              535,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r4c2",
+          "row": 4,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "15.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              505
+            ],
+            [
+              1015,
+              505
+            ],
+            [
+              1015,
+              595
+            ],
+            [
+              750,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r4c3",
+          "row": 4,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "60.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              505
+            ],
+            [
+              1295,
+              505
+            ],
+            [
+              1295,
+              595
+            ],
+            [
+              1015,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r5c0",
+          "row": 5,
+          "column": 0,
+          "columnSpan": 3,
+          "text": "Tổng cộng",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              595
+            ],
+            [
+              1015,
+              595
+            ],
+            [
+              1015,
+              685
+            ],
+            [
+              65,
+              685
+            ]
+          ]
+        },
+        {
+          "id": "r5c3",
+          "row": 5,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "245.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              595
+            ],
+            [
+              1295,
+              595
+            ],
+            [
+              1295,
+              685
+            ],
+            [
+              1015,
+              685
+            ]
+          ]
+        }
+      ],
+      "expectedText": "HÓA ĐƠN BÁN HÀNG\nMặt hàng\nSố lượng\nĐơn giá\nThành tiền\nCà phê sữa\n2\n25.000\n50.000\nBánh mì thịt\n3\n30.000\n90.000\nNước ép cam\n1\n45.000\n45.000\nSữa chua\n4\n15.000\n60.000\nTổng cộng\n245.000",
+      "imageSha256": "bb429eb663cb038d2a3912be8c27e48a7adf2215da117a35fb281af0ac79700f"
+    },
+    {
+      "id": "vi-table-borderless",
+      "file": "fixtures/vi-table-borderless.png",
+      "description": "Vietnamese invoice table; borders=False, merged headers=False, font=34px",
+      "tier": "required",
+      "width": 1360,
+      "height": 760,
+      "cells": [
+        {
+          "id": "title",
+          "row": -2,
+          "column": 0,
+          "text": "HÓA ĐƠN BÁN HÀNG",
+          "polygon": [
+            [
+              40,
+              20
+            ],
+            [
+              1300,
+              20
+            ],
+            [
+              1300,
+              110
+            ],
+            [
+              40,
+              110
+            ]
+          ]
+        },
+        {
+          "id": "r0c0",
+          "row": 0,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Mặt hàng",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              145
+            ],
+            [
+              535,
+              145
+            ],
+            [
+              535,
+              235
+            ],
+            [
+              65,
+              235
+            ]
+          ]
+        },
+        {
+          "id": "r0c1",
+          "row": 0,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "Số lượng",
+          "numeric": false,
+          "polygon": [
+            [
+              535,
+              145
+            ],
+            [
+              750,
+              145
+            ],
+            [
+              750,
+              235
+            ],
+            [
+              535,
+              235
+            ]
+          ]
+        },
+        {
+          "id": "r0c2",
+          "row": 0,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "Đơn giá",
+          "numeric": false,
+          "polygon": [
+            [
+              750,
+              145
+            ],
+            [
+              1015,
+              145
+            ],
+            [
+              1015,
+              235
+            ],
+            [
+              750,
+              235
+            ]
+          ]
+        },
+        {
+          "id": "r0c3",
+          "row": 0,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "Thành tiền",
+          "numeric": false,
+          "polygon": [
+            [
+              1015,
+              145
+            ],
+            [
+              1295,
+              145
+            ],
+            [
+              1295,
+              235
+            ],
+            [
+              1015,
+              235
+            ]
+          ]
+        },
+        {
+          "id": "r1c0",
+          "row": 1,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Cà phê sữa",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              235
+            ],
+            [
+              535,
+              235
+            ],
+            [
+              535,
+              325
+            ],
+            [
+              65,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r1c1",
+          "row": 1,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "2",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              235
+            ],
+            [
+              750,
+              235
+            ],
+            [
+              750,
+              325
+            ],
+            [
+              535,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r1c2",
+          "row": 1,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "25.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              235
+            ],
+            [
+              1015,
+              235
+            ],
+            [
+              1015,
+              325
+            ],
+            [
+              750,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r1c3",
+          "row": 1,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "50.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              235
+            ],
+            [
+              1295,
+              235
+            ],
+            [
+              1295,
+              325
+            ],
+            [
+              1015,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r2c0",
+          "row": 2,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Bánh mì thịt",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              325
+            ],
+            [
+              535,
+              325
+            ],
+            [
+              535,
+              415
+            ],
+            [
+              65,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r2c1",
+          "row": 2,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "3",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              325
+            ],
+            [
+              750,
+              325
+            ],
+            [
+              750,
+              415
+            ],
+            [
+              535,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r2c2",
+          "row": 2,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "30.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              325
+            ],
+            [
+              1015,
+              325
+            ],
+            [
+              1015,
+              415
+            ],
+            [
+              750,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r2c3",
+          "row": 2,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "90.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              325
+            ],
+            [
+              1295,
+              325
+            ],
+            [
+              1295,
+              415
+            ],
+            [
+              1015,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r3c0",
+          "row": 3,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Nước ép cam",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              415
+            ],
+            [
+              535,
+              415
+            ],
+            [
+              535,
+              505
+            ],
+            [
+              65,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r3c1",
+          "row": 3,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "1",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              415
+            ],
+            [
+              750,
+              415
+            ],
+            [
+              750,
+              505
+            ],
+            [
+              535,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r3c2",
+          "row": 3,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "45.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              415
+            ],
+            [
+              1015,
+              415
+            ],
+            [
+              1015,
+              505
+            ],
+            [
+              750,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r3c3",
+          "row": 3,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "45.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              415
+            ],
+            [
+              1295,
+              415
+            ],
+            [
+              1295,
+              505
+            ],
+            [
+              1015,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r4c0",
+          "row": 4,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Sữa chua",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              505
+            ],
+            [
+              535,
+              505
+            ],
+            [
+              535,
+              595
+            ],
+            [
+              65,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r4c1",
+          "row": 4,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "4",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              505
+            ],
+            [
+              750,
+              505
+            ],
+            [
+              750,
+              595
+            ],
+            [
+              535,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r4c2",
+          "row": 4,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "15.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              505
+            ],
+            [
+              1015,
+              505
+            ],
+            [
+              1015,
+              595
+            ],
+            [
+              750,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r4c3",
+          "row": 4,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "60.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              505
+            ],
+            [
+              1295,
+              505
+            ],
+            [
+              1295,
+              595
+            ],
+            [
+              1015,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r5c0",
+          "row": 5,
+          "column": 0,
+          "columnSpan": 3,
+          "text": "Tổng cộng",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              595
+            ],
+            [
+              1015,
+              595
+            ],
+            [
+              1015,
+              685
+            ],
+            [
+              65,
+              685
+            ]
+          ]
+        },
+        {
+          "id": "r5c3",
+          "row": 5,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "245.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              595
+            ],
+            [
+              1295,
+              595
+            ],
+            [
+              1295,
+              685
+            ],
+            [
+              1015,
+              685
+            ]
+          ]
+        }
+      ],
+      "expectedText": "HÓA ĐƠN BÁN HÀNG\nMặt hàng\nSố lượng\nĐơn giá\nThành tiền\nCà phê sữa\n2\n25.000\n50.000\nBánh mì thịt\n3\n30.000\n90.000\nNước ép cam\n1\n45.000\n45.000\nSữa chua\n4\n15.000\n60.000\nTổng cộng\n245.000",
+      "imageSha256": "0e581ef16a4a29c99e9baf72dbedff2a4569ca0fc114c22328bfa0f20789ae7d"
+    },
+    {
+      "id": "vi-table-merged",
+      "file": "fixtures/vi-table-merged.png",
+      "description": "Vietnamese invoice table; borders=True, merged headers=True, font=34px",
+      "tier": "required",
+      "width": 1360,
+      "height": 850,
+      "cells": [
+        {
+          "id": "title",
+          "row": -2,
+          "column": 0,
+          "text": "HÓA ĐƠN BÁN HÀNG",
+          "polygon": [
+            [
+              40,
+              20
+            ],
+            [
+              1300,
+              20
+            ],
+            [
+              1300,
+              110
+            ],
+            [
+              40,
+              110
+            ]
+          ]
+        },
+        {
+          "id": "r-1c0",
+          "row": -1,
+          "column": 0,
+          "columnSpan": 2,
+          "text": "Thông tin hàng hóa",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              145
+            ],
+            [
+              750,
+              145
+            ],
+            [
+              750,
+              235
+            ],
+            [
+              65,
+              235
+            ]
+          ]
+        },
+        {
+          "id": "r-1c2",
+          "row": -1,
+          "column": 2,
+          "columnSpan": 2,
+          "text": "Giá trị (VND)",
+          "numeric": false,
+          "polygon": [
+            [
+              750,
+              145
+            ],
+            [
+              1295,
+              145
+            ],
+            [
+              1295,
+              235
+            ],
+            [
+              750,
+              235
+            ]
+          ]
+        },
+        {
+          "id": "r0c0",
+          "row": 0,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Mặt hàng",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              235
+            ],
+            [
+              535,
+              235
+            ],
+            [
+              535,
+              325
+            ],
+            [
+              65,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r0c1",
+          "row": 0,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "Số lượng",
+          "numeric": false,
+          "polygon": [
+            [
+              535,
+              235
+            ],
+            [
+              750,
+              235
+            ],
+            [
+              750,
+              325
+            ],
+            [
+              535,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r0c2",
+          "row": 0,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "Đơn giá",
+          "numeric": false,
+          "polygon": [
+            [
+              750,
+              235
+            ],
+            [
+              1015,
+              235
+            ],
+            [
+              1015,
+              325
+            ],
+            [
+              750,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r0c3",
+          "row": 0,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "Thành tiền",
+          "numeric": false,
+          "polygon": [
+            [
+              1015,
+              235
+            ],
+            [
+              1295,
+              235
+            ],
+            [
+              1295,
+              325
+            ],
+            [
+              1015,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r1c0",
+          "row": 1,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Cà phê sữa",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              325
+            ],
+            [
+              535,
+              325
+            ],
+            [
+              535,
+              415
+            ],
+            [
+              65,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r1c1",
+          "row": 1,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "2",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              325
+            ],
+            [
+              750,
+              325
+            ],
+            [
+              750,
+              415
+            ],
+            [
+              535,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r1c2",
+          "row": 1,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "25.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              325
+            ],
+            [
+              1015,
+              325
+            ],
+            [
+              1015,
+              415
+            ],
+            [
+              750,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r1c3",
+          "row": 1,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "50.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              325
+            ],
+            [
+              1295,
+              325
+            ],
+            [
+              1295,
+              415
+            ],
+            [
+              1015,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r2c0",
+          "row": 2,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Bánh mì thịt",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              415
+            ],
+            [
+              535,
+              415
+            ],
+            [
+              535,
+              505
+            ],
+            [
+              65,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r2c1",
+          "row": 2,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "3",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              415
+            ],
+            [
+              750,
+              415
+            ],
+            [
+              750,
+              505
+            ],
+            [
+              535,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r2c2",
+          "row": 2,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "30.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              415
+            ],
+            [
+              1015,
+              415
+            ],
+            [
+              1015,
+              505
+            ],
+            [
+              750,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r2c3",
+          "row": 2,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "90.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              415
+            ],
+            [
+              1295,
+              415
+            ],
+            [
+              1295,
+              505
+            ],
+            [
+              1015,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r3c0",
+          "row": 3,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Nước ép cam",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              505
+            ],
+            [
+              535,
+              505
+            ],
+            [
+              535,
+              595
+            ],
+            [
+              65,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r3c1",
+          "row": 3,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "1",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              505
+            ],
+            [
+              750,
+              505
+            ],
+            [
+              750,
+              595
+            ],
+            [
+              535,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r3c2",
+          "row": 3,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "45.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              505
+            ],
+            [
+              1015,
+              505
+            ],
+            [
+              1015,
+              595
+            ],
+            [
+              750,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r3c3",
+          "row": 3,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "45.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              505
+            ],
+            [
+              1295,
+              505
+            ],
+            [
+              1295,
+              595
+            ],
+            [
+              1015,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r4c0",
+          "row": 4,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Sữa chua",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              595
+            ],
+            [
+              535,
+              595
+            ],
+            [
+              535,
+              685
+            ],
+            [
+              65,
+              685
+            ]
+          ]
+        },
+        {
+          "id": "r4c1",
+          "row": 4,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "4",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              595
+            ],
+            [
+              750,
+              595
+            ],
+            [
+              750,
+              685
+            ],
+            [
+              535,
+              685
+            ]
+          ]
+        },
+        {
+          "id": "r4c2",
+          "row": 4,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "15.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              595
+            ],
+            [
+              1015,
+              595
+            ],
+            [
+              1015,
+              685
+            ],
+            [
+              750,
+              685
+            ]
+          ]
+        },
+        {
+          "id": "r4c3",
+          "row": 4,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "60.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              595
+            ],
+            [
+              1295,
+              595
+            ],
+            [
+              1295,
+              685
+            ],
+            [
+              1015,
+              685
+            ]
+          ]
+        },
+        {
+          "id": "r5c0",
+          "row": 5,
+          "column": 0,
+          "columnSpan": 3,
+          "text": "Tổng cộng",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              685
+            ],
+            [
+              1015,
+              685
+            ],
+            [
+              1015,
+              775
+            ],
+            [
+              65,
+              775
+            ]
+          ]
+        },
+        {
+          "id": "r5c3",
+          "row": 5,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "245.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              685
+            ],
+            [
+              1295,
+              685
+            ],
+            [
+              1295,
+              775
+            ],
+            [
+              1015,
+              775
+            ]
+          ]
+        }
+      ],
+      "expectedText": "HÓA ĐƠN BÁN HÀNG\nThông tin hàng hóa\nGiá trị (VND)\nMặt hàng\nSố lượng\nĐơn giá\nThành tiền\nCà phê sữa\n2\n25.000\n50.000\nBánh mì thịt\n3\n30.000\n90.000\nNước ép cam\n1\n45.000\n45.000\nSữa chua\n4\n15.000\n60.000\nTổng cộng\n245.000",
+      "imageSha256": "6f4d7d91bf1e057e9a7b56bd44653abca808dd46296faa692faea98a1b61b098"
+    },
+    {
+      "id": "vi-table-small",
+      "file": "fixtures/vi-table-small.png",
+      "description": "Vietnamese invoice table; borders=True, merged headers=False, font=23px",
+      "tier": "stress",
+      "width": 1360,
+      "height": 760,
+      "cells": [
+        {
+          "id": "title",
+          "row": -2,
+          "column": 0,
+          "text": "HÓA ĐƠN BÁN HÀNG",
+          "polygon": [
+            [
+              40,
+              20
+            ],
+            [
+              1300,
+              20
+            ],
+            [
+              1300,
+              110
+            ],
+            [
+              40,
+              110
+            ]
+          ]
+        },
+        {
+          "id": "r0c0",
+          "row": 0,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Mặt hàng",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              145
+            ],
+            [
+              535,
+              145
+            ],
+            [
+              535,
+              235
+            ],
+            [
+              65,
+              235
+            ]
+          ]
+        },
+        {
+          "id": "r0c1",
+          "row": 0,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "Số lượng",
+          "numeric": false,
+          "polygon": [
+            [
+              535,
+              145
+            ],
+            [
+              750,
+              145
+            ],
+            [
+              750,
+              235
+            ],
+            [
+              535,
+              235
+            ]
+          ]
+        },
+        {
+          "id": "r0c2",
+          "row": 0,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "Đơn giá",
+          "numeric": false,
+          "polygon": [
+            [
+              750,
+              145
+            ],
+            [
+              1015,
+              145
+            ],
+            [
+              1015,
+              235
+            ],
+            [
+              750,
+              235
+            ]
+          ]
+        },
+        {
+          "id": "r0c3",
+          "row": 0,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "Thành tiền",
+          "numeric": false,
+          "polygon": [
+            [
+              1015,
+              145
+            ],
+            [
+              1295,
+              145
+            ],
+            [
+              1295,
+              235
+            ],
+            [
+              1015,
+              235
+            ]
+          ]
+        },
+        {
+          "id": "r1c0",
+          "row": 1,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Cà phê sữa",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              235
+            ],
+            [
+              535,
+              235
+            ],
+            [
+              535,
+              325
+            ],
+            [
+              65,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r1c1",
+          "row": 1,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "2",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              235
+            ],
+            [
+              750,
+              235
+            ],
+            [
+              750,
+              325
+            ],
+            [
+              535,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r1c2",
+          "row": 1,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "25.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              235
+            ],
+            [
+              1015,
+              235
+            ],
+            [
+              1015,
+              325
+            ],
+            [
+              750,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r1c3",
+          "row": 1,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "50.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              235
+            ],
+            [
+              1295,
+              235
+            ],
+            [
+              1295,
+              325
+            ],
+            [
+              1015,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r2c0",
+          "row": 2,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Bánh mì thịt",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              325
+            ],
+            [
+              535,
+              325
+            ],
+            [
+              535,
+              415
+            ],
+            [
+              65,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r2c1",
+          "row": 2,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "3",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              325
+            ],
+            [
+              750,
+              325
+            ],
+            [
+              750,
+              415
+            ],
+            [
+              535,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r2c2",
+          "row": 2,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "30.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              325
+            ],
+            [
+              1015,
+              325
+            ],
+            [
+              1015,
+              415
+            ],
+            [
+              750,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r2c3",
+          "row": 2,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "90.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              325
+            ],
+            [
+              1295,
+              325
+            ],
+            [
+              1295,
+              415
+            ],
+            [
+              1015,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r3c0",
+          "row": 3,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Nước ép cam",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              415
+            ],
+            [
+              535,
+              415
+            ],
+            [
+              535,
+              505
+            ],
+            [
+              65,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r3c1",
+          "row": 3,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "1",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              415
+            ],
+            [
+              750,
+              415
+            ],
+            [
+              750,
+              505
+            ],
+            [
+              535,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r3c2",
+          "row": 3,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "45.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              415
+            ],
+            [
+              1015,
+              415
+            ],
+            [
+              1015,
+              505
+            ],
+            [
+              750,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r3c3",
+          "row": 3,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "45.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              415
+            ],
+            [
+              1295,
+              415
+            ],
+            [
+              1295,
+              505
+            ],
+            [
+              1015,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r4c0",
+          "row": 4,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Sữa chua",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              505
+            ],
+            [
+              535,
+              505
+            ],
+            [
+              535,
+              595
+            ],
+            [
+              65,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r4c1",
+          "row": 4,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "4",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              505
+            ],
+            [
+              750,
+              505
+            ],
+            [
+              750,
+              595
+            ],
+            [
+              535,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r4c2",
+          "row": 4,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "15.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              505
+            ],
+            [
+              1015,
+              505
+            ],
+            [
+              1015,
+              595
+            ],
+            [
+              750,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r4c3",
+          "row": 4,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "60.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              505
+            ],
+            [
+              1295,
+              505
+            ],
+            [
+              1295,
+              595
+            ],
+            [
+              1015,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r5c0",
+          "row": 5,
+          "column": 0,
+          "columnSpan": 3,
+          "text": "Tổng cộng",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              595
+            ],
+            [
+              1015,
+              595
+            ],
+            [
+              1015,
+              685
+            ],
+            [
+              65,
+              685
+            ]
+          ]
+        },
+        {
+          "id": "r5c3",
+          "row": 5,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "245.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              595
+            ],
+            [
+              1295,
+              595
+            ],
+            [
+              1295,
+              685
+            ],
+            [
+              1015,
+              685
+            ]
+          ]
+        }
+      ],
+      "expectedText": "HÓA ĐƠN BÁN HÀNG\nMặt hàng\nSố lượng\nĐơn giá\nThành tiền\nCà phê sữa\n2\n25.000\n50.000\nBánh mì thịt\n3\n30.000\n90.000\nNước ép cam\n1\n45.000\n45.000\nSữa chua\n4\n15.000\n60.000\nTổng cộng\n245.000",
+      "imageSha256": "2c23badf64139dffb27dcd03d05c7c362d5ab5b1928026e2c341497938ac3263"
+    },
+    {
+      "id": "vi-table-skew3",
+      "file": "fixtures/vi-table-skew3.png",
+      "description": "Grid table rotated 3 degrees; labels transformed geometrically",
+      "tier": "stress",
+      "width": 1398,
+      "height": 832,
+      "cells": [
+        {
+          "id": "title",
+          "row": -2,
+          "column": 0,
+          "text": "HÓA ĐƠN BÁN HÀNG",
+          "polygon": [
+            [
+              41.0362,
+              89.9884
+            ],
+            [
+              1299.3094,
+              24.0451
+            ],
+            [
+              1304.0196,
+              113.9217
+            ],
+            [
+              45.7464,
+              179.865
+            ]
+          ]
+        },
+        {
+          "id": "r0c0",
+          "row": 0,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Mặt hàng",
+          "numeric": false,
+          "polygon": [
+            [
+              72.5439,
+              213.5087
+            ],
+            [
+              541.8998,
+              188.9108
+            ],
+            [
+              546.61,
+              278.7874
+            ],
+            [
+              77.2541,
+              303.3853
+            ]
+          ]
+        },
+        {
+          "id": "r0c1",
+          "row": 0,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "Số lượng",
+          "numeric": false,
+          "polygon": [
+            [
+              541.8998,
+              188.9108
+            ],
+            [
+              756.6051,
+              177.6585
+            ],
+            [
+              761.3154,
+              267.5352
+            ],
+            [
+              546.61,
+              278.7874
+            ]
+          ]
+        },
+        {
+          "id": "r0c2",
+          "row": 0,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "Đơn giá",
+          "numeric": false,
+          "polygon": [
+            [
+              756.6051,
+              177.6585
+            ],
+            [
+              1021.2419,
+              163.7895
+            ],
+            [
+              1025.9522,
+              253.6662
+            ],
+            [
+              761.3154,
+              267.5352
+            ]
+          ]
+        },
+        {
+          "id": "r0c3",
+          "row": 0,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "Thành tiền",
+          "numeric": false,
+          "polygon": [
+            [
+              1021.2419,
+              163.7895
+            ],
+            [
+              1300.8582,
+              149.1354
+            ],
+            [
+              1305.5685,
+              239.0121
+            ],
+            [
+              1025.9522,
+              253.6662
+            ]
+          ]
+        },
+        {
+          "id": "r1c0",
+          "row": 1,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Cà phê sữa",
+          "numeric": false,
+          "polygon": [
+            [
+              77.2541,
+              303.3853
+            ],
+            [
+              546.61,
+              278.7874
+            ],
+            [
+              551.3202,
+              368.6641
+            ],
+            [
+              81.9644,
+              393.262
+            ]
+          ]
+        },
+        {
+          "id": "r1c1",
+          "row": 1,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "2",
+          "numeric": true,
+          "polygon": [
+            [
+              546.61,
+              278.7874
+            ],
+            [
+              761.3154,
+              267.5352
+            ],
+            [
+              766.0256,
+              357.4119
+            ],
+            [
+              551.3202,
+              368.6641
+            ]
+          ]
+        },
+        {
+          "id": "r1c2",
+          "row": 1,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "25.000",
+          "numeric": true,
+          "polygon": [
+            [
+              761.3154,
+              267.5352
+            ],
+            [
+              1025.9522,
+              253.6662
+            ],
+            [
+              1030.6624,
+              343.5428
+            ],
+            [
+              766.0256,
+              357.4119
+            ]
+          ]
+        },
+        {
+          "id": "r1c3",
+          "row": 1,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "50.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1025.9522,
+              253.6662
+            ],
+            [
+              1305.5685,
+              239.0121
+            ],
+            [
+              1310.2787,
+              328.8888
+            ],
+            [
+              1030.6624,
+              343.5428
+            ]
+          ]
+        },
+        {
+          "id": "r2c0",
+          "row": 2,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Bánh mì thịt",
+          "numeric": false,
+          "polygon": [
+            [
+              81.9644,
+              393.262
+            ],
+            [
+              551.3202,
+              368.6641
+            ],
+            [
+              556.0305,
+              458.5407
+            ],
+            [
+              86.6746,
+              483.1386
+            ]
+          ]
+        },
+        {
+          "id": "r2c1",
+          "row": 2,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "3",
+          "numeric": true,
+          "polygon": [
+            [
+              551.3202,
+              368.6641
+            ],
+            [
+              766.0256,
+              357.4119
+            ],
+            [
+              770.7358,
+              447.2885
+            ],
+            [
+              556.0305,
+              458.5407
+            ]
+          ]
+        },
+        {
+          "id": "r2c2",
+          "row": 2,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "30.000",
+          "numeric": true,
+          "polygon": [
+            [
+              766.0256,
+              357.4119
+            ],
+            [
+              1030.6624,
+              343.5428
+            ],
+            [
+              1035.3727,
+              433.4195
+            ],
+            [
+              770.7358,
+              447.2885
+            ]
+          ]
+        },
+        {
+          "id": "r2c3",
+          "row": 2,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "90.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1030.6624,
+              343.5428
+            ],
+            [
+              1310.2787,
+              328.8888
+            ],
+            [
+              1314.9889,
+              418.7654
+            ],
+            [
+              1035.3727,
+              433.4195
+            ]
+          ]
+        },
+        {
+          "id": "r3c0",
+          "row": 3,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Nước ép cam",
+          "numeric": false,
+          "polygon": [
+            [
+              86.6746,
+              483.1386
+            ],
+            [
+              556.0305,
+              458.5407
+            ],
+            [
+              560.7407,
+              548.4174
+            ],
+            [
+              91.3848,
+              573.0153
+            ]
+          ]
+        },
+        {
+          "id": "r3c1",
+          "row": 3,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "1",
+          "numeric": true,
+          "polygon": [
+            [
+              556.0305,
+              458.5407
+            ],
+            [
+              770.7358,
+              447.2885
+            ],
+            [
+              775.4461,
+              537.1652
+            ],
+            [
+              560.7407,
+              548.4174
+            ]
+          ]
+        },
+        {
+          "id": "r3c2",
+          "row": 3,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "45.000",
+          "numeric": true,
+          "polygon": [
+            [
+              770.7358,
+              447.2885
+            ],
+            [
+              1035.3727,
+              433.4195
+            ],
+            [
+              1040.0829,
+              523.2961
+            ],
+            [
+              775.4461,
+              537.1652
+            ]
+          ]
+        },
+        {
+          "id": "r3c3",
+          "row": 3,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "45.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1035.3727,
+              433.4195
+            ],
+            [
+              1314.9889,
+              418.7654
+            ],
+            [
+              1319.6992,
+              508.6421
+            ],
+            [
+              1040.0829,
+              523.2961
+            ]
+          ]
+        },
+        {
+          "id": "r4c0",
+          "row": 4,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Sữa chua",
+          "numeric": false,
+          "polygon": [
+            [
+              91.3848,
+              573.0153
+            ],
+            [
+              560.7407,
+              548.4174
+            ],
+            [
+              565.4509,
+              638.2941
+            ],
+            [
+              96.0951,
+              662.892
+            ]
+          ]
+        },
+        {
+          "id": "r4c1",
+          "row": 4,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "4",
+          "numeric": true,
+          "polygon": [
+            [
+              560.7407,
+              548.4174
+            ],
+            [
+              775.4461,
+              537.1652
+            ],
+            [
+              780.1563,
+              627.0418
+            ],
+            [
+              565.4509,
+              638.2941
+            ]
+          ]
+        },
+        {
+          "id": "r4c2",
+          "row": 4,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "15.000",
+          "numeric": true,
+          "polygon": [
+            [
+              775.4461,
+              537.1652
+            ],
+            [
+              1040.0829,
+              523.2961
+            ],
+            [
+              1044.7931,
+              613.1728
+            ],
+            [
+              780.1563,
+              627.0418
+            ]
+          ]
+        },
+        {
+          "id": "r4c3",
+          "row": 4,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "60.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1040.0829,
+              523.2961
+            ],
+            [
+              1319.6992,
+              508.6421
+            ],
+            [
+              1324.4094,
+              598.5187
+            ],
+            [
+              1044.7931,
+              613.1728
+            ]
+          ]
+        },
+        {
+          "id": "r5c0",
+          "row": 5,
+          "column": 0,
+          "columnSpan": 3,
+          "text": "Tổng cộng",
+          "numeric": false,
+          "polygon": [
+            [
+              96.0951,
+              662.892
+            ],
+            [
+              1044.7931,
+              613.1728
+            ],
+            [
+              1049.5034,
+              703.0495
+            ],
+            [
+              100.8053,
+              752.7686
+            ]
+          ]
+        },
+        {
+          "id": "r5c3",
+          "row": 5,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "245.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1044.7931,
+              613.1728
+            ],
+            [
+              1324.4094,
+              598.5187
+            ],
+            [
+              1329.1196,
+              688.3954
+            ],
+            [
+              1049.5034,
+              703.0495
+            ]
+          ]
+        }
+      ],
+      "expectedText": "HÓA ĐƠN BÁN HÀNG\nMặt hàng\nSố lượng\nĐơn giá\nThành tiền\nCà phê sữa\n2\n25.000\n50.000\nBánh mì thịt\n3\n30.000\n90.000\nNước ép cam\n1\n45.000\n45.000\nSữa chua\n4\n15.000\n60.000\nTổng cộng\n245.000",
+      "imageSha256": "526eabdf20a2e82de092cdeec6e521051eb55525b6f8c39e69307ad773e0da78",
+      "transformation": {
+        "rotationDegrees": 3,
+        "source": "vi-table-grid"
+      }
+    },
+    {
+      "id": "vi-table-faded",
+      "file": "fixtures/vi-table-faded.png",
+      "description": "Low contrast grid table with Gaussian blur radius 1.1",
+      "tier": "stress",
+      "width": 1360,
+      "height": 760,
+      "cells": [
+        {
+          "id": "title",
+          "row": -2,
+          "column": 0,
+          "text": "HÓA ĐƠN BÁN HÀNG",
+          "polygon": [
+            [
+              40,
+              20
+            ],
+            [
+              1300,
+              20
+            ],
+            [
+              1300,
+              110
+            ],
+            [
+              40,
+              110
+            ]
+          ]
+        },
+        {
+          "id": "r0c0",
+          "row": 0,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Mặt hàng",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              145
+            ],
+            [
+              535,
+              145
+            ],
+            [
+              535,
+              235
+            ],
+            [
+              65,
+              235
+            ]
+          ]
+        },
+        {
+          "id": "r0c1",
+          "row": 0,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "Số lượng",
+          "numeric": false,
+          "polygon": [
+            [
+              535,
+              145
+            ],
+            [
+              750,
+              145
+            ],
+            [
+              750,
+              235
+            ],
+            [
+              535,
+              235
+            ]
+          ]
+        },
+        {
+          "id": "r0c2",
+          "row": 0,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "Đơn giá",
+          "numeric": false,
+          "polygon": [
+            [
+              750,
+              145
+            ],
+            [
+              1015,
+              145
+            ],
+            [
+              1015,
+              235
+            ],
+            [
+              750,
+              235
+            ]
+          ]
+        },
+        {
+          "id": "r0c3",
+          "row": 0,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "Thành tiền",
+          "numeric": false,
+          "polygon": [
+            [
+              1015,
+              145
+            ],
+            [
+              1295,
+              145
+            ],
+            [
+              1295,
+              235
+            ],
+            [
+              1015,
+              235
+            ]
+          ]
+        },
+        {
+          "id": "r1c0",
+          "row": 1,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Cà phê sữa",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              235
+            ],
+            [
+              535,
+              235
+            ],
+            [
+              535,
+              325
+            ],
+            [
+              65,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r1c1",
+          "row": 1,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "2",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              235
+            ],
+            [
+              750,
+              235
+            ],
+            [
+              750,
+              325
+            ],
+            [
+              535,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r1c2",
+          "row": 1,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "25.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              235
+            ],
+            [
+              1015,
+              235
+            ],
+            [
+              1015,
+              325
+            ],
+            [
+              750,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r1c3",
+          "row": 1,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "50.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              235
+            ],
+            [
+              1295,
+              235
+            ],
+            [
+              1295,
+              325
+            ],
+            [
+              1015,
+              325
+            ]
+          ]
+        },
+        {
+          "id": "r2c0",
+          "row": 2,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Bánh mì thịt",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              325
+            ],
+            [
+              535,
+              325
+            ],
+            [
+              535,
+              415
+            ],
+            [
+              65,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r2c1",
+          "row": 2,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "3",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              325
+            ],
+            [
+              750,
+              325
+            ],
+            [
+              750,
+              415
+            ],
+            [
+              535,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r2c2",
+          "row": 2,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "30.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              325
+            ],
+            [
+              1015,
+              325
+            ],
+            [
+              1015,
+              415
+            ],
+            [
+              750,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r2c3",
+          "row": 2,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "90.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              325
+            ],
+            [
+              1295,
+              325
+            ],
+            [
+              1295,
+              415
+            ],
+            [
+              1015,
+              415
+            ]
+          ]
+        },
+        {
+          "id": "r3c0",
+          "row": 3,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Nước ép cam",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              415
+            ],
+            [
+              535,
+              415
+            ],
+            [
+              535,
+              505
+            ],
+            [
+              65,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r3c1",
+          "row": 3,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "1",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              415
+            ],
+            [
+              750,
+              415
+            ],
+            [
+              750,
+              505
+            ],
+            [
+              535,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r3c2",
+          "row": 3,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "45.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              415
+            ],
+            [
+              1015,
+              415
+            ],
+            [
+              1015,
+              505
+            ],
+            [
+              750,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r3c3",
+          "row": 3,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "45.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              415
+            ],
+            [
+              1295,
+              415
+            ],
+            [
+              1295,
+              505
+            ],
+            [
+              1015,
+              505
+            ]
+          ]
+        },
+        {
+          "id": "r4c0",
+          "row": 4,
+          "column": 0,
+          "columnSpan": 1,
+          "text": "Sữa chua",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              505
+            ],
+            [
+              535,
+              505
+            ],
+            [
+              535,
+              595
+            ],
+            [
+              65,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r4c1",
+          "row": 4,
+          "column": 1,
+          "columnSpan": 1,
+          "text": "4",
+          "numeric": true,
+          "polygon": [
+            [
+              535,
+              505
+            ],
+            [
+              750,
+              505
+            ],
+            [
+              750,
+              595
+            ],
+            [
+              535,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r4c2",
+          "row": 4,
+          "column": 2,
+          "columnSpan": 1,
+          "text": "15.000",
+          "numeric": true,
+          "polygon": [
+            [
+              750,
+              505
+            ],
+            [
+              1015,
+              505
+            ],
+            [
+              1015,
+              595
+            ],
+            [
+              750,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r4c3",
+          "row": 4,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "60.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              505
+            ],
+            [
+              1295,
+              505
+            ],
+            [
+              1295,
+              595
+            ],
+            [
+              1015,
+              595
+            ]
+          ]
+        },
+        {
+          "id": "r5c0",
+          "row": 5,
+          "column": 0,
+          "columnSpan": 3,
+          "text": "Tổng cộng",
+          "numeric": false,
+          "polygon": [
+            [
+              65,
+              595
+            ],
+            [
+              1015,
+              595
+            ],
+            [
+              1015,
+              685
+            ],
+            [
+              65,
+              685
+            ]
+          ]
+        },
+        {
+          "id": "r5c3",
+          "row": 5,
+          "column": 3,
+          "columnSpan": 1,
+          "text": "245.000",
+          "numeric": true,
+          "polygon": [
+            [
+              1015,
+              595
+            ],
+            [
+              1295,
+              595
+            ],
+            [
+              1295,
+              685
+            ],
+            [
+              1015,
+              685
+            ]
+          ]
+        }
+      ],
+      "expectedText": "HÓA ĐƠN BÁN HÀNG\nMặt hàng\nSố lượng\nĐơn giá\nThành tiền\nCà phê sữa\n2\n25.000\n50.000\nBánh mì thịt\n3\n30.000\n90.000\nNước ép cam\n1\n45.000\n45.000\nSữa chua\n4\n15.000\n60.000\nTổng cộng\n245.000",
+      "imageSha256": "ef33f829cf76bddb940cac3fe1178a6ba3e6650a654bf78a1b6e1e868689b4a9",
+      "transformation": {
+        "contrast": 0.32,
+        "blurRadius": 1.1,
+        "source": "vi-table-grid"
+      }
+    }
+  ]
+}

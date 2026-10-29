@@ -1,0 +1,220 @@
+{
+  "evidence_id": "ev_468fea15d642a55475dd9152528bf587e7c6348884dba598d3626b4ab490b3af",
+  "subject": {
+    "name": "oneocr.dll",
+    "digest": {
+      "sha256": "1310e46ffa6971101da73191f7a30580f7f7d983ab02c5fca28b5f6fd4351242"
+    },
+    "local_path": "D:\\Git\\SPT\\one-ocr-models-20261028T194856Z-1-001\\one-ocr-models\\oneocr.dll",
+    "format": "pe",
+    "architecture": null
+  },
+  "provider": {
+    "id": "rea-native-exports",
+    "name": "REA PE/ELF export table reader",
+    "version": "1"
+  },
+  "analysis_profile": null,
+  "predicate_type": "rea.analysis",
+  "operation": "inspect_native_exports",
+  "parameters": {
+    "path": "D:\\Git\\SPT\\one-ocr-models-20261028T194856Z-1-001\\one-ocr-models\\oneocr.dll",
+    "max_file_bytes": 268435456
+  },
+  "raw_result": null,
+  "normalized_result": {
+    "artifact": {
+      "path": "D:\\Git\\SPT\\one-ocr-models-20261028T194856Z-1-001\\one-ocr-models\\oneocr.dll",
+      "sha256": "1310e46ffa6971101da73191f7a30580f7f7d983ab02c5fca28b5f6fd4351242",
+      "bytes": 42514504
+    },
+    "format": "pe",
+    "architecture": "amd64",
+    "bits": 64,
+    "export_directory": {
+      "rva": 41874816,
+      "size": 860,
+      "dll_name": "oneocr.dll",
+      "ordinal_base": 1,
+      "timestamp": 4294967295
+    },
+    "exports": [
+      {
+        "name": "CreateOcrInitOptions",
+        "ordinal": 1,
+        "address": "0x180028f80",
+        "forwarder": null
+      },
+      {
+        "name": "CreateOcrPipeline",
+        "ordinal": 2,
+        "address": "0x180028bb0",
+        "forwarder": null
+      },
+      {
+        "name": "CreateOcrProcessOptions",
+        "ordinal": 3,
+        "address": "0x180028ff0",
+        "forwarder": null
+      },
+      {
+        "name": "GetImageAngle",
+        "ordinal": 4,
+        "address": "0x180029730",
+        "forwarder": null
+      },
+      {
+        "name": "GetOcrLine",
+        "ordinal": 5,
+        "address": "0x1800297b0",
+        "forwarder": null
+      },
+      {
+        "name": "GetOcrLineBoundingBox",
+        "ordinal": 6,
+        "address": "0x180029820",
+        "forwarder": null
+      },
+      {
+        "name": "GetOcrLineContent",
+        "ordinal": 7,
+        "address": "0x180029840",
+        "forwarder": null
+      },
+      {
+        "name": "GetOcrLineCount",
+        "ordinal": 8,
+        "address": "0x180029750",
+        "forwarder": null
+      },
+      {
+        "name": "GetOcrLineStyle",
+        "ordinal": 9,
+        "address": "0x180029870",
+        "forwarder": null
+      },
+      {
+        "name": "GetOcrLineWordCount",
+        "ordinal": 10,
+        "address": "0x1800298a0",
+        "forwarder": null
+      },
+      {
+        "name": "GetOcrWord",
+        "ordinal": 11,
+        "address": "0x1800298e0",
+        "forwarder": null
+      },
+      {
+        "name": "GetOcrWordBoundingBox",
+        "ordinal": 12,
+        "address": "0x180029930",
+        "forwarder": null
+      },
+      {
+        "name": "GetOcrWordConfidence",
+        "ordinal": 13,
+        "address": "0x180029980",
+        "forwarder": null
+      },
+      {
+        "name": "GetOcrWordContent",
+        "ordinal": 14,
+        "address": "0x180029950",
+        "forwarder": null
+      },
+      {
+        "name": "OcrInitOptionsSetUseModelDelayLoad",
+        "ordinal": 15,
+        "address": "0x180028fe0",
+        "forwarder": null
+      },
+      {
+        "name": "OcrProcessOptionsGetMaxRecognitionLineCount",
+        "ordinal": 16,
+        "address": "0x180029130",
+        "forwarder": null
+      },
+      {
+        "name": "OcrProcessOptionsGetResizeResolution",
+        "ordinal": 17,
+        "address": "0x1800290e0",
+        "forwarder": null
+      },
+      {
+        "name": "OcrProcessOptionsSetMaxRecognitionLineCount",
+        "ordinal": 18,
+        "address": "0x180029110",
+        "forwarder": null
+      },
+      {
+        "name": "OcrProcessOptionsSetResizeResolution",
+        "ordinal": 19,
+        "address": "0x1800290b0",
+        "forwarder": null
+      },
+      {
+        "name": "ReleaseOcrInitOptions",
+        "ordinal": 20,
+        "address": "0x1800299c0",
+        "forwarder": null
+      },
+      {
+        "name": "ReleaseOcrPipeline",
+        "ordinal": 21,
+        "address": "0x1800299a0",
+        "forwarder": null
+      },
+      {
+        "name": "ReleaseOcrProcessOptions",
+        "ordinal": 22,
+        "address": "0x1800299d0",
+        "forwarder": null
+      },
+      {
+        "name": "ReleaseOcrResult",
+        "ordinal": 23,
+        "address": "0x180029a10",
+        "forwarder": null
+      },
+      {
+        "name": "RunOcrPipeline",
+        "ordinal": 24,
+        "address": "0x180029150",
+        "forwarder": null
+      },
+      {
+        "name": "icudt71_dat",
+        "ordinal": 25,
+        "address": "0x1809fb1c0",
+        "forwarder": null
+      }
+    ],
+    "coverage": {
+      "status": "complete",
+      "reason": null,
+      "examined_entries": 25,
+      "exports": 25
+    },
+    "issues": [],
+    "limitations": [
+      "Rows reproduce the PE export directory; they do not establish that an export is reachable, safe to call or loaded at runtime.",
+      "Forwarded exports resolve in another DLL, which is not opened; ordinal-only exports have no name in this image."
+    ]
+  },
+  "confidence": "observed",
+  "authority": "shipped-artifact",
+  "environment": null,
+  "limitations": [
+    "Rows reproduce the PE export directory; they do not establish that an export is reachable, safe to call or loaded at runtime.",
+    "Forwarded exports resolve in another DLL, which is not opened; ordinal-only exports have no name in this image."
+  ],
+  "relationship_coverage": null,
+  "locations": [
+    {
+      "kind": "artifact-path",
+      "path": "D:\\Git\\SPT\\one-ocr-models-20261028T194856Z-1-001\\one-ocr-models\\oneocr.dll"
+    }
+  ],
+  "evidence_links": []
+}

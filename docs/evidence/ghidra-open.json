@@ -1,0 +1,23 @@
+{
+  "_meta": {
+    "provenance": {
+      "untrusted_content": true,
+      "source": "analysis_target"
+    }
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"result\":{\"path\":\"D:\\\\Git\\\\SPT\\\\one-ocr-models-20261028T194856Z-1-001\\\\one-ocr-models\\\\oneocr.dll\",\"format\":\"pe\",\"kind\":\"executable\",\"sha256\":\"1310e46ffa6971101da73191f7a30580f7f7d983ab02c5fca28b5f6fd4351242\",\"architecture\":\"x86_64\"}}"
+    }
+  ],
+  "structuredContent": {
+    "result": {
+      "path": "D:\\Git\\SPT\\one-ocr-models-20261028T194856Z-1-001\\one-ocr-models\\oneocr.dll",
+      "format": "pe",
+      "kind": "executable",
+      "sha256": "1310e46ffa6971101da73191f7a30580f7f7d983ab02c5fca28b5f6fd4351242",
+      "architecture": "x86_64"
+    }
+  }
+}

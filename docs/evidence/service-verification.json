@@ -1,0 +1,89 @@
+{
+  "status": "passed",
+  "verifiedAt": "2026-10-29T02:40:18.993Z",
+  "baseUrl": "http://127.0.0.1:8001",
+  "health": {
+    "status": "ready",
+    "engine": "oneocr-native",
+    "platform": "linux",
+    "model_sha256": "076001d9d8ca2982e88d32e20d074efc52dcccf4982119ce1e97b005215220dc",
+    "pending": 0,
+    "max_pending": 8,
+    "version": "0.2.0"
+  },
+  "scope": "Actual deployed Docker Compose service over HTTP; synthetic Vietnamese PNG/JPEG/WebP and table fixtures",
+  "table": {
+    "id": "vi-table-grid",
+    "exactCells": 23,
+    "totalCells": 23,
+    "exactNumericCells": 13,
+    "numericCells": 13,
+    "readingOrderExact": true
+  },
+  "sourceSha256": {
+    "src/server.mjs": "8b644858d1b164f8f009e0835350adf263cea65195ef090834f4cc1105f8c35f",
+    "src/http.mjs": "ace49a33d6c8c1c86786a98be2819075de7a56be7496d2ea9123d994bc2c239a",
+    "Dockerfile": "639c7a1e66d31a71e444eed88493dfde539b07208f2b17d2fee852113715cdc9",
+    "compose.yaml": "1e0bf80f0f46535fcaff568a616e64d27dd82f4eed5ebd89f042f74e7f76fba6",
+    "docs/openapi.json": "6e11d28618207d0e8d4996a0135fcdf496bf532af5b92e54a0e72d0aea34749a"
+  },
+  "checks": [
+    {
+      "name": "readiness",
+      "status": 200
+    },
+    {
+      "name": "liveness",
+      "status": 200
+    },
+    {
+      "name": "openapi",
+      "status": 200
+    },
+    {
+      "name": "missing API key",
+      "status": 401,
+      "requestId": "1f04e103-f8c4-462e-9a6a-966fca638a63"
+    },
+    {
+      "name": "wrong API key",
+      "status": 401,
+      "requestId": "c72d9cd7-f3d2-4365-a53b-bcb9e9e6d880"
+    },
+    {
+      "name": "image/png Vietnamese",
+      "status": 200,
+      "requestId": "93b0ede4-b61e-4bed-8339-984a8d7432b4"
+    },
+    {
+      "name": "image/jpeg Vietnamese",
+      "status": 200,
+      "requestId": "e91e4a96-5bf9-4a8b-bab2-5071cc2ac9b7"
+    },
+    {
+      "name": "image/webp Vietnamese",
+      "status": 200,
+      "requestId": "90ce6bb7-a11b-4530-9ce1-c60479b0d2f8"
+    },
+    {
+      "name": "multipart Vietnamese table",
+      "status": 200,
+      "requestId": "ed10b8a0-5b2f-473f-9078-d738b6d6b05c"
+    },
+    {
+      "name": "bad options",
+      "status": 422,
+      "requestId": "5fb29567-2cac-4361-91c0-88c088691986"
+    },
+    {
+      "name": "invalid image",
+      "status": 400,
+      "requestId": "8d844d8e-047a-46ab-ab6e-e680aa70739b"
+    },
+    {
+      "name": "bad content type",
+      "status": 415,
+      "requestId": "24b16b43-3f0d-4ff6-94f9-785dbe5cf92e"
+    }
+  ]
+}

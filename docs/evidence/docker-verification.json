@@ -1,0 +1,25 @@
+{
+  "imageId": "sha256:32a8fe70125536878e8c5d930cd5d23c4b97c7d1c7d6ed252d7c72e91dbc7a75",
+  "architecture": "amd64",
+  "health": {
+    "status": "ready",
+    "engine": "oneocr-native",
+    "platform": "linux",
+    "model_sha256": "076001d9d8ca2982e88d32e20d074efc52dcccf4982119ce1e97b005215220dc",
+    "pending": 0,
+    "max_pending": 8,
+    "version": "0.2.0"
+  },
+  "status": "passed",
+  "modelBundled": true,
+  "os": "linux",
+  "modelsLoaded": 34,
+  "mountCount": 0,
+  "user": "node",
+  "verifiedAt": "2026-10-29T02:40:21.0402844Z",
+  "containerStoppedAfterVerification": true,
+  "windowsDllCount": 0,
+  "text": "Tiếng Việt có dấu\nHóa đơn tổng cộng 123.45",
+  "confidenceMethod": "original-model-reconstructed-features",
+  "decoder": "reconstructed-native-lattice-20-best"
+}

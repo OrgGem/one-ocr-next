@@ -1,0 +1,335 @@
+{
+  "sourceModelSha256": "076001d9d8ca2982e88d32e20d074efc52dcccf4982119ce1e97b005215220dc",
+  "configSha256": "0bfa79f66c503744bad0f2bd2c98c3b94d9f1a0f4f71ef10490023b0519d7f45",
+  "resources": 67,
+  "models": 34,
+  "convertedFeatureBlocks": 23,
+  "classifierScripts": [
+    null,
+    "cjk",
+    "latin",
+    "cyrillic",
+    "arabic",
+    "devanagari",
+    "greek",
+    "thai",
+    "hebrew",
+    "tamil"
+  ],
+  "detectorOptions": {
+    "scoreThreshold": 0.699999988079071,
+    "linkThreshold": 0.800000011920929,
+    "nmsThreshold": 0.20000000298023224,
+    "minSegments": 4,
+    "lineThresholds": {
+      "P2": 0.699999988079071,
+      "P3": 0.800000011920929,
+      "P4": 0.800000011920929
+    }
+  },
+  "scripts": [
+    {
+      "script": "arabic",
+      "profile": "ArabicMixed",
+      "pixelsPerFrame": 4,
+      "vocabularySize": 221,
+      "blank": 220
+    },
+    {
+      "script": "cjk",
+      "profile": "CJKPrinted",
+      "pixelsPerFrame": 8,
+      "vocabularySize": 32632,
+      "blank": 32631
+    },
+    {
+      "script": "cyrillic",
+      "profile": "CyrillicMixed",
+      "pixelsPerFrame": 8,
+      "vocabularySize": 415,
+      "blank": 414
+    },
+    {
+      "script": "devanagari",
+      "profile": "DevanagariMixed",
+      "pixelsPerFrame": 4,
+      "vocabularySize": 237,
+      "blank": 236
+    },
+    {
+      "script": "greek",
+      "profile": "GreekMixed",
+      "pixelsPerFrame": 4,
+      "vocabularySize": 244,
+      "blank": 243
+    },
+    {
+      "script": "hebrew",
+      "profile": "HebrewPrinted",
+      "pixelsPerFrame": 4,
+      "vocabularySize": 201,
+      "blank": 200
+    },
+    {
+      "script": "latin",
+      "profile": "LatinPrintedV2",
+      "pixelsPerFrame": 4,
+      "vocabularySize": 548,
+      "blank": 547
+    },
+    {
+      "script": "tamil",
+      "profile": "TamilPrinted",
+      "pixelsPerFrame": 4,
+      "vocabularySize": 179,
+      "blank": 178
+    },
+    {
+      "script": "thai",
+      "profile": "ThaiMixed",
+      "pixelsPerFrame": 4,
+      "vocabularySize": 199,
+      "blank": 198
+    }
+  ],
+  "modelInventory": [
+    {
+      "role": "Detector",
+      "profile": "Universal",
+      "sha256": "c242d98c8ef41a8f5f623801bf6dd24969076de33cd24f72b57b9dcb7e9527c3",
+      "bytes": 11553663,
+      "convertedFeatureBlocks": 0
+    },
+    {
+      "role": "AuxMltCls",
+      "profile": "ONNX",
+      "sha256": "c7ed7237e6d3aa920f094c7c843dcc1d62e485f62f359847a8ed16d5933c9cf5",
+      "bytes": 3456873,
+      "convertedFeatureBlocks": 0
+    },
+    {
+      "role": "Character",
+      "profile": "ArabicMixed",
+      "sha256": "34d9e1b38368332ea7266a510555302fc7707610de16c11e1d3b0c8eaa705e08",
+      "bytes": 3474686,
+      "convertedFeatureBlocks": 0
+    },
+    {
+      "role": "Character",
+      "profile": "CJKPrinted",
+      "sha256": "fdbdebd3f600340649822a817cf9bf3d2acebaab67c08b784458cd0eb3236f05",
+      "bytes": 13433511,
+      "convertedFeatureBlocks": 0
+    },
+    {
+      "role": "Character",
+      "profile": "CyrillicMixed",
+      "sha256": "d95e2ad42ea71bb269bd15754e8cc5a2f0a72c3e634fb9874174a7f42d6aebf0",
+      "bytes": 6579127,
+      "convertedFeatureBlocks": 0
+    },
+    {
+      "role": "Character",
+      "profile": "DevanagariMixed",
+      "sha256": "ccca63cccf14110a5d06b2d524c3dd4ea0a950c2535898ced838e7f36b73b36e",
+      "bytes": 3726743,
+      "convertedFeatureBlocks": 0
+    },
+    {
+      "role": "Character",
+      "profile": "GreekMixed",
+      "sha256": "4a279c5b50dfa28019ee089515612df66aecb96c1c9cb03218b26d0d0835b848",
+      "bytes": 3730390,
+      "convertedFeatureBlocks": 0
+    },
+    {
+      "role": "Character",
+      "profile": "HebrewPrinted",
+      "sha256": "d5f49fbcf5566904906702a22ae10d0446ae102acd9d6c37b82085842476ece4",
+      "bytes": 1737542,
+      "convertedFeatureBlocks": 0
+    },
+    {
+      "role": "Character",
+      "profile": "LatinPrintedV2",
+      "sha256": "4447c4e7e5dd37237b1904a53ecf2ce770fb7b38f304f3739c184646f413b1ef",
+      "bytes": 2073216,
+      "convertedFeatureBlocks": 0
+    },
+    {
+      "role": "Character",
+      "profile": "TamilPrinted",
+      "sha256": "e88fa0e78d8c346f7ca6a3ba9ec24eafd06801aabe640c9a10c9fe32158f0844",
+      "bytes": 1975431,
+      "convertedFeatureBlocks": 0
+    },
+    {
+      "role": "Character",
+      "profile": "ThaiMixed",
+      "sha256": "11acded0952bfe60cc31aba6cd9a51c8b96dc9facf679b7a73c3d308dd4ec7de",
+      "bytes": 3706944,
+      "convertedFeatureBlocks": 0
+    },
+    {
+      "role": "Rejection",
+      "profile": "ArabicMixedDummy",
+      "sha256": "04590f2f0e94fc78cccca19bc563676dca3a4e3be083c5bc0a388da0a5ffe013",
+      "bytes": 27248,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Rejection",
+      "profile": "CJKMixedDummy",
+      "sha256": "e1dcc288083490df6cf96e23682953a6618349936d97d59cd0ab4fc078c4d284",
+      "bytes": 27248,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Rejection",
+      "profile": "CJKPrintedDummy",
+      "sha256": "f330c095c9206a2ebd53241c67386277c4681c874fd1af981af6d3b9fb783259",
+      "bytes": 27248,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Rejection",
+      "profile": "CyrillicMixedDummy",
+      "sha256": "9bc6e405717302bc47c771f5b129d3120387df3e54001002f76a572bf735c754",
+      "bytes": 27248,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Rejection",
+      "profile": "DevanagariMixedDummy",
+      "sha256": "c13613353f620f36e130d795dc1f54df2b362f2f438d0264b308039a4323c290",
+      "bytes": 27248,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Rejection",
+      "profile": "GreekMixedDummy",
+      "sha256": "5a9be0b5ed35c85af7f75e398b3472dc8c73a5b5a2f30af7c105c4fb7a2ec382",
+      "bytes": 27248,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Rejection",
+      "profile": "HebrewPrintedDummy",
+      "sha256": "20e4dabf3696551bf1251b0d32c26a800ff3dc7607944f072c5ccad97185f917",
+      "bytes": 27248,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Rejection",
+      "profile": "LatinMixedV2Dummy",
+      "sha256": "1836308399ef9ad2747e39cb8dda76608fc0a1397ab175381f36f7f09ae83742",
+      "bytes": 27248,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Rejection",
+      "profile": "LatinPrintedV2Dummy",
+      "sha256": "cf4efda52f772ad4af9bed690498fd09080a99a7e45dde6cd5a2edca3057b715",
+      "bytes": 27248,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Rejection",
+      "profile": "TamilPrintedDummy",
+      "sha256": "8cd9a30666794422ba7ffd0ca868e25fcbb66b7704b17c80a2cf241f2dbc85ff",
+      "bytes": 27248,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Rejection",
+      "profile": "ThaiMixedDummy",
+      "sha256": "00bb33edc231f3d060a5ef72c1d13bda9643a6612967df94271662a88e5e374d",
+      "bytes": 27248,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Confidence",
+      "profile": "ArabicMixedDummy",
+      "sha256": "f618baa849b305160467b49867340942d5464fc1cce585af5e421a123c9184be",
+      "bytes": 29370,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Confidence",
+      "profile": "CJKMixedDummy",
+      "sha256": "209179e8f0f123854f93f0b069aadde67cd8004b6a8ff25a9fc0ef1ae68a0d41",
+      "bytes": 29370,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Confidence",
+      "profile": "CJKPrintedDummy",
+      "sha256": "73e36abead3c36006293be151df1a51050b1f2f5309bf076e7db2348817d967c",
+      "bytes": 29370,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Confidence",
+      "profile": "CyrillicMixedDummy",
+      "sha256": "e01d8d59d0c5bb13b01ed792d7152d4ce5430812bdad33de415cabf74fab2d03",
+      "bytes": 29370,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Confidence",
+      "profile": "DevanagariMixedDummy",
+      "sha256": "de50777d7e6d0040bde049386deab16eaa3365f027151dcd01dc3f0afc65a013",
+      "bytes": 29370,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Confidence",
+      "profile": "GreekMixedDummy",
+      "sha256": "923ca074fcd2e2a19249f6b2ba98e7b122fdbc48e4c14e268b2094d142f0c8af",
+      "bytes": 29370,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Confidence",
+      "profile": "HebrewPrintedDummy",
+      "sha256": "aea19815629f43c87bc58de5108373a185487522bbe678f1c7c735d953d4f0c7",
+      "bytes": 29370,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Confidence",
+      "profile": "LatinMixedV2Dummy",
+      "sha256": "234ad901fcf95385aa500f208724c84742a6b4149ea9248f19ba5b471027ed54",
+      "bytes": 29370,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Confidence",
+      "profile": "LatinPrintedV2Dummy",
+      "sha256": "16eea1bf6f5897dea0b9d67e3fb3d9565287d51be80b6bca13d153a47a211eb5",
+      "bytes": 29370,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Confidence",
+      "profile": "TamilPrintedDummy",
+      "sha256": "ad3c0f7317992a3d723d5302116cffe082fffbb8b90c8709a373b053766ce848",
+      "bytes": 29370,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "Confidence",
+      "profile": "ThaiMixedDummy",
+      "sha256": "34bd80b14ed57b3d3ff3aea2fbc6d3d75bb60cfe4bb923c665b783cfcc008182",
+      "bytes": 29370,
+      "convertedFeatureBlocks": 1
+    },
+    {
+      "role": "LineLayout",
+      "profile": "CJK",
+      "sha256": "03500f5ca3d8f0d06b8eda921e9a9f7776b1802a8c4aabd3a11fd4e13647d146",
+      "bytes": 878394,
+      "convertedFeatureBlocks": 1
+    }
+  ]
+}

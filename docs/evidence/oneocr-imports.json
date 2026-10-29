@@ -1,0 +1,1757 @@
+{
+  "evidence_id": "ev_4db567c1d78506acae6202445e1d96c03239fd373d058215c068253679f23861",
+  "subject": {
+    "name": "oneocr.dll",
+    "digest": {
+      "sha256": "1310e46ffa6971101da73191f7a30580f7f7d983ab02c5fca28b5f6fd4351242"
+    },
+    "local_path": "D:\\Git\\SPT\\one-ocr-models-20261028T194856Z-1-001\\one-ocr-models\\oneocr.dll",
+    "format": "pe",
+    "architecture": "x86_64"
+  },
+  "provider": {
+    "id": "rea-pe-imports",
+    "name": "REA PE import parser",
+    "version": "1"
+  },
+  "analysis_profile": null,
+  "predicate_type": "rea.analysis",
+  "operation": "inspect_pe_imports",
+  "parameters": {
+    "path": "D:\\Git\\SPT\\one-ocr-models-20261028T194856Z-1-001\\one-ocr-models\\oneocr.dll",
+    "max_file_bytes": 67108864,
+    "max_dlls": 256,
+    "max_functions": 8192
+  },
+  "raw_result": null,
+  "normalized_result": {
+    "artifact": {
+      "path": "D:\\Git\\SPT\\one-ocr-models-20261028T194856Z-1-001\\one-ocr-models\\oneocr.dll",
+      "sha256": "1310e46ffa6971101da73191f7a30580f7f7d983ab02c5fca28b5f6fd4351242",
+      "bytes": 42514504
+    },
+    "format": "pe32-plus",
+    "machine": 34404,
+    "bits": 64,
+    "architecture": "amd64",
+    "import_directory": {
+      "rva": 41875676,
+      "size": 100,
+      "locations": [
+        {
+          "offset": 41871580,
+          "bytes": 100
+        }
+      ]
+    },
+    "delay_import_directory": null,
+    "imports": [
+      {
+        "index": 0,
+        "name": "onnxruntime.dll",
+        "name_rva": 41877416,
+        "original_first_thunk_rva": 41877400,
+        "first_thunk_rva": 8496728,
+        "time_date_stamp": 0,
+        "forwarder_chain": 0,
+        "location": {
+          "offset": 41871580,
+          "bytes": 20
+        },
+        "functions": [
+          {
+            "hint": null,
+            "name": null,
+            "ordinal": 1,
+            "ilt_rva": 41877400,
+            "iat_rva": 8496728,
+            "thunk_hex": "8000000000000001"
+          }
+        ]
+      },
+      {
+        "index": 1,
+        "name": "bcrypt.dll",
+        "name_rva": 41877694,
+        "original_first_thunk_rva": 41877248,
+        "first_thunk_rva": 8496576,
+        "time_date_stamp": 0,
+        "forwarder_chain": 0,
+        "location": {
+          "offset": 41871600,
+          "bytes": 20
+        },
+        "functions": [
+          {
+            "hint": 18,
+            "name": "BCryptEncrypt",
+            "ordinal": null,
+            "ilt_rva": 41877248,
+            "iat_rva": 8496576,
+            "thunk_hex": "27effb8"
+          },
+          {
+            "hint": 14,
+            "name": "BCryptDestroyKey",
+            "ordinal": null,
+            "ilt_rva": 41877256,
+            "iat_rva": 8496584,
+            "thunk_hex": "27effc8"
+          },
+          {
+            "hint": 33,
+            "name": "BCryptGetProperty",
+            "ordinal": null,
+            "ilt_rva": 41877264,
+            "iat_rva": 8496592,
+            "thunk_hex": "27effdc"
+          },
+          {
+            "hint": 8,
+            "name": "BCryptDecrypt",
+            "ordinal": null,
+            "ilt_rva": 41877272,
+            "iat_rva": 8496600,
+            "thunk_hex": "27efff0"
+          },
+          {
+            "hint": 39,
+            "name": "BCryptOpenAlgorithmProvider",
+            "ordinal": null,
+            "ilt_rva": 41877280,
+            "iat_rva": 8496608,
+            "thunk_hex": "27f0000"
+          },
+          {
+            "hint": 27,
+            "name": "BCryptFinishHash",
+            "ordinal": null,
+            "ilt_rva": 41877288,
+            "iat_rva": 8496616,
+            "thunk_hex": "27f001e"
+          },
+          {
+            "hint": 2,
+            "name": "BCryptCloseAlgorithmProvider",
+            "ordinal": null,
+            "ilt_rva": 41877296,
+            "iat_rva": 8496624,
+            "thunk_hex": "27f0032"
+          },
+          {
+            "hint": 31,
+            "name": "BCryptGenerateSymmetricKey",
+            "ordinal": null,
+            "ilt_rva": 41877304,
+            "iat_rva": 8496632,
+            "thunk_hex": "27f00a0"
+          },
+          {
+            "hint": 6,
+            "name": "BCryptCreateHash",
+            "ordinal": null,
+            "ilt_rva": 41877312,
+            "iat_rva": 8496640,
+            "thunk_hex": "27f008c"
+          },
+          {
+            "hint": 53,
+            "name": "BCryptSetProperty",
+            "ordinal": null,
+            "ilt_rva": 41877320,
+            "iat_rva": 8496648,
+            "thunk_hex": "27f0078"
+          },
+          {
+            "hint": 35,
+            "name": "BCryptHashData",
+            "ordinal": null,
+            "ilt_rva": 41877328,
+            "iat_rva": 8496656,
+            "thunk_hex": "27f0066"
+          },
+          {
+            "hint": 13,
+            "name": "BCryptDestroyHash",
+            "ordinal": null,
+            "ilt_rva": 41877336,
+            "iat_rva": 8496664,
+            "thunk_hex": "27f0052"
+          }
+        ]
+      },
+      {
+        "index": 2,
+        "name": "dbghelp.dll",
+        "name_rva": 41877790,
+        "original_first_thunk_rva": 41877352,
+        "first_thunk_rva": 8496680,
+        "time_date_stamp": 0,
+        "forwarder_chain": 0,
+        "location": {
+          "offset": 41871620,
+          "bytes": 20
+        },
+        "functions": [
+          {
+            "hint": 200,
+            "name": "SymSetOptions",
+            "ordinal": null,
+            "ilt_rva": 41877352,
+            "iat_rva": 8496680,
+            "thunk_hex": "27f00ca"
+          },
+          {
+            "hint": 53,
+            "name": "SymCleanup",
+            "ordinal": null,
+            "ilt_rva": 41877360,
+            "iat_rva": 8496688,
+            "thunk_hex": "27f00da"
+          },
+          {
+            "hint": 169,
+            "name": "SymInitialize",
+            "ordinal": null,
+            "ilt_rva": 41877368,
+            "iat_rva": 8496696,
+            "thunk_hex": "27f00e8"
+          },
+          {
+            "hint": 90,
+            "name": "SymFromAddr",
+            "ordinal": null,
+            "ilt_rva": 41877376,
+            "iat_rva": 8496704,
+            "thunk_hex": "27f00f8"
+          },
+          {
+            "hint": 228,
+            "name": "UnDecorateSymbolName",
+            "ordinal": null,
+            "ilt_rva": 41877384,
+            "iat_rva": 8496712,
+            "thunk_hex": "27f0106"
+          }
+        ]
+      },
+      {
+        "index": 3,
+        "name": "KERNEL32.dll",
+        "name_rva": 41879020,
+        "original_first_thunk_rva": 41875776,
+        "first_thunk_rva": 8495104,
+        "time_date_stamp": 0,
+        "forwarder_chain": 0,
+        "location": {
+          "offset": 41871640,
+          "bytes": 20
+        },
+        "functions": [
+          {
+            "hint": 694,
+            "name": "GetOEMCP",
+            "ordinal": null,
+            "ilt_rva": 41875776,
+            "iat_rva": 8495104,
+            "thunk_hex": "27f0f30"
+          },
+          {
+            "hint": 942,
+            "name": "IsValidCodePage",
+            "ordinal": null,
+            "ilt_rva": 41875784,
+            "iat_rva": 8495112,
+            "thunk_hex": "27f0f1e"
+          },
+          {
+            "hint": 1247,
+            "name": "RemoveDirectoryW",
+            "ordinal": null,
+            "ilt_rva": 41875792,
+            "iat_rva": 8495120,
+            "thunk_hex": "27f0f0a"
+          },
+          {
+            "hint": 885,
+            "name": "HeapSize",
+            "ordinal": null,
+            "ilt_rva": 41875800,
+            "iat_rva": 8495128,
+            "thunk_hex": "27f0efe"
+          },
+          {
+            "hint": 296,
+            "name": "DeleteFileW",
+            "ordinal": null,
+            "ilt_rva": 41875808,
+            "iat_rva": 8495136,
+            "thunk_hex": "27f0ef0"
+          },
+          {
+            "hint": 238,
+            "name": "CreatePipe",
+            "ordinal": null,
+            "ilt_rva": 41875816,
+            "iat_rva": 8495144,
+            "thunk_hex": "27f0ee2"
+          },
+          {
+            "hint": 1552,
+            "name": "WaitForSingleObject",
+            "ordinal": null,
+            "ilt_rva": 41875824,
+            "iat_rva": 8495152,
+            "thunk_hex": "27f0ecc"
+          },
+          {
+            "hint": 1346,
+            "name": "SetEndOfFile",
+            "ordinal": null,
+            "ilt_rva": 41875832,
+            "iat_rva": 8495160,
+            "thunk_hex": "27f0ebc"
+          },
+          {
+            "hint": 1407,
+            "name": "SetStdHandle",
+            "ordinal": null,
+            "ilt_rva": 41875840,
+            "iat_rva": 8495168,
+            "thunk_hex": "27f0eac"
+          },
+          {
+            "hint": 883,
+            "name": "HeapReAlloc",
+            "ordinal": null,
+            "ilt_rva": 41875848,
+            "iat_rva": 8495176,
+            "thunk_hex": "27f0e9e"
+          },
+          {
+            "hint": 365,
+            "name": "EnumSystemLocalesW",
+            "ordinal": null,
+            "ilt_rva": 41875856,
+            "iat_rva": 8495184,
+            "thunk_hex": "27f0e88"
+          },
+          {
+            "hint": 825,
+            "name": "GetUserDefaultLCID",
+            "ordinal": null,
+            "ilt_rva": 41875864,
+            "iat_rva": 8495192,
+            "thunk_hex": "27f0e72"
+          },
+          {
+            "hint": 944,
+            "name": "IsValidLocale",
+            "ordinal": null,
+            "ilt_rva": 41875872,
+            "iat_rva": 8495200,
+            "thunk_hex": "27f0e62"
+          },
+          {
+            "hint": 641,
+            "name": "GetLocaleInfoW",
+            "ordinal": null,
+            "ilt_rva": 41875880,
+            "iat_rva": 8495208,
+            "thunk_hex": "27f0e50"
+          },
+          {
+            "hint": 980,
+            "name": "LCMapStringW",
+            "ordinal": null,
+            "ilt_rva": 41875888,
+            "iat_rva": 8495216,
+            "thunk_hex": "27f0e40"
+          },
+          {
+            "hint": 170,
+            "name": "CompareStringW",
+            "ordinal": null,
+            "ilt_rva": 41875896,
+            "iat_rva": 8495224,
+            "thunk_hex": "27f0e2e"
+          },
+          {
+            "hint": 555,
+            "name": "GetCurrentDirectoryW",
+            "ordinal": null,
+            "ilt_rva": 41875904,
+            "iat_rva": 8495232,
+            "thunk_hex": "27f012a"
+          },
+          {
+            "hint": 399,
+            "name": "FindClose",
+            "ordinal": null,
+            "ilt_rva": 41875912,
+            "iat_rva": 8495240,
+            "thunk_hex": "27f0142"
+          },
+          {
+            "hint": 410,
+            "name": "FindFirstFileW",
+            "ordinal": null,
+            "ilt_rva": 41875920,
+            "iat_rva": 8495248,
+            "thunk_hex": "27f014e"
+          },
+          {
+            "hint": 422,
+            "name": "FindNextFileW",
+            "ordinal": null,
+            "ilt_rva": 41875928,
+            "iat_rva": 8495256,
+            "thunk_hex": "27f0160"
+          },
+          {
+            "hint": 637,
+            "name": "GetLastError",
+            "ordinal": null,
+            "ilt_rva": 41875936,
+            "iat_rva": 8495264,
+            "thunk_hex": "27f0170"
+          },
+          {
+            "hint": 1380,
+            "name": "SetLastError",
+            "ordinal": null,
+            "ilt_rva": 41875944,
+            "iat_rva": 8495272,
+            "thunk_hex": "27f0180"
+          },
+          {
+            "hint": 1042,
+            "name": "MultiByteToWideChar",
+            "ordinal": null,
+            "ilt_rva": 41875952,
+            "iat_rva": 8495280,
+            "thunk_hex": "27f0190"
+          },
+          {
+            "hint": 1591,
+            "name": "WideCharToMultiByte",
+            "ordinal": null,
+            "ilt_rva": 41875960,
+            "iat_rva": 8495288,
+            "thunk_hex": "27f01a6"
+          },
+          {
+            "hint": 755,
+            "name": "GetStdHandle",
+            "ordinal": null,
+            "ilt_rva": 41875968,
+            "iat_rva": 8495296,
+            "thunk_hex": "27f01bc"
+          },
+          {
+            "hint": 405,
+            "name": "FindFirstFileExW",
+            "ordinal": null,
+            "ilt_rva": 41875976,
+            "iat_rva": 8495304,
+            "thunk_hex": "27f01cc"
+          },
+          {
+            "hint": 629,
+            "name": "GetFullPathNameW",
+            "ordinal": null,
+            "ilt_rva": 41875984,
+            "iat_rva": 8495312,
+            "thunk_hex": "27f01e0"
+          },
+          {
+            "hint": 792,
+            "name": "GetTempPathA",
+            "ordinal": null,
+            "ilt_rva": 41875992,
+            "iat_rva": 8495320,
+            "thunk_hex": "27f01f4"
+          },
+          {
+            "hint": 1081,
+            "name": "OutputDebugStringA",
+            "ordinal": null,
+            "ilt_rva": 41876000,
+            "iat_rva": 8495328,
+            "thunk_hex": "27f0204"
+          },
+          {
+            "hint": 901,
+            "name": "InitializeCriticalSection",
+            "ordinal": null,
+            "ilt_rva": 41876008,
+            "iat_rva": 8495336,
+            "thunk_hex": "27f021a"
+          },
+          {
+            "hint": 329,
+            "name": "EnterCriticalSection",
+            "ordinal": null,
+            "ilt_rva": 41876016,
+            "iat_rva": 8495344,
+            "thunk_hex": "27f0236"
+          },
+          {
+            "hint": 992,
+            "name": "LeaveCriticalSection",
+            "ordinal": null,
+            "ilt_rva": 41876024,
+            "iat_rva": 8495352,
+            "thunk_hex": "27f024e"
+          },
+          {
+            "hint": 291,
+            "name": "DeleteCriticalSection",
+            "ordinal": null,
+            "ilt_rva": 41876032,
+            "iat_rva": 8495360,
+            "thunk_hex": "27f0266"
+          },
+          {
+            "hint": 844,
+            "name": "GetWindowsDirectoryA",
+            "ordinal": null,
+            "ilt_rva": 41876040,
+            "iat_rva": 8495368,
+            "thunk_hex": "27f027e"
+          },
+          {
+            "hint": 502,
+            "name": "GetComputerNameA",
+            "ordinal": null,
+            "ilt_rva": 41876048,
+            "iat_rva": 8495376,
+            "thunk_hex": "27f0296"
+          },
+          {
+            "hint": 540,
+            "name": "GetConsoleScreenBufferInfo",
+            "ordinal": null,
+            "ilt_rva": 41876056,
+            "iat_rva": 8495384,
+            "thunk_hex": "27f02aa"
+          },
+          {
+            "hint": 1332,
+            "name": "SetConsoleTextAttribute",
+            "ordinal": null,
+            "ilt_rva": 41876064,
+            "iat_rva": 8495392,
+            "thunk_hex": "27f02c8"
+          },
+          {
+            "hint": 1460,
+            "name": "Sleep",
+            "ordinal": null,
+            "ilt_rva": 41876072,
+            "iat_rva": 8495400,
+            "thunk_hex": "27f02e2"
+          },
+          {
+            "hint": 567,
+            "name": "GetCurrentThreadId",
+            "ordinal": null,
+            "ilt_rva": 41876080,
+            "iat_rva": 8495408,
+            "thunk_hex": "27f02ea"
+          },
+          {
+            "hint": 1270,
+            "name": "RtlCaptureStackBackTrace",
+            "ordinal": null,
+            "ilt_rva": 41876088,
+            "iat_rva": 8495416,
+            "thunk_hex": "27f0300"
+          },
+          {
+            "hint": 778,
+            "name": "GetSystemTimeAsFileTime",
+            "ordinal": null,
+            "ilt_rva": 41876096,
+            "iat_rva": 8495424,
+            "thunk_hex": "27f031c"
+          },
+          {
+            "hint": 562,
+            "name": "GetCurrentProcess",
+            "ordinal": null,
+            "ilt_rva": 41876104,
+            "iat_rva": 8495432,
+            "thunk_hex": "27f0336"
+          },
+          {
+            "hint": 496,
+            "name": "GetCommandLineA",
+            "ordinal": null,
+            "ilt_rva": 41876112,
+            "iat_rva": 8495440,
+            "thunk_hex": "27f0f3c"
+          },
+          {
+            "hint": 438,
+            "name": "FlsGetValue",
+            "ordinal": null,
+            "ilt_rva": 41876120,
+            "iat_rva": 8495448,
+            "thunk_hex": "27f0356"
+          },
+          {
+            "hint": 439,
+            "name": "FlsSetValue",
+            "ordinal": null,
+            "ilt_rva": 41876128,
+            "iat_rva": 8495456,
+            "thunk_hex": "27f0364"
+          },
+          {
+            "hint": 437,
+            "name": "FlsFree",
+            "ordinal": null,
+            "ilt_rva": 41876136,
+            "iat_rva": 8495464,
+            "thunk_hex": "27f0372"
+          },
+          {
+            "hint": 1136,
+            "name": "QueryPerformanceCounter",
+            "ordinal": null,
+            "ilt_rva": 41876144,
+            "iat_rva": 8495472,
+            "thunk_hex": "27f037c"
+          },
+          {
+            "hint": 1137,
+            "name": "QueryPerformanceFrequency",
+            "ordinal": null,
+            "ilt_rva": 41876152,
+            "iat_rva": 8495480,
+            "thunk_hex": "27f0396"
+          },
+          {
+            "hint": 600,
+            "name": "GetExitCodeProcess",
+            "ordinal": null,
+            "ilt_rva": 41876160,
+            "iat_rva": 8495488,
+            "thunk_hex": "27f03b2"
+          },
+          {
+            "hint": 674,
+            "name": "GetNativeSystemInfo",
+            "ordinal": null,
+            "ilt_rva": 41876168,
+            "iat_rva": 8495496,
+            "thunk_hex": "27f03c8"
+          },
+          {
+            "hint": 210,
+            "name": "CreateFileA",
+            "ordinal": null,
+            "ilt_rva": 41876176,
+            "iat_rva": 8495504,
+            "thunk_hex": "27f03de"
+          },
+          {
+            "hint": 605,
+            "name": "GetFileAttributesExA",
+            "ordinal": null,
+            "ilt_rva": 41876184,
+            "iat_rva": 8495512,
+            "thunk_hex": "27f03ec"
+          },
+          {
+            "hint": 1021,
+            "name": "LockFileEx",
+            "ordinal": null,
+            "ilt_rva": 41876192,
+            "iat_rva": 8495520,
+            "thunk_hex": "27f0404"
+          },
+          {
+            "hint": 1512,
+            "name": "UnlockFileEx",
+            "ordinal": null,
+            "ilt_rva": 41876200,
+            "iat_rva": 8495528,
+            "thunk_hex": "27f0412"
+          },
+          {
+            "hint": 148,
+            "name": "CloseHandle",
+            "ordinal": null,
+            "ilt_rva": 41876208,
+            "iat_rva": 8495536,
+            "thunk_hex": "27f0422"
+          },
+          {
+            "hint": 453,
+            "name": "FreeLibrary",
+            "ordinal": null,
+            "ilt_rva": 41876216,
+            "iat_rva": 8495544,
+            "thunk_hex": "27f0430"
+          },
+          {
+            "hint": 717,
+            "name": "GetProcAddress",
+            "ordinal": null,
+            "ilt_rva": 41876224,
+            "iat_rva": 8495552,
+            "thunk_hex": "27f043e"
+          },
+          {
+            "hint": 999,
+            "name": "LoadLibraryW",
+            "ordinal": null,
+            "ilt_rva": 41876232,
+            "iat_rva": 8495560,
+            "thunk_hex": "27f0450"
+          },
+          {
+            "hint": 404,
+            "name": "FindFirstFileExA",
+            "ordinal": null,
+            "ilt_rva": 41876240,
+            "iat_rva": 8495568,
+            "thunk_hex": "27f0460"
+          },
+          {
+            "hint": 420,
+            "name": "FindNextFileA",
+            "ordinal": null,
+            "ilt_rva": 41876248,
+            "iat_rva": 8495576,
+            "thunk_hex": "27f0474"
+          },
+          {
+            "hint": 658,
+            "name": "GetModuleHandleA",
+            "ordinal": null,
+            "ilt_rva": 41876256,
+            "iat_rva": 8495584,
+            "thunk_hex": "27f0484"
+          },
+          {
+            "hint": 996,
+            "name": "LoadLibraryA",
+            "ordinal": null,
+            "ilt_rva": 41876264,
+            "iat_rva": 8495592,
+            "thunk_hex": "27f0498"
+          },
+          {
+            "hint": 656,
+            "name": "GetModuleFileNameA",
+            "ordinal": null,
+            "ilt_rva": 41876272,
+            "iat_rva": 8495600,
+            "thunk_hex": "27f04a8"
+          },
+          {
+            "hint": 657,
+            "name": "GetModuleFileNameW",
+            "ordinal": null,
+            "ilt_rva": 41876280,
+            "iat_rva": 8495608,
+            "thunk_hex": "27f04be"
+          },
+          {
+            "hint": 659,
+            "name": "GetModuleHandleExA",
+            "ordinal": null,
+            "ilt_rva": 41876288,
+            "iat_rva": 8495616,
+            "thunk_hex": "27f04d4"
+          },
+          {
+            "hint": 218,
+            "name": "CreateFileW",
+            "ordinal": null,
+            "ilt_rva": 41876296,
+            "iat_rva": 8495624,
+            "thunk_hex": "27f04ea"
+          },
+          {
+            "hint": 616,
+            "name": "GetFileSizeEx",
+            "ordinal": null,
+            "ilt_rva": 41876304,
+            "iat_rva": 8495632,
+            "thunk_hex": "27f04f8"
+          },
+          {
+            "hint": 1176,
+            "name": "ReadFile",
+            "ordinal": null,
+            "ilt_rva": 41876312,
+            "iat_rva": 8495640,
+            "thunk_hex": "27f0508"
+          },
+          {
+            "hint": 1364,
+            "name": "SetFilePointer",
+            "ordinal": null,
+            "ilt_rva": 41876320,
+            "iat_rva": 8495648,
+            "thunk_hex": "27f0514"
+          },
+          {
+            "hint": 1611,
+            "name": "WriteFile",
+            "ordinal": null,
+            "ilt_rva": 41876328,
+            "iat_rva": 8495656,
+            "thunk_hex": "27f0526"
+          },
+          {
+            "hint": 1025,
+            "name": "MapViewOfFile",
+            "ordinal": null,
+            "ilt_rva": 41876336,
+            "iat_rva": 8495664,
+            "thunk_hex": "27f0532"
+          },
+          {
+            "hint": 1513,
+            "name": "UnmapViewOfFile",
+            "ordinal": null,
+            "ilt_rva": 41876344,
+            "iat_rva": 8495672,
+            "thunk_hex": "27f0542"
+          },
+          {
+            "hint": 211,
+            "name": "CreateFileMappingA",
+            "ordinal": null,
+            "ilt_rva": 41876352,
+            "iat_rva": 8495680,
+            "thunk_hex": "27f0554"
+          },
+          {
+            "hint": 460,
+            "name": "GetACP",
+            "ordinal": null,
+            "ilt_rva": 41876360,
+            "iat_rva": 8495688,
+            "thunk_hex": "27f056a"
+          },
+          {
+            "hint": 640,
+            "name": "GetLocaleInfoEx",
+            "ordinal": null,
+            "ilt_rva": 41876368,
+            "iat_rva": 8495696,
+            "thunk_hex": "27f0574"
+          },
+          {
+            "hint": 215,
+            "name": "CreateFileMappingW",
+            "ordinal": null,
+            "ilt_rva": 41876376,
+            "iat_rva": 8495704,
+            "thunk_hex": "27f0586"
+          },
+          {
+            "hint": 1240,
+            "name": "ReleaseSRWLockExclusive",
+            "ordinal": null,
+            "ilt_rva": 41876384,
+            "iat_rva": 8495712,
+            "thunk_hex": "27f059c"
+          },
+          {
+            "hint": 0,
+            "name": "AcquireSRWLockExclusive",
+            "ordinal": null,
+            "ilt_rva": 41876392,
+            "iat_rva": 8495720,
+            "thunk_hex": "27f05b6"
+          },
+          {
+            "hint": 1462,
+            "name": "SleepConditionVariableSRW",
+            "ordinal": null,
+            "ilt_rva": 41876400,
+            "iat_rva": 8495728,
+            "thunk_hex": "27f05d0"
+          },
+          {
+            "hint": 497,
+            "name": "GetCommandLineW",
+            "ordinal": null,
+            "ilt_rva": 41876408,
+            "iat_rva": 8495736,
+            "thunk_hex": "27f0f4e"
+          },
+          {
+            "hint": 595,
+            "name": "GetEnvironmentStringsW",
+            "ordinal": null,
+            "ilt_rva": 41876416,
+            "iat_rva": 8495744,
+            "thunk_hex": "27f0f60"
+          },
+          {
+            "hint": 452,
+            "name": "FreeEnvironmentStringsW",
+            "ordinal": null,
+            "ilt_rva": 41876424,
+            "iat_rva": 8495752,
+            "thunk_hex": "27f0f7a"
+          },
+          {
+            "hint": 724,
+            "name": "GetProcessHeap",
+            "ordinal": null,
+            "ilt_rva": 41876432,
+            "iat_rva": 8495760,
+            "thunk_hex": "27f0f94"
+          },
+          {
+            "hint": 436,
+            "name": "FlsAlloc",
+            "ordinal": null,
+            "ilt_rva": 41876440,
+            "iat_rva": 8495768,
+            "thunk_hex": "27f034a"
+          },
+          {
+            "hint": 895,
+            "name": "InitOnceComplete",
+            "ordinal": null,
+            "ilt_rva": 41876448,
+            "iat_rva": 8495776,
+            "thunk_hex": "27f06c4"
+          },
+          {
+            "hint": 1010,
+            "name": "LocalFree",
+            "ordinal": null,
+            "ilt_rva": 41876456,
+            "iat_rva": 8495784,
+            "thunk_hex": "27f05fa"
+          },
+          {
+            "hint": 448,
+            "name": "FormatMessageA",
+            "ordinal": null,
+            "ilt_rva": 41876464,
+            "iat_rva": 8495792,
+            "thunk_hex": "27f0606"
+          },
+          {
+            "hint": 201,
+            "name": "CreateDirectoryW",
+            "ordinal": null,
+            "ilt_rva": 41876472,
+            "iat_rva": 8495800,
+            "thunk_hex": "27f0618"
+          },
+          {
+            "hint": 606,
+            "name": "GetFileAttributesExW",
+            "ordinal": null,
+            "ilt_rva": 41876480,
+            "iat_rva": 8495808,
+            "thunk_hex": "27f062c"
+          },
+          {
+            "hint": 611,
+            "name": "GetFileInformationByHandle",
+            "ordinal": null,
+            "ilt_rva": 41876488,
+            "iat_rva": 8495816,
+            "thunk_hex": "27f0644"
+          },
+          {
+            "hint": 620,
+            "name": "GetFinalPathNameByHandleW",
+            "ordinal": null,
+            "ilt_rva": 41876496,
+            "iat_rva": 8495824,
+            "thunk_hex": "27f0662"
+          },
+          {
+            "hint": 36,
+            "name": "AreFileApisANSI",
+            "ordinal": null,
+            "ilt_rva": 41876504,
+            "iat_rva": 8495832,
+            "thunk_hex": "27f067e"
+          },
+          {
+            "hint": 661,
+            "name": "GetModuleHandleW",
+            "ordinal": null,
+            "ilt_rva": 41876512,
+            "iat_rva": 8495840,
+            "thunk_hex": "27f0690"
+          },
+          {
+            "hint": 612,
+            "name": "GetFileInformationByHandleEx",
+            "ordinal": null,
+            "ilt_rva": 41876520,
+            "iat_rva": 8495848,
+            "thunk_hex": "27f06a4"
+          },
+          {
+            "hint": 1610,
+            "name": "WriteConsoleW",
+            "ordinal": null,
+            "ilt_rva": 41876528,
+            "iat_rva": 8495856,
+            "thunk_hex": "27f0fa6"
+          },
+          {
+            "hint": 894,
+            "name": "InitOnceBeginInitialize",
+            "ordinal": null,
+            "ilt_rva": 41876536,
+            "iat_rva": 8495864,
+            "thunk_hex": "27f06d8"
+          },
+          {
+            "hint": 1553,
+            "name": "WaitForSingleObjectEx",
+            "ordinal": null,
+            "ilt_rva": 41876544,
+            "iat_rva": 8495872,
+            "thunk_hex": "27f06f2"
+          },
+          {
+            "hint": 1471,
+            "name": "SwitchToThread",
+            "ordinal": null,
+            "ilt_rva": 41876552,
+            "iat_rva": 8495880,
+            "thunk_hex": "27f070a"
+          },
+          {
+            "hint": 601,
+            "name": "GetExitCodeThread",
+            "ordinal": null,
+            "ilt_rva": 41876560,
+            "iat_rva": 8495888,
+            "thunk_hex": "27f071c"
+          },
+          {
+            "hint": 1560,
+            "name": "WakeAllConditionVariable",
+            "ordinal": null,
+            "ilt_rva": 41876568,
+            "iat_rva": 8495896,
+            "thunk_hex": "27f0730"
+          },
+          {
+            "hint": 1501,
+            "name": "TryAcquireSRWLockExclusive",
+            "ordinal": null,
+            "ilt_rva": 41876576,
+            "iat_rva": 8495904,
+            "thunk_hex": "27f074c"
+          },
+          {
+            "hint": 760,
+            "name": "GetStringTypeW",
+            "ordinal": null,
+            "ilt_rva": 41876584,
+            "iat_rva": 8495912,
+            "thunk_hex": "27f076a"
+          },
+          {
+            "hint": 1279,
+            "name": "RtlPcToFileHeader",
+            "ordinal": null,
+            "ilt_rva": 41876592,
+            "iat_rva": 8495920,
+            "thunk_hex": "27f077c"
+          },
+          {
+            "hint": 1159,
+            "name": "RaiseException",
+            "ordinal": null,
+            "ilt_rva": 41876600,
+            "iat_rva": 8495928,
+            "thunk_hex": "27f0790"
+          },
+          {
+            "hint": 903,
+            "name": "InitializeCriticalSectionEx",
+            "ordinal": null,
+            "ilt_rva": 41876608,
+            "iat_rva": 8495936,
+            "thunk_hex": "27f07a2"
+          },
+          {
+            "hint": 205,
+            "name": "CreateEventExW",
+            "ordinal": null,
+            "ilt_rva": 41876616,
+            "iat_rva": 8495944,
+            "thunk_hex": "27f07c0"
+          },
+          {
+            "hint": 252,
+            "name": "CreateSemaphoreExW",
+            "ordinal": null,
+            "ilt_rva": 41876624,
+            "iat_rva": 8495952,
+            "thunk_hex": "27f07d2"
+          },
+          {
+            "hint": 443,
+            "name": "FlushProcessWriteBuffers",
+            "ordinal": null,
+            "ilt_rva": 41876632,
+            "iat_rva": 8495960,
+            "thunk_hex": "27f07e8"
+          },
+          {
+            "hint": 813,
+            "name": "GetTickCount64",
+            "ordinal": null,
+            "ilt_rva": 41876640,
+            "iat_rva": 8495968,
+            "thunk_hex": "27f0804"
+          },
+          {
+            "hint": 455,
+            "name": "FreeLibraryWhenCallbackReturns",
+            "ordinal": null,
+            "ilt_rva": 41876648,
+            "iat_rva": 8495976,
+            "thunk_hex": "27f0816"
+          },
+          {
+            "hint": 263,
+            "name": "CreateThreadpoolTimer",
+            "ordinal": null,
+            "ilt_rva": 41876656,
+            "iat_rva": 8495984,
+            "thunk_hex": "27f0838"
+          },
+          {
+            "hint": 1437,
+            "name": "SetThreadpoolTimer",
+            "ordinal": null,
+            "ilt_rva": 41876664,
+            "iat_rva": 8495992,
+            "thunk_hex": "27f0850"
+          },
+          {
+            "hint": 1555,
+            "name": "WaitForThreadpoolTimerCallbacks",
+            "ordinal": null,
+            "ilt_rva": 41876672,
+            "iat_rva": 8496000,
+            "thunk_hex": "27f0866"
+          },
+          {
+            "hint": 159,
+            "name": "CloseThreadpoolTimer",
+            "ordinal": null,
+            "ilt_rva": 41876680,
+            "iat_rva": 8496008,
+            "thunk_hex": "27f0888"
+          },
+          {
+            "hint": 264,
+            "name": "CreateThreadpoolWait",
+            "ordinal": null,
+            "ilt_rva": 41876688,
+            "iat_rva": 8496016,
+            "thunk_hex": "27f08a0"
+          },
+          {
+            "hint": 1439,
+            "name": "SetThreadpoolWait",
+            "ordinal": null,
+            "ilt_rva": 41876696,
+            "iat_rva": 8496024,
+            "thunk_hex": "27f08b8"
+          },
+          {
+            "hint": 160,
+            "name": "CloseThreadpoolWait",
+            "ordinal": null,
+            "ilt_rva": 41876704,
+            "iat_rva": 8496032,
+            "thunk_hex": "27f08cc"
+          },
+          {
+            "hint": 325,
+            "name": "EncodePointer",
+            "ordinal": null,
+            "ilt_rva": 41876712,
+            "iat_rva": 8496040,
+            "thunk_hex": "27f08e2"
+          },
+          {
+            "hint": 284,
+            "name": "DecodePointer",
+            "ordinal": null,
+            "ilt_rva": 41876720,
+            "iat_rva": 8496048,
+            "thunk_hex": "27f08f2"
+          },
+          {
+            "hint": 979,
+            "name": "LCMapStringEx",
+            "ordinal": null,
+            "ilt_rva": 41876728,
+            "iat_rva": 8496056,
+            "thunk_hex": "27f0902"
+          },
+          {
+            "hint": 168,
+            "name": "CompareStringEx",
+            "ordinal": null,
+            "ilt_rva": 41876736,
+            "iat_rva": 8496064,
+            "thunk_hex": "27f0912"
+          },
+          {
+            "hint": 475,
+            "name": "GetCPInfo",
+            "ordinal": null,
+            "ilt_rva": 41876744,
+            "iat_rva": 8496072,
+            "thunk_hex": "27f0924"
+          },
+          {
+            "hint": 1269,
+            "name": "RtlCaptureContext",
+            "ordinal": null,
+            "ilt_rva": 41876752,
+            "iat_rva": 8496080,
+            "thunk_hex": "27f0930"
+          },
+          {
+            "hint": 1277,
+            "name": "RtlLookupFunctionEntry",
+            "ordinal": null,
+            "ilt_rva": 41876760,
+            "iat_rva": 8496088,
+            "thunk_hex": "27f0944"
+          },
+          {
+            "hint": 1284,
+            "name": "RtlVirtualUnwind",
+            "ordinal": null,
+            "ilt_rva": 41876768,
+            "iat_rva": 8496096,
+            "thunk_hex": "27f095e"
+          },
+          {
+            "hint": 1510,
+            "name": "UnhandledExceptionFilter",
+            "ordinal": null,
+            "ilt_rva": 41876776,
+            "iat_rva": 8496104,
+            "thunk_hex": "27f0972"
+          },
+          {
+            "hint": 1444,
+            "name": "SetUnhandledExceptionFilter",
+            "ordinal": null,
+            "ilt_rva": 41876784,
+            "iat_rva": 8496112,
+            "thunk_hex": "27f098e"
+          },
+          {
+            "hint": 1476,
+            "name": "TerminateProcess",
+            "ordinal": null,
+            "ilt_rva": 41876792,
+            "iat_rva": 8496120,
+            "thunk_hex": "27f09ac"
+          },
+          {
+            "hint": 936,
+            "name": "IsProcessorFeaturePresent",
+            "ordinal": null,
+            "ilt_rva": 41876800,
+            "iat_rva": 8496128,
+            "thunk_hex": "27f09c0"
+          },
+          {
+            "hint": 563,
+            "name": "GetCurrentProcessId",
+            "ordinal": null,
+            "ilt_rva": 41876808,
+            "iat_rva": 8496136,
+            "thunk_hex": "27f09dc"
+          },
+          {
+            "hint": 906,
+            "name": "InitializeSListHead",
+            "ordinal": null,
+            "ilt_rva": 41876816,
+            "iat_rva": 8496144,
+            "thunk_hex": "27f09f2"
+          },
+          {
+            "hint": 928,
+            "name": "IsDebuggerPresent",
+            "ordinal": null,
+            "ilt_rva": 41876824,
+            "iat_rva": 8496152,
+            "thunk_hex": "27f0a08"
+          },
+          {
+            "hint": 753,
+            "name": "GetStartupInfoW",
+            "ordinal": null,
+            "ilt_rva": 41876832,
+            "iat_rva": 8496160,
+            "thunk_hex": "27f0a1c"
+          },
+          {
+            "hint": 566,
+            "name": "GetCurrentThread",
+            "ordinal": null,
+            "ilt_rva": 41876840,
+            "iat_rva": 8496168,
+            "thunk_hex": "27f0a2e"
+          },
+          {
+            "hint": 810,
+            "name": "GetThreadTimes",
+            "ordinal": null,
+            "ilt_rva": 41876848,
+            "iat_rva": 8496176,
+            "thunk_hex": "27f0a42"
+          },
+          {
+            "hint": 454,
+            "name": "FreeLibraryAndExitThread",
+            "ordinal": null,
+            "ilt_rva": 41876856,
+            "iat_rva": 8496184,
+            "thunk_hex": "27f0a54"
+          },
+          {
+            "hint": 998,
+            "name": "LoadLibraryExW",
+            "ordinal": null,
+            "ilt_rva": 41876864,
+            "iat_rva": 8496192,
+            "thunk_hex": "27f0a70"
+          },
+          {
+            "hint": 321,
+            "name": "DuplicateHandle",
+            "ordinal": null,
+            "ilt_rva": 41876872,
+            "iat_rva": 8496200,
+            "thunk_hex": "27f0a82"
+          },
+          {
+            "hint": 1352,
+            "name": "SetEvent",
+            "ordinal": null,
+            "ilt_rva": 41876880,
+            "iat_rva": 8496208,
+            "thunk_hex": "27f0a94"
+          },
+          {
+            "hint": 1242,
+            "name": "ReleaseSemaphore",
+            "ordinal": null,
+            "ilt_rva": 41876888,
+            "iat_rva": 8496216,
+            "thunk_hex": "27f0aa0"
+          },
+          {
+            "hint": 911,
+            "name": "InterlockedPopEntrySList",
+            "ordinal": null,
+            "ilt_rva": 41876896,
+            "iat_rva": 8496224,
+            "thunk_hex": "27f0ab4"
+          },
+          {
+            "hint": 912,
+            "name": "InterlockedPushEntrySList",
+            "ordinal": null,
+            "ilt_rva": 41876904,
+            "iat_rva": 8496232,
+            "thunk_hex": "27f0ad0"
+          },
+          {
+            "hint": 910,
+            "name": "InterlockedFlushSList",
+            "ordinal": null,
+            "ilt_rva": 41876912,
+            "iat_rva": 8496240,
+            "thunk_hex": "27f0aec"
+          },
+          {
+            "hint": 1125,
+            "name": "QueryDepthSList",
+            "ordinal": null,
+            "ilt_rva": 41876920,
+            "iat_rva": 8496248,
+            "thunk_hex": "27f0b04"
+          },
+          {
+            "hint": 1458,
+            "name": "SignalObjectAndWait",
+            "ordinal": null,
+            "ilt_rva": 41876928,
+            "iat_rva": 8496256,
+            "thunk_hex": "27f0b16"
+          },
+          {
+            "hint": 259,
+            "name": "CreateThread",
+            "ordinal": null,
+            "ilt_rva": 41876936,
+            "iat_rva": 8496264,
+            "thunk_hex": "27f0b2c"
+          },
+          {
+            "hint": 1427,
+            "name": "SetThreadPriority",
+            "ordinal": null,
+            "ilt_rva": 41876944,
+            "iat_rva": 8496272,
+            "thunk_hex": "27f0b3c"
+          },
+          {
+            "hint": 805,
+            "name": "GetThreadPriority",
+            "ordinal": null,
+            "ilt_rva": 41876952,
+            "iat_rva": 8496280,
+            "thunk_hex": "27f0b50"
+          },
+          {
+            "hint": 1494,
+            "name": "TlsAlloc",
+            "ordinal": null,
+            "ilt_rva": 41876960,
+            "iat_rva": 8496288,
+            "thunk_hex": "27f0b64"
+          },
+          {
+            "hint": 1496,
+            "name": "TlsGetValue",
+            "ordinal": null,
+            "ilt_rva": 41876968,
+            "iat_rva": 8496296,
+            "thunk_hex": "27f0b70"
+          },
+          {
+            "hint": 1497,
+            "name": "TlsSetValue",
+            "ordinal": null,
+            "ilt_rva": 41876976,
+            "iat_rva": 8496304,
+            "thunk_hex": "27f0b7e"
+          },
+          {
+            "hint": 1495,
+            "name": "TlsFree",
+            "ordinal": null,
+            "ilt_rva": 41876984,
+            "iat_rva": 8496312,
+            "thunk_hex": "27f0b8c"
+          },
+          {
+            "hint": 565,
+            "name": "GetCurrentProcessorNumberEx",
+            "ordinal": null,
+            "ilt_rva": 41876992,
+            "iat_rva": 8496320,
+            "thunk_hex": "27f0b96"
+          },
+          {
+            "hint": 646,
+            "name": "GetLogicalProcessorInformationEx",
+            "ordinal": null,
+            "ilt_rva": 41877000,
+            "iat_rva": 8496328,
+            "thunk_hex": "27f0bb4"
+          },
+          {
+            "hint": 679,
+            "name": "GetNumaHighestNodeNumber",
+            "ordinal": null,
+            "ilt_rva": 41877008,
+            "iat_rva": 8496336,
+            "thunk_hex": "27f0bd8"
+          },
+          {
+            "hint": 798,
+            "name": "GetThreadGroupAffinity",
+            "ordinal": null,
+            "ilt_rva": 41877016,
+            "iat_rva": 8496344,
+            "thunk_hex": "27f0bf4"
+          },
+          {
+            "hint": 1421,
+            "name": "SetThreadGroupAffinity",
+            "ordinal": null,
+            "ilt_rva": 41877024,
+            "iat_rva": 8496352,
+            "thunk_hex": "27f0c0e"
+          },
+          {
+            "hint": 1530,
+            "name": "VerSetConditionMask",
+            "ordinal": null,
+            "ilt_rva": 41877032,
+            "iat_rva": 8496360,
+            "thunk_hex": "27f0c28"
+          },
+          {
+            "hint": 1538,
+            "name": "VirtualFree",
+            "ordinal": null,
+            "ilt_rva": 41877040,
+            "iat_rva": 8496368,
+            "thunk_hex": "27f0c3e"
+          },
+          {
+            "hint": 718,
+            "name": "GetProcessAffinityMask",
+            "ordinal": null,
+            "ilt_rva": 41877048,
+            "iat_rva": 8496376,
+            "thunk_hex": "27f0c4c"
+          },
+          {
+            "hint": 1534,
+            "name": "VerifyVersionInfoW",
+            "ordinal": null,
+            "ilt_rva": 41877056,
+            "iat_rva": 8496384,
+            "thunk_hex": "27f0c66"
+          },
+          {
+            "hint": 1283,
+            "name": "RtlUnwindEx",
+            "ordinal": null,
+            "ilt_rva": 41877064,
+            "iat_rva": 8496392,
+            "thunk_hex": "27f0c7c"
+          },
+          {
+            "hint": 1282,
+            "name": "RtlUnwind",
+            "ordinal": null,
+            "ilt_rva": 41877072,
+            "iat_rva": 8496400,
+            "thunk_hex": "27f0c8a"
+          },
+          {
+            "hint": 902,
+            "name": "InitializeCriticalSectionAndSpinCount",
+            "ordinal": null,
+            "ilt_rva": 41877080,
+            "iat_rva": 8496408,
+            "thunk_hex": "27f0c96"
+          },
+          {
+            "hint": 377,
+            "name": "ExitThread",
+            "ordinal": null,
+            "ilt_rva": 41877088,
+            "iat_rva": 8496416,
+            "thunk_hex": "27f0cbe"
+          },
+          {
+            "hint": 660,
+            "name": "GetModuleHandleExW",
+            "ordinal": null,
+            "ilt_rva": 41877096,
+            "iat_rva": 8496424,
+            "thunk_hex": "27f0ccc"
+          },
+          {
+            "hint": 376,
+            "name": "ExitProcess",
+            "ordinal": null,
+            "ilt_rva": 41877104,
+            "iat_rva": 8496432,
+            "thunk_hex": "27f0ce2"
+          },
+          {
+            "hint": 1350,
+            "name": "SetEnvironmentVariableW",
+            "ordinal": null,
+            "ilt_rva": 41877112,
+            "iat_rva": 8496440,
+            "thunk_hex": "27f0cf0"
+          },
+          {
+            "hint": 618,
+            "name": "GetFileType",
+            "ordinal": null,
+            "ilt_rva": 41877120,
+            "iat_rva": 8496448,
+            "thunk_hex": "27f0d0a"
+          },
+          {
+            "hint": 587,
+            "name": "GetDriveTypeW",
+            "ordinal": null,
+            "ilt_rva": 41877128,
+            "iat_rva": 8496456,
+            "thunk_hex": "27f0d18"
+          },
+          {
+            "hint": 1091,
+            "name": "PeekNamedPipe",
+            "ordinal": null,
+            "ilt_rva": 41877136,
+            "iat_rva": 8496464,
+            "thunk_hex": "27f0d28"
+          },
+          {
+            "hint": 1473,
+            "name": "SystemTimeToTzSpecificLocalTime",
+            "ordinal": null,
+            "ilt_rva": 41877144,
+            "iat_rva": 8496472,
+            "thunk_hex": "27f0d38"
+          },
+          {
+            "hint": 388,
+            "name": "FileTimeToSystemTime",
+            "ordinal": null,
+            "ilt_rva": 41877152,
+            "iat_rva": 8496480,
+            "thunk_hex": "27f0d5a"
+          },
+          {
+            "hint": 534,
+            "name": "GetConsoleMode",
+            "ordinal": null,
+            "ilt_rva": 41877160,
+            "iat_rva": 8496488,
+            "thunk_hex": "27f0d72"
+          },
+          {
+            "hint": 1173,
+            "name": "ReadConsoleW",
+            "ordinal": null,
+            "ilt_rva": 41877168,
+            "iat_rva": 8496496,
+            "thunk_hex": "27f0d84"
+          },
+          {
+            "hint": 538,
+            "name": "GetConsoleOutputCP",
+            "ordinal": null,
+            "ilt_rva": 41877176,
+            "iat_rva": 8496504,
+            "thunk_hex": "27f0d94"
+          },
+          {
+            "hint": 246,
+            "name": "CreateProcessW",
+            "ordinal": null,
+            "ilt_rva": 41877184,
+            "iat_rva": 8496512,
+            "thunk_hex": "27f0daa"
+          },
+          {
+            "hint": 1307,
+            "name": "SetConsoleCtrlHandler",
+            "ordinal": null,
+            "ilt_rva": 41877192,
+            "iat_rva": 8496520,
+            "thunk_hex": "27f0dbc"
+          },
+          {
+            "hint": 1365,
+            "name": "SetFilePointerEx",
+            "ordinal": null,
+            "ilt_rva": 41877200,
+            "iat_rva": 8496528,
+            "thunk_hex": "27f0dd4"
+          },
+          {
+            "hint": 819,
+            "name": "GetTimeZoneInformation",
+            "ordinal": null,
+            "ilt_rva": 41877208,
+            "iat_rva": 8496536,
+            "thunk_hex": "27f0de8"
+          },
+          {
+            "hint": 876,
+            "name": "HeapAlloc",
+            "ordinal": null,
+            "ilt_rva": 41877216,
+            "iat_rva": 8496544,
+            "thunk_hex": "27f0e02"
+          },
+          {
+            "hint": 441,
+            "name": "FlushFileBuffers",
+            "ordinal": null,
+            "ilt_rva": 41877224,
+            "iat_rva": 8496552,
+            "thunk_hex": "27f0e0e"
+          },
+          {
+            "hint": 880,
+            "name": "HeapFree",
+            "ordinal": null,
+            "ilt_rva": 41877232,
+            "iat_rva": 8496560,
+            "thunk_hex": "27f0e22"
+          }
+        ]
+      }
+    ],
+    "delay_imports": [],
+    "imphash": {
+      "algorithm": "pefile",
+      "md5": "0edd151ce2180e9395429cd689651ce5",
+      "reason": null
+    },
+    "coverage": {
+      "status": "complete",
+      "reason": null,
+      "examined_dlls": 4,
+      "imports": 201,
+      "delay_imports": 0
+    },
+    "issues": [],
+    "limitations": [
+      "Rows reproduce the PE import and delay-load directories; they do not establish that an import is bound, forwarded or reachable at runtime.",
+      "Bound import snapshots, the import address table as loaded, and export-forward resolution in another DLL remain unobserved."
+    ]
+  },
+  "confidence": "observed",
+  "authority": "shipped-artifact",
+  "environment": null,
+  "limitations": [
+    "Rows reproduce the PE import and delay-load directories; they do not establish that an import is bound, forwarded or reachable at runtime.",
+    "Bound import snapshots, the import address table as loaded, and export-forward resolution in another DLL remain unobserved."
+  ],
+  "relationship_coverage": null,
+  "locations": [
+    {
+      "kind": "artifact-path",
+      "path": "D:\\Git\\SPT\\one-ocr-models-20261028T194856Z-1-001\\one-ocr-models\\oneocr.dll"
+    },
+    {
+      "kind": "file-offset-range",
+      "start": 41871580,
+      "end": 41871680
+    }
+  ],
+  "evidence_links": []
+}

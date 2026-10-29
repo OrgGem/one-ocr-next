@@ -1,0 +1,16 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"result\":{\"path\":\"D:\\\\Git\\\\SPT\\\\new-port\\\\docs\\\\evidence\\\\rea-deep-analysis.json\",\"bytes\":121919,\"records\":12,\"unknowns\":0}}"
+    }
+  ],
+  "structuredContent": {
+    "result": {
+      "path": "D:\\Git\\SPT\\new-port\\docs\\evidence\\rea-deep-analysis.json",
+      "bytes": 121919,
+      "records": 12,
+      "unknowns": 0
+    }
+  }
+}

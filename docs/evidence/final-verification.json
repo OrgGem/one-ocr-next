@@ -1,0 +1,80 @@
+{
+  "recordedAt": "2026-10-28T22:30:54.484Z",
+  "status": "native-linux-runtime-verified; original-engine-parity-partial",
+  "sourceModelSha256": "076001d9d8ca2982e88d32e20d074efc52dcccf4982119ce1e97b005215220dc",
+  "linux": {
+    "node": "v24.22.1",
+    "architecture": "x64"
+  },
+  "tests": {
+    "groups": 8,
+    "passed": 8
+  },
+  "privateOperatorCases": {
+    "cases": 23,
+    "maxAbsoluteError": 7.152557373046875e-7
+  },
+  "nativeWordConfidence": {
+    "cases": 14,
+    "maxAbsoluteError": 5.960464477539063e-8
+  },
+  "lattice": {
+    "scripts": 8,
+    "frames": 1677,
+    "wordCases": 56,
+    "maxFeatureError": 0.000016417354345321655
+  },
+  "corpus": {
+    "kind": "synthetic development set, not a real-document accuracy benchmark",
+    "samples": 21,
+    "exactTextMatches": 19,
+    "exactWordSequenceMatches": 19,
+    "differences": [
+      "arabic.png",
+      "devanagari.png"
+    ]
+  },
+  "container": {
+    "health": {
+      "status": "ready",
+      "engine": "oneocr-native",
+      "platform": "linux",
+      "model_sha256": "076001d9d8ca2982e88d32e20d074efc52dcccf4982119ce1e97b005215220dc"
+    },
+    "modelsLoaded": 34,
+    "containerStoppedAfterVerification": true,
+    "os": "linux",
+    "text": "Tiếng Việt có dấu\nHóa đơn tổng cộng 123.45",
+    "architecture": "amd64",
+    "status": "passed",
+    "confidenceMethod": "original-model-reconstructed-features",
+    "imageId": "sha256:07df09f23ce2525b2d660eabdc4b76eb354f0a089c94444f0ec8f6929a6ba6e4",
+    "windowsDllCount": 0,
+    "user": "node",
+    "decoder": "reconstructed-native-lattice-20-best"
+  },
+  "remaining": [
+    "Original detector polygon fitting, crop interpolation and region merging differ.",
+    "Devanagari multi-region native trace has not been fully paired for component comparison.",
+    "No general equivalence proof for punctuation, word geometry, real handwriting or complex page layouts.",
+    "Linux ARM64 and GPU have not been tested."
+  ],
+  "sourceDigests": {
+    "package.json": "9f481155180520d5dac1c0baef5e565037539a2b851318e69f5cf48409ebe57c",
+    "package-lock.json": "a58c23eafba0bee2665bbcdc4022310f1c88c1950af291ba090ea5fa33258716",
+    "Dockerfile": "718759498a6c10045427737d50137d7ff20a0f7fac460f59d77be1f18e87b02c",
+    "src/cli.mjs": "f3b7cd77c16244af17e935b9c3759675815188f01a5c8b6bc619f7cb91f8eaab",
+    "src/detector.mjs": "81a0c11a0d4c55768813320b7ef19620beccd46e1544cb1be2e6dc3e569b8984",
+    "src/features.mjs": "8b4ea618b5cc7390f7f8547f51dd985ba4dbe227694f53ee310ab31cbda14905",
+    "src/geometry.mjs": "9f945ab42021be33f635042be9af70fcf8f5170c8948f507dfba94dbf9f3a381",
+    "src/index.mjs": "1d624eb2e5bbb6b4c839dabddfece94ae71eb7c36d9fbf8dd1b67c457da23764",
+    "src/lattice.mjs": "d40492412d2e94ff75b42e526d391b59641ec05fcc8b6825c642e6f9a81422f8",
+    "src/models.mjs": "67493b6a03ee96fd3bffd45407369c217e7322ad90c4be36aeeed44d5c6bfca1",
+    "src/onemodel.mjs": "7e2a3296fdf28f5e979b1d32df92ea053a9e9913188b3b13b6ee316265fec908",
+    "src/onnx-portable.mjs": "61322cd10bd4ad820d00318709606d6569f7a02f92e0906396f0bf29489b12bb",
+    "src/protobuf.mjs": "2670f82c269ae5b95c5a687bc6c1bd664df376989636ad28f2a8b13630a9f57c",
+    "src/raster.mjs": "c2edade95f73353b1c4bae0ec05416928f1b6ca545bb3cc161298a4d16456dd2",
+    "src/recognizer.mjs": "2dfce4e35bbc0fd6ea584bb87620836495ba1989ba0b444fe813930f7e8329f6",
+    "src/server.mjs": "6f011fc3d4a9b9e75668712b435b8ffc171519b638860f5c8c977578b0fff5d6"
+  }
+}

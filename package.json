@@ -1,0 +1,28 @@
+{
+  "name": "one-ocr-next",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Native Linux Node.js runtime for caller-supplied OneOCR models",
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "exports": "./src/index.mjs",
+  "bin": {
+    "oneocr-native": "./src/cli.mjs"
+  },
+  "scripts": {
+    "prepare-models": "node tools/prepare-models.mjs",
+    "test": "node --test test/*.test.mjs",
+    "test:unit": "node --test test/core.test.mjs test/features.test.mjs test/vietnamese-metrics.test.mjs test/server.test.mjs",
+    "init:service": "node tools/init-service.mjs",
+    "test:service": "node tools/verify-service.mjs",
+    "test:vi": "node test/vietnamese-tables.mjs",
+    "start": "node src/server.mjs"
+  },
+  "dependencies": {
+    "bidi-js": "1.0.3",
+    "onnxruntime-node": "1.24.3",
+    "sharp": "0.35.5"
+  }
+}
