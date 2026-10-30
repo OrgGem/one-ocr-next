@@ -9,9 +9,15 @@ const key='test-only-api-key-0123456789-abcdef';
 const result={text:'Tiếng Việt',text_angle:0,lines:[],width:100,height:100,elapsed_ms:1,model_sha256:'test-model',provenance:{runtime:'native-nodejs'}};
 const deferred=()=>{let resolve;const promise=new Promise(r=>resolve=r);return {promise,resolve};};
 const headers={'content-type':'image/png',authorization:'Bearer '+key};
-const fake=recognize=>({bundle:{sourceSha256:'test-model'},recognize:recognize??(async()=>result)});
+const fake=(recognize,extractJson)=>({bundle:{sourceSha256:'test-model'},recognize:recognize??(async()=>result),...(extractJson?{extractJson}:{})});
 const start=(options={})=>serve({host:'127.0.0.1',port:0,apiKey:key,logger:()=>{},engine:fake(),...options});
 const post=(app,path='/v1/ocr',extra={})=>fetch(app.url+path,{method:'POST',headers,body:Buffer.from([1,2,3]),...extra});
+const invoiceSchema={type:'object',properties:{invoice_number:{type:'string'},total_amount:{type:'string'}},required:['invoice_number','total_amount'],additionalProperties:false};
+function extractionForm(schema=invoiceSchema,instruction='Extract the invoice number and total amount.') {
+  const form=new FormData();form.set('file',new Blob(['test image'],{type:'image/png'}),'invoice.png');
+  form.set('schema',typeof schema==='string'?schema:JSON.stringify(schema));if(instruction!==undefined)form.set('instruction',instruction);return form;
+}
+const postExtraction=(app,schema=invoiceSchema,instruction='Extract the invoice number and total amount.')=>fetch(app.url+'/v1/ocr?extract=needle',{method:'POST',headers:{authorization:headers.authorization},body:extractionForm(schema,instruction)});
 async function waitIdle(app) {
   for(let i=0;i<40;i++){const h=await (await fetch(app.url+'/health/ready')).json();if(h.pending===0)return;await delay(10);}
   assert.fail('Request capacity was not released');
@@ -70,6 +76,38 @@ test('API enforces one multipart file, valid content type and non-empty input',a
     assert.equal((await post(app,'/v1/ocr',{headers:{...headers,'content-type':'text/plain'}})).status,415);
     assert.equal((await post(app,'/v1/ocr',{body:Buffer.alloc(0)})).status,400);
   } finally {await app.close();}
+});
+
+test('Needle extraction is opt-in, validates multipart schema before OCR, and preserves OCR fields',async()=>{
+  let ocrCalls=0,extractCalls=0;const output={provider:'cactus-needle-wasm',model:{name:'needle3',sha256:'pinned'},schema_validation:'valid',output_validation:'valid',status:'success',elapsed_ms:2,data:{invoice_number:'INV-042',total_amount:'1250.00'}};
+  const engine=fake(async(_image,options)=>{ocrCalls++;assert.equal(options.extraction,ocrCalls===1?undefined:'needle');return result;},async(text,schema,options)=>{
+    extractCalls++;assert.equal(text,result.text);assert.equal(schema.properties.invoice_number.type,'string');assert.match(options.instruction,/invoice number/);return output;
+  });
+  const app=await start({engine});
+  try {
+    const normal=await post(app);assert.equal(normal.status,200);const base=await normal.json();assert.equal(Object.hasOwn(base,'extraction'),false);assert.equal(ocrCalls,1);assert.equal(extractCalls,0);
+    const response=await postExtraction(app);assert.equal(response.status,200);const body=await response.json();
+    assert.equal(body.text,result.text);assert.deepEqual(body.lines,result.lines);assert.equal(body.request_id,response.headers.get('x-request-id'));assert.deepEqual(body.extraction,output);
+    assert.equal(ocrCalls,2);assert.equal(extractCalls,1);
+    const raw=await post(app,'/v1/ocr?extract=needle');assert.equal(raw.status,422);assert.equal((await raw.json()).error,'extract_requires_multipart');
+    const unsupported=await postExtraction(app,{type:'object',properties:{id:{type:'string'}},$ref:'https://example.invalid/schema'});
+    assert.equal(unsupported.status,422);assert.equal((await unsupported.json()).error,'unsupported_schema');
+    const oversized=await postExtraction(app,invoiceSchema,'x'.repeat(1025));assert.equal(oversized.status,422);assert.equal((await oversized.json()).error,'instruction_too_large');
+    assert.equal(ocrCalls,2);assert.equal(extractCalls,1,'invalid extraction inputs must not call OCR or Needle');
+  } finally {await app.close();}
+});
+
+test('Needle extraction admits one request and reports concurrent extraction as busy',async()=>{
+  const entered=deferred(),release=deferred();let ocrCalls=0;
+  const output={provider:'cactus-needle-wasm',model:{name:'needle3'},schema_validation:'valid',output_validation:'valid',status:'success',elapsed_ms:1,data:{invoice_number:'INV-042',total_amount:'1250.00'}};
+  const engine=fake(async()=>{ocrCalls++;return result;},async()=>{entered.resolve();await release.promise;return output;});
+  const app=await start({engine});
+  try {
+    const first=postExtraction(app);await entered.promise;
+    const second=await postExtraction(app);assert.equal(second.status,503);assert.equal(second.headers.get('retry-after'),'1');assert.equal((await second.json()).error,'extraction_busy');
+    assert.equal(ocrCalls,1,'busy extraction must be rejected before OCR');
+    release.resolve();assert.equal((await first).status,200);
+  } finally {release.resolve();await app.close();}
 });
 
 test('body limit applies to content-length and chunked transfers',async()=>{

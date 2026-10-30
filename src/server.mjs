@@ -1,9 +1,12 @@
 import {createServer} from 'node:http';
 import {randomUUID} from 'node:crypto';
+import {existsSync} from 'node:fs';
 import {readFile} from 'node:fs/promises';
 import {pathToFileURL} from 'node:url';
 import {OcrEngine} from './index.mjs';
 import {HttpError,authorized,imageInput,integer,ocrOptions,readBody,serviceConfig} from './http.mjs';
+import {ExtractionSchemaError,parseNeedleSchema} from './needle-schema.mjs';
+import {NEEDLE_MODEL,NEEDLE_MAX_INSTRUCTION_BYTES,NEEDLE_MAX_OUTPUT_TOKENS,NEEDLE_RUNTIME} from './needle-extractor.mjs';
 
 const ocrPaths=new Set(['/v1/ocr','/api/v1/ocr','/ocr','/']);
 const readinessPaths=new Set(['/health','/api/health','/health/ready']);
@@ -11,18 +14,18 @@ const defaultLogger=record=>console.error(JSON.stringify(record));
 
 export async function serve(options={}) {
   const config={...serviceConfig(),...options};
-  for(const [name,min,max] of [['port',0,65535],['threads',1,16],['maxBodyBytes',1,100*1024*1024],['maxPending',1,64],['requestTimeoutMs',10,600000],['shutdownTimeoutMs',10,660000],['maxPixels',4,100_000_000]])config[name]=integer(config[name],name,min,max);
+  for(const [name,min,max] of [['port',0,65535],['threads',1,16],['maxBodyBytes',1,100*1024*1024],['maxPending',1,64],['requestTimeoutMs',10,600000],['extractionTimeoutMs',10,600000],['shutdownTimeoutMs',10,660000],['maxPixels',4,100_000_000]])config[name]=integer(config[name],name,min,max);
   if(typeof config.apiKey!=='string'||(config.apiKey.length>0&&config.apiKey.length<32))throw new RangeError('API key must contain at least 32 characters');
-  const {modelPath,host,port,threads,maxBodyBytes,maxPending,requestTimeoutMs,shutdownTimeoutMs,maxPixels,apiKey}=config;
+  const {modelPath,layoutModelPath,needleModelPath,host,port,threads,maxBodyBytes,maxPending,requestTimeoutMs,extractionTimeoutMs,shutdownTimeoutMs,maxPixels,apiKey}=config;
   const logger=config.logger??defaultLogger;
   const spec=JSON.parse(await readFile(new URL('../docs/openapi.json',import.meta.url),'utf8'));
-  const providedEngine=config.engine,engine=providedEngine??await OcrEngine.create({modelPath,threads});
-  let ready=true,pending=0,closing;
+  const providedEngine=config.engine,engine=providedEngine??await OcrEngine.create({modelPath,layoutModelPath,needleModelPath,threads});
+  let ready=true,pending=0,extractionPending=0,closing;
   const active=new Set();
   const emit=record=>{try{logger(record);}catch{/* logging must not interrupt request cleanup */}};
   const server=createServer(async(request,response)=>{
     request.on('error',()=>{});
-    const requestId=randomUUID(),started=performance.now();
+    const requestId=randomUUID(),started=performance.now(),deadlineAt=started+requestTimeoutMs;
     response.setHeader('x-request-id',requestId);response.setHeader('x-content-type-options','nosniff');
     response.once('finish',()=>emit({event:'request',request_id:requestId,method:request.method,status:response.statusCode,duration_ms:Math.round(performance.now()-started)}));
     const json=(status,value)=>{
@@ -41,7 +44,10 @@ export async function serve(options={}) {
     if(request.method==='GET'&&url.pathname==='/health/live'){json(200,{status:'alive'});return;}
     if(request.method==='GET'&&readinessPaths.has(url.pathname)){
       json(ready?200:503,{status:ready?'ready':'closing',engine:'oneocr-native',platform:process.platform,
-        model_sha256:engine.bundle.sourceSha256,pending,max_pending:maxPending,version:'0.2.0'});return;
+        model_sha256:engine.bundle.sourceSha256,semantic_layout_available:!!engine.layoutProvider,
+        semantic_layout_provider:engine.layoutProvider?.metadata.provider??null,
+        json_extraction_model_available:typeof needleModelPath==='string'&&existsSync(needleModelPath),json_extraction_provider:NEEDLE_RUNTIME.provider,
+        extraction_pending:extractionPending,max_extraction_pending:1,pending,max_pending:maxPending,version:'0.2.0'});return;
     }
     if(request.method==='GET'&&url.pathname==='/openapi.json'){json(200,spec);return;}
     if(!ocrPaths.has(url.pathname)){fail(404,'not_found','Route not found');request.resume();return;}
@@ -57,24 +63,67 @@ export async function serve(options={}) {
       controller.abort(new HttpError(504,'request_timeout','OCR request deadline exceeded'));
       fail(504,'request_timeout','OCR request deadline exceeded');request.resume();
     },requestTimeoutMs);timeout.unref();
+    let extractionReserved=false;
     try {
       const ocr=ocrOptions(url.searchParams);
+      if(ocr.extraction==='needle') {
+        if(extractionPending>=1)throw new HttpError(503,'extraction_busy','Needle extraction is busy; retry later');
+        extractionPending++;extractionReserved=true;
+      }
+      if(ocr.layout==='deepdoc'&&!engine.layoutProvider)throw new HttpError(422,'layout_unavailable','Semantic layout requires ONEOCR_LAYOUT_MODEL_PATH to point to the pinned local DeepDoc ONNX model');
       const length=request.headers['content-length'];
       if(length!==undefined&&(!/^\d+$/.test(length)||Number(length)>maxBodyBytes))throw new HttpError(413,'image_too_large','Request body exceeds the configured limit');
       const body=await readBody(request,maxBodyBytes,controller.signal);
-      const input=await imageInput(body,request.headers['content-type']);
+      const input=await imageInput(body,request.headers['content-type'],{extract:ocr.extraction==='needle'});
+      let schema;
+      if(ocr.extraction==='needle') {
+        if(Buffer.byteLength(input.instruction,'utf8')>NEEDLE_MAX_INSTRUCTION_BYTES)throw new HttpError(422,'instruction_too_large','Instruction exceeds the 1 KiB limit');
+        try{schema=parseNeedleSchema(input.schemaText);}
+        catch(error){if(error instanceof ExtractionSchemaError)throw new HttpError(422,error.code,error.message);throw error;}
+      }
       if(controller.signal.aborted)throw controller.signal.reason;
-      const result=await engine.recognize(input,{...ocr,maxPixels,signal:controller.signal});
+      const image=ocr.extraction==='needle'?input.image:input;
+      const result=await engine.recognize(image,{...ocr,maxPixels,signal:controller.signal,deadlineAt});
       if(controller.signal.aborted)throw controller.signal.reason;
-      json(200,{...result,request_id:requestId});
+      if(performance.now()>=deadlineAt) {
+        const error=new HttpError(504,'request_timeout','OCR request deadline exceeded');controller.abort(error);throw error;
+      }
+      const responseBody={...result,request_id:requestId};
+      if(ocr.extraction==='needle') {
+        const remainingMs=deadlineAt-performance.now();
+        if(remainingMs<=0){const error=new HttpError(504,'request_timeout','OCR request deadline exceeded');controller.abort(error);throw error;}
+        const extractionController=new AbortController();
+        const extractionTimer=setTimeout(()=>{
+          const error=new HttpError(504,'extraction_timeout','Needle extraction deadline exceeded');
+          extractionController.abort(error);
+        },Math.max(1,Math.min(extractionTimeoutMs,remainingMs)));
+        extractionTimer.unref();
+        try {
+          if(typeof engine.extractJson==='function') {
+            responseBody.extraction=await engine.extractJson(result.text,schema,{instruction:input.instruction,signal:AbortSignal.any([controller.signal,extractionController.signal]),maxNewTokens:NEEDLE_MAX_OUTPUT_TOKENS});
+          } else {
+            responseBody.extraction=extractionUnavailable('extractor_unavailable');
+          }
+        } catch(error) {
+          if(controller.signal.aborted)throw controller.signal.reason??error;
+          if(error instanceof ExtractionSchemaError)throw new HttpError(422,error.code,error.message);
+          emit({event:'needle_extraction_error',request_id:requestId,name:error.name});
+          responseBody.extraction=extractionUnavailable('runtime_unavailable');
+        } finally {clearTimeout(extractionTimer);}
+        if(controller.signal.aborted)throw controller.signal.reason;
+        if(performance.now()>=deadlineAt){const error=new HttpError(504,'request_timeout','OCR request deadline exceeded');controller.abort(error);throw error;}
+      }
+      json(200,responseBody);
     } catch(error) {
-      if(error instanceof HttpError)fail(error.status,error.code,error.message);
+      if(error instanceof HttpError){if(error.status===503)response.setHeader('retry-after','1');fail(error.status,error.code,error.message);}
+      else if(error instanceof ExtractionSchemaError)fail(422,error.code,error.message);
       else if(error instanceof RangeError)fail(422,'invalid_image',error.message);
+      else if(error.code==='request_timeout')fail(504,'request_timeout','OCR request deadline exceeded');
       else if(/unsupported image|corrupt|invalid image|image dimensions|input buffer|input file|heif|tiff|jpeg|png|vips|pixel limit/i.test(error.message))fail(400,'invalid_image','Unable to decode the supplied image');
       else {emit({event:'ocr_error',request_id:requestId,name:error.name});fail(500,'internal_error','OCR processing failed');}
       request.resume();
     } finally {
-      clearTimeout(timeout);response.off('close',disconnect);active.delete(controller);pending--;
+      clearTimeout(timeout);response.off('close',disconnect);active.delete(controller);pending--;if(extractionReserved)extractionPending--;
     }
   });
   server.requestTimeout=requestTimeoutMs;server.headersTimeout=Math.min(15000,requestTimeoutMs);
@@ -97,6 +146,10 @@ export async function serve(options={}) {
     })();
     return closing;
   }};
+}
+
+function extractionUnavailable(code) {
+  return {provider:NEEDLE_RUNTIME.provider,model:{name:NEEDLE_MODEL.name,revision:NEEDLE_MODEL.revision,sha256:NEEDLE_MODEL.sha256,runtime:NEEDLE_RUNTIME.package,runtime_version:NEEDLE_RUNTIME.version},schema_validation:'valid',output_validation:'not_run',status:'unavailable',error:{code},elapsed_ms:0};
 }
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href) {

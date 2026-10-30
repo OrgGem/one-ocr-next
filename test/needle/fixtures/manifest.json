@@ -1,0 +1,19 @@
+{
+  "file": "en-invoice.png",
+  "sha256": "687b6892f120bdf71ded6a72a65a318ea96ea40e18868bd0975fb1ffd84b1627",
+  "bytes": 11129,
+  "generator": "tools/generate-needle-invoice-fixture.mjs",
+  "renderer": "sharp@0.35.5 (exact version in package-lock.json)",
+  "raster": "2000x560 RGB, white background, embedded 5x7 bitmap glyphs enlarged 11x; no system-font dependency",
+  "printed_lines": [
+    "INVOICE",
+    "SUPPLIER: ACME TOOLS LTD.",
+    "INVOICE NUMBER: INV-042",
+    "TOTAL: 1250.00 USD"
+  ],
+  "expected_ocr_text": "INVOICE\nSUPPLIER: ACME TOOLS LTD.\nINVOICE NUMBER:\nINV-042\nTOTAL: 1250.00 USD",
+  "expected_data": {
+    "invoice_number": "INV-042",
+    "currency": "USD"
+  }
+}

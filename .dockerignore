@@ -10,6 +10,8 @@ models/*trace.json
 models/**
 !models/README.md
 !models/oneocr.onemodel
+!models/deepdoc-layout.onnx
+!models/needle3.cact
 tools/*.py
 docs/evidence
 .env

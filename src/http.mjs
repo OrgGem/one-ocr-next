@@ -20,7 +20,7 @@ export function authorized(header,key) {
 }
 
 export function ocrOptions(params) {
-  const allowed=new Set(['language','script','max_lines','resize_long','resize_short','min_confidence','reject_low_quality']);
+  const allowed=new Set(['language','script','max_lines','resize_long','resize_short','min_confidence','reject_low_quality','layout','layout_threshold','max_regions','max_dimension','rotation','deskew','padding','extract']);
   for(const key of params.keys()) {
     if(!allowed.has(key))throw new HttpError(422,'invalid_options',`Unknown parameter: ${key}`);
     if(params.getAll(key).length!==1)throw new HttpError(422,'invalid_options',`Duplicate parameter: ${key}`);
@@ -29,8 +29,37 @@ export function ocrOptions(params) {
   const options={language:params.get('language')??params.get('script')??'auto'};
   try {
     resolveScript(options.language);
+    if(params.has('extract')) {
+      if(params.get('extract')!=='needle')throw new RangeError('extract must be needle');
+      options.extraction='needle';
+    }
     for(const [query,key,min,max] of [['max_lines','maxLines',0,1000],['resize_long','resizeLong',32,1152],['resize_short','resizeShort',32,768]]) {
       if(params.has(query))options[key]=integer(params.get(query),query,min,max);
+    }
+    if(params.has('layout')) {
+      if(params.get('layout')!=='deepdoc')throw new RangeError('layout must be deepdoc');
+      options.layout='deepdoc';
+    }
+    if(params.has('layout_threshold')) {
+      const value=params.get('layout_threshold');
+      if(!/^(?:0(?:\.\d+)?|1(?:\.0+)?)$/.test(value))throw new RangeError('layout_threshold must be from 0 to 1');
+      options.layoutThreshold=Number(value);
+    }
+    if(params.has('max_regions'))options.maxRegions=integer(params.get('max_regions'),'max_regions',1,64);
+    if(params.has('max_dimension')||params.has('rotation')||params.has('deskew')||params.has('padding')) {
+      options.preprocess={};
+      if(params.has('max_dimension'))options.preprocess.maxDimension=integer(params.get('max_dimension'),'max_dimension',32,4096);
+      if(params.has('rotation')) {
+        const value=params.get('rotation');
+        if(!/^-?(?:\d+(?:\.\d*)?|\.\d+)$/.test(value)||!Number.isFinite(Number(value))||Number(value)<-180||Number(value)>180)throw new RangeError('rotation must be from -180 to 180 degrees');
+        options.preprocess.rotationDegrees=Number(value);
+      }
+      if(params.has('deskew')) {
+        const value=params.get('deskew');
+        if(!['true','false'].includes(value))throw new RangeError('deskew must be true or false');
+        options.preprocess.deskew=value==='true';
+      }
+      if(params.has('padding'))options.preprocess.padding=integer(params.get('padding'),'padding',0,128);
     }
     if(params.has('min_confidence')) {
       const value=params.get('min_confidence');
@@ -60,21 +89,26 @@ export function readBody(request,limit,signal) {
   });
 }
 
-export async function imageInput(body,contentType) {
+export async function imageInput(body,contentType,{extract=false}={}) {
   if(!body.length)throw new HttpError(400,'empty_image','Supply a non-empty image');
   const mime=String(contentType??'').split(';')[0].trim().toLowerCase();
   if(mime==='multipart/form-data') {
     let form;
     try {form=await new Request('http://localhost',{method:'POST',headers:{'content-type':contentType},body}).formData();}
     catch {throw new HttpError(400,'invalid_multipart','Malformed multipart body or missing boundary');}
-    const files=[];
+    const files=[],schemas=[],instructions=[];
     for(const [name,value] of form.entries()) {
-      if(!['file','image'].includes(name)||typeof value.arrayBuffer!=='function')throw new HttpError(400,'invalid_multipart','Supply one image in the file or image field');
-      files.push(value);
+      if(['file','image'].includes(name)&&typeof value.arrayBuffer==='function')files.push(value);
+      else if(extract&&name==='schema'&&typeof value==='string')schemas.push(value);
+      else if(extract&&name==='instruction'&&typeof value==='string')instructions.push(value);
+      else throw new HttpError(400,'invalid_multipart','Supply one image in file or image, plus schema and optional instruction only when extracting');
     }
     if(files.length!==1||files[0].size===0)throw new HttpError(400,'invalid_multipart','Supply exactly one non-empty image');
-    return Buffer.from(await files[0].arrayBuffer());
+    if(extract&&(schemas.length!==1||instructions.length>1))throw new HttpError(422,'invalid_schema','Extraction requires one schema text part and at most one instruction text part');
+    const image=Buffer.from(await files[0].arrayBuffer());
+    return extract?{image,schemaText:schemas[0],instruction:instructions[0]??''}:image;
   }
+  if(extract)throw new HttpError(422,'extract_requires_multipart','Needle extraction requires multipart image, schema and optional instruction parts');
   if(!['image/png','image/jpeg','image/webp','image/tiff','image/bmp','image/gif','application/octet-stream'].includes(mime)) {
     throw new HttpError(415,'unsupported_media_type','Use a supported image MIME type, application/octet-stream or multipart/form-data');
   }
@@ -84,11 +118,14 @@ export async function imageInput(body,contentType) {
 export function serviceConfig(env=process.env) {
   return {
     modelPath:env.ONEOCR_MODEL_PATH??'models',host:env.ONEOCR_HOST??'127.0.0.1',
+    layoutModelPath:env.ONEOCR_LAYOUT_MODEL_PATH??'models/deepdoc-layout.onnx',
+    needleModelPath:env.ONEOCR_NEEDLE_MODEL_PATH??'models/needle3.cact',
     port:integer(env.ONEOCR_PORT??8001,'port',0,65535),
     threads:integer(env.ONEOCR_THREADS??2,'threads',1,16),apiKey:env.ONEOCR_API_KEY??'',
     maxBodyBytes:integer(env.ONEOCR_MAX_BODY_BYTES??20*1024*1024,'maxBodyBytes',1,100*1024*1024),
     maxPending:integer(env.ONEOCR_MAX_PENDING??8,'maxPending',1,64),
     requestTimeoutMs:integer(env.ONEOCR_REQUEST_TIMEOUT_MS??60000,'requestTimeoutMs',10,600000),
+    extractionTimeoutMs:integer(env.ONEOCR_EXTRACTION_TIMEOUT_MS??15000,'extractionTimeoutMs',10,600000),
     shutdownTimeoutMs:integer(env.ONEOCR_SHUTDOWN_TIMEOUT_MS??65000,'shutdownTimeoutMs',10,660000),
     maxPixels:integer(env.ONEOCR_MAX_PIXELS??40_000_000,'maxPixels',4,100_000_000)
   };

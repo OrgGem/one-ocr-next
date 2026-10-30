@@ -18,3 +18,5 @@ test/results/
 *.pem
 *.key
 !models/oneocr.onemodel
+!models/deepdoc-layout.onnx
+!models/needle3.cact

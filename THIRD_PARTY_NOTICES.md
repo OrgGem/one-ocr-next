@@ -10,6 +10,36 @@ in the repository and Docker image. It retains its original provenance and is
 not relicensed as part of the JavaScript service. Its SHA-256 is
 `076001d9d8ca2982e88d32e20d074efc52dcccf4982119ce1e97b005215220dc`.
 
+The optional `models/deepdoc-layout.onnx` is an InfiniFlow model asset from
+[`InfiniFlow/deepdoc` revision b47049894cf047c980987af8c8c90fc438217097](https://huggingface.co/InfiniFlow/deepdoc/tree/b47049894cf047c980987af8c8c90fc438217097),
+licensed Apache-2.0. Its SHA-256 is
+`fd77f4f78cd8030aee14b0fc38446ee1585de55ad207c0005f69d170961364cb`.
+The model is bundled in the repository and Docker image at the owner's request;
+it is used only when a request opts into `layout=deepdoc`. Apache License 2.0:
+https://www.apache.org/licenses/LICENSE-2.0 .
+
+The optional `models/needle3.cact` is the Cactus Compute Needle 3 model from
+[`Cactus-Compute/needle3` revision `d6c7d6a2e9655505e0f8e23339356dd1705900eb`](https://huggingface.co/Cactus-Compute/needle3/tree/d6c7d6a2e9655505e0f8e23339356dd1705900eb).
+It is 35,335,380 bytes, SHA-256
+`c9d915eca282ed42d1a09b143b592adb4cc6744ffe2d294adf5cfc5548170c38`, and is
+licensed Apache-2.0; see the upstream
+[model card and license metadata](https://huggingface.co/Cactus-Compute/needle3/blob/d6c7d6a2e9655505e0f8e23339356dd1705900eb/README.md)
+and [Apache License 2.0 text](https://www.apache.org/licenses/LICENSE-2.0).
+The local JavaScript/WASM runtime dependency
+[`cactus-needle` 0.3.0](https://github.com/afshinm/cactus-needle/tree/e32e2f0437d3eb9d8ae2bf1a9ac07b530b733d01)
+is also Apache-2.0. The bundled `needle.wasm` is 923,348 bytes with SHA-256
+`c43f48e11f302087250d1e406024956781cd2f02595a5e343b3d7ddd5ef707fa`.
+The runtime verifies the local model before inference; the model and WASM are
+packaged with the app and no runtime weight download is required. See
+[the extraction guide](docs/NEEDLE-EXTRACTION.md).
+
+The semantic layout tensor contract follows the legacy implementation in
+[`RAGFlow v0.10.0 deepdoc/vision/recognizer.py`](https://github.com/infiniflow/ragflow/blob/v0.10.0/deepdoc/vision/recognizer.py)
+and [`layout_recognizer.py`](https://github.com/infiniflow/ragflow/blob/v0.10.0/deepdoc/vision/layout_recognizer.py).
+The HF snapshot does not state that source revision as an artifact manifest;
+the relationship is a compatibility inference, pinned locally by the ONNX
+graph metadata and checksum.
+
 * `OrgGem/oneocr`, commit `796ce6dc08e070070f3d6c104b9ffb5447066833`:
   https://github.com/OrgGem/oneocr . MIT Python wrapper used as the Windows
   reference/oracle. Its ctypes ABI and result shape guided compatibility.

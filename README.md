@@ -13,9 +13,12 @@ hai ảnh còn khác là Arabic và Devanagari. Xem
 
 ## Build và deploy Docker
 
-Repo và Docker image có sẵn `models/oneocr.onemodel` (~56 MiB). Container chạy
-độc lập, không cần mount model hoặc tải model khi khởi động. Model giữ nguyên
-SHA-256 `076001d9d8ca2982e88d32e20d074efc52dcccf4982119ce1e97b005215220dc`.
+Repo và Docker image có sẵn `models/oneocr.onemodel` (~56 MiB) và model phân
+tích bố cục tùy chọn `models/deepdoc-layout.onnx` (12.2 MB). Container chạy
+độc lập, không cần mount hoặc tải model khi khởi động. DeepDoc chỉ chạy khi
+request chọn `layout=deepdoc`; model ONNX được nạp vào bộ nhớ khi dùng lần đầu.
+OneOCR giữ nguyên SHA-256
+`076001d9d8ca2982e88d32e20d074efc52dcccf4982119ce1e97b005215220dc`.
 
 ```bash
 git clone https://github.com/OrgGem/one-ocr-next.git
@@ -42,6 +45,10 @@ docker compose up -d --wait
 Mặc định service publish tại `127.0.0.1:8001`, yêu cầu Bearer API key, chạy user
 `node`, filesystem read-only, giới hạn CPU/RAM và có healthcheck. Xem
 [thiết kế API và vận hành](docs/SERVICE.md), [OpenAPI](docs/openapi.json).
+Xem thêm [tiền xử lý và bố cục ngữ nghĩa](docs/PREPROCESSING-LAYOUT.md) cùng
+[bằng chứng và benchmark layout](docs/evidence/preprocessing-layout.md), và
+[trích xuất JSON bằng Needle sau OCR](docs/NEEDLE-EXTRACTION.md) với
+[receipt extraction](docs/evidence/needle-extraction.md).
 Không commit `.env`; công cụ tạo key không ghi đè cấu hình đã có.
 
 GitHub Actions kiểm thử runtime, build image có model, chạy Compose và kiểm
@@ -129,6 +136,11 @@ ONEOCR_MODEL_PATH=models/oneocr.onemodel node --env-file=.env src/server.mjs
 curl --fail http://127.0.0.1:8001/health/ready
 curl --fail -H "Authorization: Bearer $ONEOCR_API_KEY" -F file=@image.png \
   'http://127.0.0.1:8001/v1/ocr?language=vi'
+
+# Tùy chọn phát hiện vùng ngữ nghĩa và tiền xử lý có ánh xạ tọa độ.
+curl --fail -H "Authorization: Bearer $ONEOCR_API_KEY" \
+  -F file=@test/vietnamese-tables/fixtures/vi-table-grid.png \
+  'http://127.0.0.1:8001/v1/ocr?language=vi&layout=deepdoc&max_dimension=1600&deskew=true&padding=16'
 ```
 
 POST `/v1/ocr` nhận ảnh raw hoặc một file multipart `file`/`image`; các alias

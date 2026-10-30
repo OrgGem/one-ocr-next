@@ -12,7 +12,7 @@ for(const path of names) {
   if(/(?:^|\/)(?:node_modules|\.local|work)(?:\/|$)|(?:^|\/)\.env(?:\.|$)/.test(path)&&path!=='.env.example')findings.push({path,rule:'private/local path'});
   if(/\.(?:dll|pem|key)$/i.test(path))findings.push({path,rule:'private/native artifact'});
   if(/\.onemodel$/i.test(path)&&path!=='models/oneocr.onemodel')findings.push({path,rule:'unexpected model asset'});
-  if(/\.(?:bin|png|f32|onemodel)$/i.test(path)){binaryFiles++;continue;}
+  if(/\.(?:bin|cact|onnx|png|f32|onemodel)$/i.test(path)){binaryFiles++;continue;}
   textFiles++;
   const content=execFileSync('git',['show',':'+path],{encoding:'utf8',maxBuffer:16*1024*1024});
   if(credentialPatterns.some(pattern=>pattern.test(content)))findings.push({path,rule:'credential pattern'});
