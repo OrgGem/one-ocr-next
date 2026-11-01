@@ -12,6 +12,8 @@ models/**
 !models/oneocr.onemodel
 !models/deepdoc-layout.onnx
 !models/needle3.cact
+!models/common_old.onnx
+!models/common_old-charset.json
 tools/*.py
 docs/evidence
 .env

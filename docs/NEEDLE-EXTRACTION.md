@@ -21,8 +21,11 @@ curl --fail-with-body \
   'http://127.0.0.1:8001/v1/ocr?language=en&extract=needle'
 ```
 
-Service chạy OCR trước rồi mới trích xuất từ `result.text`. Response giữ nguyên
-các trường OCR cấp cao nhất và thêm `extraction`. Ví dụ dưới đây là phần mới của
+Service chạy OCR trước rồi mới trích xuất từ `result.text`. Khi đầu vào là PDF,
+cùng schema/instruction được áp dụng riêng cho text của từng trang đã chọn; không
+có một lần trích xuất gộp ở cấp tài liệu. Xem thêm
+[hướng dẫn PDF theo trang](PDF-INPUT.md). Với ảnh, response giữ nguyên các
+trường OCR cấp cao nhất và thêm `extraction`. Ví dụ dưới đây là phần mới của
 response; model metadata vẫn xác định đúng model và runtime đã pin:
 
 ```json

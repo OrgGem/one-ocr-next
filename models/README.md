@@ -39,6 +39,22 @@ does not download weights at request time. See
 [the JSON extraction guide](../docs/NEEDLE-EXTRACTION.md) and
 [third-party notices](../THIRD_PARTY_NOTICES.md).
 
+`common_old.onnx` and its default charset support the opt-in CAPTCHA OCR mode
+`extract=ddddocr`. The 13,606,051-byte model comes from
+[`sml2h3/ddddocr` commit `c40f56f95412e10bcb9bd0bd24411e92f896d238`](https://github.com/sml2h3/ddddocr/tree/c40f56f95412e10bcb9bd0bd24411e92f896d238),
+upstream file `ddddocr/common_old.onnx`; SHA-256:
+`b8f2ad9cbc1f2e3922a6cb9459e30824e7e2467f3fb4fd61420640e34ea0bf68`. The
+57,249-byte `common_old-charset.json` is extracted from the default
+`_get_old_charset()` mapping in that same pinned source; it has 8,210 entries
+and SHA-256 `342d871c34fd467420cd39b58a4624b505da53114e77a69b43b48b8a3ee1b24d`.
+Both assets retain the upstream MIT license; see the pinned
+[license file](https://github.com/sml2h3/ddddocr/blob/c40f56f95412e10bcb9bd0bd24411e92f896d238/LICENSE)
+and [third-party notices](../THIRD_PARTY_NOTICES.md). The Node service runs the
+model with its existing CPU ONNX Runtime; it does not use Python or fetch model
+files at request time. Recognition is CAPTCHA-specific and preserves the
+model's returned casing; it does not return confidence or boxes. The charset
+does not include Vietnamese-specific `Đ đ ă â ê ô ơ ư`.
+
 34 resources are ONNX models. Conversion of private `OneOCRFeatureExtract`
 operators occurs in memory, using standard ONNX operators; source model bytes
 remain unchanged. The other resources contain configuration, alphabets,
@@ -48,6 +64,7 @@ Generated model conversions, manifests, research captures and binary buffers
 are ignored by Git. The source assets documented above remain separate from,
 and are not licensed as, the new JavaScript implementation. The explicit Git
 inclusions are the original `models/oneocr.onemodel` and the pinned
-`models/deepdoc-layout.onnx` and `models/needle3.cact`. Research-only flat
+`models/deepdoc-layout.onnx`, `models/needle3.cact`, `models/common_old.onnx`,
+and `models/common_old-charset.json`. Research-only flat
 captures in this directory are not required by the runtime or copied into the
 Docker image.

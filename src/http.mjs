@@ -1,5 +1,7 @@
 import {createHash,timingSafeEqual} from 'node:crypto';
 import {resolveScript} from './models.mjs';
+import {parsePdfPages,PDF_DEFAULT_DPI,PDF_MIN_DPI,PDF_MAX_DPI} from './pdf-options.mjs';
+import {CAPTCHA_MAX_INPUT_BYTES} from './captcha-extractor.mjs';
 
 export class HttpError extends Error {
   constructor(status,code,message){super(message);this.status=status;this.code=code;}
@@ -20,7 +22,7 @@ export function authorized(header,key) {
 }
 
 export function ocrOptions(params) {
-  const allowed=new Set(['language','script','max_lines','resize_long','resize_short','min_confidence','reject_low_quality','layout','layout_threshold','max_regions','max_dimension','rotation','deskew','padding','extract']);
+  const allowed=new Set(['language','script','max_lines','resize_long','resize_short','min_confidence','reject_low_quality','layout','layout_threshold','max_regions','max_dimension','rotation','deskew','padding','extract','pdf_dpi','pdf_pages']);
   for(const key of params.keys()) {
     if(!allowed.has(key))throw new HttpError(422,'invalid_options',`Unknown parameter: ${key}`);
     if(params.getAll(key).length!==1)throw new HttpError(422,'invalid_options',`Duplicate parameter: ${key}`);
@@ -29,9 +31,13 @@ export function ocrOptions(params) {
   const options={language:params.get('language')??params.get('script')??'auto'};
   try {
     resolveScript(options.language);
+    if(params.has('pdf_dpi')||params.has('pdf_pages'))options.pdf={dpi:PDF_DEFAULT_DPI,pages:null};
+    if(params.has('pdf_dpi'))options.pdf.dpi=integer(params.get('pdf_dpi'),'pdf_dpi',PDF_MIN_DPI,PDF_MAX_DPI);
+    if(params.has('pdf_pages'))options.pdf.pages=parsePdfPages(params.get('pdf_pages'));
     if(params.has('extract')) {
-      if(params.get('extract')!=='needle')throw new RangeError('extract must be needle');
-      options.extraction='needle';
+      const extraction=params.get('extract');
+      if(!['needle','ddddocr'].includes(extraction))throw new RangeError('extract must be needle or ddddocr');
+      options.extraction=extraction;
     }
     for(const [query,key,min,max] of [['max_lines','maxLines',0,1000],['resize_long','resizeLong',32,1152],['resize_short','resizeShort',32,768]]) {
       if(params.has(query))options[key]=integer(params.get(query),query,min,max);
@@ -71,18 +77,18 @@ export function ocrOptions(params) {
       if(!['true','false'].includes(value))throw new RangeError('reject_low_quality must be true or false');
       options.rejectLowQuality=value==='true';
     }
-  } catch(error){throw new HttpError(422,'invalid_options',error.message);}
+  } catch(error){if(error?.name==='PdfInputError')throw new HttpError(error.status,error.code,error.message);throw new HttpError(422,'invalid_options',error.message);}
   return options;
 }
 
-export function readBody(request,limit,signal) {
+export function readBody(request,limit,signal,{tooLargeCode='image_too_large'}={}) {
   return new Promise((resolve,reject)=>{
     let length=0;const chunks=[];
     const cleanup=()=>{request.off('data',data);request.off('end',end);request.off('error',error);request.off('aborted',aborted);signal.removeEventListener('abort',aborted);};
     const error=cause=>{cleanup();reject(cause);};
     const aborted=()=>error(signal.reason??new HttpError(400,'request_aborted','Request aborted'));
     const end=()=>{cleanup();resolve(Buffer.concat(chunks,length));};
-    const data=chunk=>{length+=chunk.length;if(length>limit){error(new HttpError(413,'image_too_large','Request body exceeds the configured limit'));request.resume();}else chunks.push(chunk);};
+    const data=chunk=>{length+=chunk.length;if(length>limit){error(new HttpError(413,tooLargeCode,'Request body exceeds the configured limit'));request.resume();}else chunks.push(chunk);};
     if(signal.aborted){aborted();return;}
     request.on('data',data);request.once('end',end);request.once('error',error);request.once('aborted',aborted);
     signal.addEventListener('abort',aborted,{once:true});
@@ -90,6 +96,7 @@ export function readBody(request,limit,signal) {
 }
 
 export async function imageInput(body,contentType,{extract=false}={}) {
+  const extraction=extract===true?'needle':extract;
   if(!body.length)throw new HttpError(400,'empty_image','Supply a non-empty image');
   const mime=String(contentType??'').split(';')[0].trim().toLowerCase();
   if(mime==='multipart/form-data') {
@@ -99,20 +106,30 @@ export async function imageInput(body,contentType,{extract=false}={}) {
     const files=[],schemas=[],instructions=[];
     for(const [name,value] of form.entries()) {
       if(['file','image'].includes(name)&&typeof value.arrayBuffer==='function')files.push(value);
-      else if(extract&&name==='schema'&&typeof value==='string')schemas.push(value);
-      else if(extract&&name==='instruction'&&typeof value==='string')instructions.push(value);
+      else if(extraction==='needle'&&name==='schema'&&typeof value==='string')schemas.push(value);
+      else if(extraction==='needle'&&name==='instruction'&&typeof value==='string')instructions.push(value);
+      else if(extraction==='ddddocr'&&['schema','instruction'].includes(name))throw new HttpError(422,'ddddocr_options_unsupported','extract=ddddocr does not accept schema or instruction parts');
       else throw new HttpError(400,'invalid_multipart','Supply one image in file or image, plus schema and optional instruction only when extracting');
     }
     if(files.length!==1||files[0].size===0)throw new HttpError(400,'invalid_multipart','Supply exactly one non-empty image');
-    if(extract&&(schemas.length!==1||instructions.length>1))throw new HttpError(422,'invalid_schema','Extraction requires one schema text part and at most one instruction text part');
+    if(extraction==='needle'&&(schemas.length!==1||instructions.length>1))throw new HttpError(422,'invalid_schema','Extraction requires one schema text part and at most one instruction text part');
     const image=Buffer.from(await files[0].arrayBuffer());
-    return extract?{image,schemaText:schemas[0],instruction:instructions[0]??''}:image;
+    if(isPdfFile(image,files[0].type))return extraction==='needle'?{pdf:image,schemaText:schemas[0],instruction:instructions[0]??''}:{pdf:image};
+    return extraction==='needle'?{image,schemaText:schemas[0],instruction:instructions[0]??''}:image;
   }
-  if(extract)throw new HttpError(422,'extract_requires_multipart','Needle extraction requires multipart image, schema and optional instruction parts');
+  if(extraction==='needle')throw new HttpError(422,'extract_requires_multipart','Needle extraction requires multipart image, schema and optional instruction parts');
+  if(mime==='application/pdf')return {pdf:body};
   if(!['image/png','image/jpeg','image/webp','image/tiff','image/bmp','image/gif','application/octet-stream'].includes(mime)) {
-    throw new HttpError(415,'unsupported_media_type','Use a supported image MIME type, application/octet-stream or multipart/form-data');
+    throw new HttpError(415,'unsupported_media_type','Use a supported image MIME type, application/pdf, application/octet-stream or multipart/form-data');
   }
-  return body;
+  return isPdfFile(body,mime)?{pdf:body}:body;
+}
+
+function isPdfFile(bytes,mime) {
+  const mediaType=String(mime??'').toLowerCase().split(';')[0].trim();
+  if(mediaType==='application/pdf')return true;
+  if(mediaType.startsWith('image/'))return false;
+  return bytes.subarray(0,5).equals(Buffer.from('%PDF-'));
 }
 
 export function serviceConfig(env=process.env) {
@@ -123,6 +140,8 @@ export function serviceConfig(env=process.env) {
     port:integer(env.ONEOCR_PORT??8001,'port',0,65535),
     threads:integer(env.ONEOCR_THREADS??2,'threads',1,16),apiKey:env.ONEOCR_API_KEY??'',
     maxBodyBytes:integer(env.ONEOCR_MAX_BODY_BYTES??20*1024*1024,'maxBodyBytes',1,100*1024*1024),
+    captchaModelPath:env.ONEOCR_CAPTCHA_MODEL_PATH??'models/common_old.onnx',
+    captchaCharsetPath:env.ONEOCR_CAPTCHA_CHARSET_PATH??'models/common_old-charset.json',
     maxPending:integer(env.ONEOCR_MAX_PENDING??8,'maxPending',1,64),
     requestTimeoutMs:integer(env.ONEOCR_REQUEST_TIMEOUT_MS??60000,'requestTimeoutMs',10,600000),
     extractionTimeoutMs:integer(env.ONEOCR_EXTRACTION_TIMEOUT_MS??15000,'extractionTimeoutMs',10,600000),

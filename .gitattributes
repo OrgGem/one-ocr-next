@@ -3,3 +3,4 @@
 *.bin binary
 *.f32 binary
 *.onemodel binary
+*.pdf binary

@@ -1,13 +1,14 @@
 # API service và triển khai
 
 Service v0.2.0 dùng Node.js và ONNX Runtime CPU. Docker image đóng gói file
-`oneocr.onemodel` gốc, Sharp và các native dependency Linux amd64. Không gọi
-Windows, Wine, dịch vụ OCR ngoài hoặc tải model lúc khởi động.
+`oneocr.onemodel` gốc, Sharp và các native dependency Linux amd64. Mode
+`extract=ddddocr` dùng model CAPTCHA và charset đã pin với cùng ONNX Runtime;
+không gọi Windows, Wine, dịch vụ OCR ngoài, Python hoặc tải model lúc khởi động.
 
 ```mermaid
 flowchart LR
   C[HTTP client] --> A[Bearer auth và kiểm tra tham số]
-  A --> B[Đọc ảnh trong giới hạn body/deadline]
+  A --> B[Đọc ảnh hoặc PDF trong giới hạn body/deadline]
   B --> Q[Hàng đợi giới hạn]
   Q --> E[OcrEngine xử lý tuần tự]
   M[Model có sẵn trong image] --> E
@@ -19,7 +20,7 @@ flowchart LR
 
 | Method/path | Mục đích | Auth |
 | --- | --- | --- |
-| `POST /v1/ocr` | Một ảnh PNG/JPEG/WebP/TIFF/BMP/GIF, raw hoặc multipart; layout, tiền xử lý và trích xuất JSON sau OCR là tùy chọn | Bearer API key |
+| `POST /v1/ocr` | OneOCR cho ảnh/PDF; tùy chọn layout, tiền xử lý, Needle JSON sau OCR, hoặc `extract=ddddocr` chạy trực tiếp CAPTCHA trên ảnh | Bearer API key |
 | `GET /health/live` | Process còn hoạt động | Không |
 | `GET /health/ready` | Engine đã nạp detector/classifier, số request pending | Không |
 | `GET /openapi.json` | OpenAPI 3.0.3 | Không |
@@ -36,15 +37,22 @@ curl --fail-with-body -H "Authorization: Bearer $ONEOCR_API_KEY" \
 
 curl --fail-with-body -H "Authorization: Bearer $ONEOCR_API_KEY" \
   -F file=@image.png 'http://127.0.0.1:8001/v1/ocr?language=vi'
+
+curl --fail-with-body -H "Authorization: Bearer $ONEOCR_API_KEY" \
+  -H 'Content-Type: application/pdf' --data-binary @document.pdf \
+  'http://127.0.0.1:8001/v1/ocr?language=vi&pdf_dpi=180&pdf_pages=1,3-5'
 ```
 
 Multipart nhận đúng một file ở field `file` hoặc `image`. Không nhận đường dẫn
-file/URL từ client. TIFF nhiều trang/GIF động chỉ xử lý trang/frame đầu tiên.
+file/URL từ client. Field file có thể là ảnh được hỗ trợ hoặc PDF.
+TIFF nhiều trang/GIF động chỉ xử lý trang/frame đầu tiên. PDF có thể gửi raw
+với `Content-Type: application/pdf` hoặc qua multipart.
 Query mặc định: `language` hoặc `script`, `max_lines`, `resize_long`,
 `resize_short`, `min_confidence`, `reject_low_quality`. Tùy chọn thêm
 `layout=deepdoc`, `layout_threshold`, `max_regions`, `max_dimension`, `rotation`,
-`deskew`, `padding` và `extract=needle`. Query lặp, không biết hoặc ngoài giới
-hạn trả 422.
+`deskew`, `padding`, `extract=needle|ddddocr`, `pdf_dpi` và `pdf_pages`. `pdf_dpi` và
+`pdf_pages` chỉ hợp lệ với PDF. Query lặp, không biết hoặc ngoài giới hạn trả
+422.
 
 Kết quả giữ các trường của engine: `text`, `text_angle`, `lines[].words[]`,
 `bounding_rect`, confidence, style, rejection, `width`, `height`, `elapsed_ms`,
@@ -53,16 +61,62 @@ Kết quả giữ các trường của engine: `text`, `text_angle`, `lines[].wo
 metadata affine `preprocessing` để xem phép biến đổi thuận/nghịch. Service thêm
 `request_id` và header `X-Request-ID`. `elapsed_ms` tính preprocessing và OCR
 nhưng không tính thời gian chờ queue, giải mã ảnh, HTTP upload hoặc extraction;
+trong PDF response, mỗi `pages[].result.elapsed_ms` cũng không tính raster trang;
 `extraction.elapsed_ms` đo toàn giai đoạn extraction, gồm kiểm tra schema/context,
 verify model hash, nạp runtime/worker lần đầu, inference và dọn dẹp khi hủy.
 Log request có `duration_ms` cho toàn bộ request.
 
+Khi `extract=ddddocr`, response dùng schema riêng gồm top-level `text` và
+`extraction`; nó không chứa OneOCR lines/boxes. PDF response có `source`,
+`pages[]` và `text` ghép theo thứ tự trang. Mỗi page
+chứa kết quả OCR hiện có và tọa độ `rendered_page_pixels`, cùng affine transform
+hai chiều giữa pixel raster và PDF user space. Needle schema được áp dụng riêng
+cho text OCR của từng trang. Xem [hướng dẫn PDF theo trang](PDF-INPUT.md).
+
 Lỗi có dạng `{"error":"invalid_options","message":"...","request_id":"..."}`.
-400: ảnh/multipart sai; 401: key sai/thiếu; 413: body quá lớn; 415: MIME không
-hỗ trợ; 422: tham số/kích thước ảnh hoặc schema sai; 500: lỗi engine; 503: hàng
-đợi đầy, đang dừng hoặc slot Needle bận (`Retry-After: 1`); 504: deadline request
-đã hết. Timeout extraction riêng được trả trong `extraction.status` nếu OCR đã
-hoàn tất. 404/405 xử lý route/method sai.
+400: ảnh/PDF/multipart sai; 401: key sai/thiếu; 413: body quá lớn; 415: MIME
+không hỗ trợ; 422: tham số, schema hoặc giới hạn trang/pixel PDF sai; 500: lỗi
+engine; 503: hàng đợi, slot Needle, renderer PDF hoặc CAPTCHA bận (`Retry-After: 1`); 504:
+deadline request đã hết. Timeout extraction riêng được trả trong
+`extraction.status` nếu OCR đã hoàn tất. 404/405 xử lý route/method sai.
+Unsupported media type trả 415; PDF trong CAPTCHA mode trả 422
+`ddddocr_requires_image`; query hoặc multipart schema/instruction không hỗ trợ
+trả 422 `ddddocr_options_unsupported`. Ảnh sai/giải mã thất bại trả 400; body
+vượt 8 MiB effective cap trả 413 `captcha_image_too_large`; kích thước/aspect
+ratio không hỗ trợ trả 422 `captcha_image_dimensions`. Model thiếu/bad pin trả
+503 `captcha_unavailable`; inference/output contract failure trả 502.
+
+## PDF input
+
+PDF được raster hóa bằng PDF.js trong child process riêng rồi xử lý lần lượt
+từng trang bằng cùng `OcrEngine` như ảnh. Có thể chọn `pdf_dpi` từ 72 đến 300
+(mặc định 150) và trang bằng cú pháp 1-based `pdf_pages=1,3-5`. Tối đa 20
+trang; mặc định xử lý toàn tài liệu nếu có không quá 20 trang, còn tài liệu dài
+hơn phải chọn rõ trang. Mỗi trang tối đa 12 triệu pixel/10.000 pixel mỗi cạnh;
+tổng các trang được chọn tối đa 80 triệu pixel. Không trả kết quả từng phần nếu
+một trang lỗi. PDF.js chỉ đọc bytes đã upload và dùng CMap, standard fonts và
+WASM cục bộ từ package; worker fetch bị tắt. Không trích xuất text layer hoặc
+thực hiện một lần Needle cho toàn tài liệu.
+
+Renderer có 512 MiB giới hạn V8 old-space; điều này không giới hạn cứng bộ nhớ native
+canvas và không phải security sandbox. Deadline request bao trùm upload, queue,
+raster, OCR và extraction. `invalid_pdf` trả 400; PDF mã hóa/XFA, giới hạn/trang
+hoặc lỗi render trả 422; renderer bận trả 503 `pdf_renderer_busy`; deadline trả
+504.
+
+## CAPTCHA text OCR bằng ddddocr
+
+`extract=ddddocr` chạy model CAPTCHA cục bộ trực tiếp trên một ảnh và bỏ qua
+OneOCR. Nhận raw image hoặc multipart với đúng một file `file`/`image`; không
+nhận PDF, schema/instruction, language/script, layout, tiền xử lý hoặc PDF
+options. Các tham số không tương thích bị từ chối 422. Toàn bộ raw/multipart body
+bị giới hạn ở `min(ONEOCR_MAX_BODY_BYTES, 8 MiB)`, gồm multipart boundary.
+
+Response chỉ có prediction `text` và metadata `extraction`; `no_match` trả text
+rỗng. API không trả confidence/boxes và không sửa hoa-thường. Một CAPTCHA request
+chạy cùng deadline service, với một inference slot mỗi process. Xem
+[hướng dẫn ddddocr](CAPTCHA-EXTRACTION.md) về checksum, giới hạn ảnh và case
+accuracy caveat.
 
 ## Tiền xử lý và layout tùy chọn
 
@@ -147,6 +201,8 @@ in ra console, không ghi đè `.env` đã có. Xem `.env.example`.
 | `ONEOCR_MODEL_PATH` | `/app/models/oneocr.onemodel` | Model đã có trong image |
 | `ONEOCR_LAYOUT_MODEL_PATH` | `/app/models/deepdoc-layout.onnx` | Model layout tùy chọn đã có trong image |
 | `ONEOCR_NEEDLE_MODEL_PATH` | `/app/models/needle3.cact` | Model trích xuất JSON tùy chọn đã có trong image |
+| `ONEOCR_CAPTCHA_MODEL_PATH` | `/app/models/common_old.onnx` | Model CAPTCHA ddddocr tùy chọn |
+| `ONEOCR_CAPTCHA_CHARSET_PATH` | `/app/models/common_old-charset.json` | Charset được pin cho model CAPTCHA |
 | `ONEOCR_THREADS` | `2` | Số thread cho mỗi ORT session, 1..16 |
 | `ONEOCR_MAX_PENDING` | `8` | Tổng request được nhận, 1..64 |
 | `ONEOCR_MAX_BODY_BYTES` | `20971520` | Body tối đa 20 MiB, gồm multipart |
@@ -183,8 +239,8 @@ docker compose up -d --no-build --wait --wait-timeout 120
 
 Rollback bằng cách đặt lại tag/digest trước đó rồi chạy lại hai lệnh trên.
 Giữ `.env` hiện có để giữ API key. `docker compose down` dừng deployment này.
-Build và publish gồm model OneOCR và DeepDoc layout đã pin; không có DLL hay tool
-nghiên cứu Windows.
+Build và publish gồm model OneOCR, DeepDoc layout, Needle và ddddocr CAPTCHA đã
+pin; không có DLL hay tool nghiên cứu Windows.
 
 ## Kiểm chứng
 

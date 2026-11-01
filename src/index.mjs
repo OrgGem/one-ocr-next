@@ -7,6 +7,7 @@ import {DeepDocLayoutProvider,layoutRegionContains,orderLayoutOcrRegions,TEXT_BE
 import {invertAffine,mapPoint,preprocessImage} from './preprocess.mjs';
 import {toBoundingRect} from './raster.mjs';
 import {NeedleJsonExtractor} from './needle-extractor.mjs';
+import {DdddOcrExtractor} from './captcha-extractor.mjs';
 import sharp from 'sharp';
 
 export class OcrEngine {
@@ -21,7 +22,7 @@ export class OcrEngine {
       return engine;
     } catch(error){await layoutProvider?.close();await bundle.close();throw error;}
   }
-  constructor(bundle,options) {this.bundle=bundle;this.layoutProvider=options.layoutProvider??null;this.needleExtractor=options.needleExtractor??new NeedleJsonExtractor({modelPath:options.needleModelPath});delete options.layoutProvider;delete options.needleExtractor;delete options.needleModelPath;this.options={maxLines:1000,resizeLong:1152,resizeShort:768,...options};this.closed=false;this.pending=Promise.resolve();}
+  constructor(bundle,options) {this.bundle=bundle;this.layoutProvider=options.layoutProvider??null;this.needleExtractor=options.needleExtractor??new NeedleJsonExtractor({modelPath:options.needleModelPath});this.captchaExtractor=options.captchaExtractor??new DdddOcrExtractor({modelPath:options.captchaModelPath,charsetPath:options.captchaCharsetPath});delete options.layoutProvider;delete options.needleExtractor;delete options.needleModelPath;delete options.captchaExtractor;delete options.captchaModelPath;delete options.captchaCharsetPath;this.options={maxLines:1000,resizeLong:1152,resizeShort:768,...options};this.closed=false;this.pending=Promise.resolve();}
   async recognize(input,options={}) {
     if(this.closed)throw new Error('OCR engine is closed');
     const work=this.pending.then(()=>this._recognize(input,{...this.options,...options}));
@@ -30,6 +31,10 @@ export class OcrEngine {
   async extractJson(text,schema,options={}) {
     if(this.closed)throw new Error('OCR engine is closed');
     return this.needleExtractor.extract(text,schema,options);
+  }
+  async extractCaptcha(input,options={}) {
+    if(this.closed)throw new Error('OCR engine is closed');
+    return this.captchaExtractor.extract(input,options);
   }
   async _recognize(input,options) {
     if(!Number.isInteger(options.maxLines)||options.maxLines<0||options.maxLines>1000)throw new RangeError('maxLines must be an integer from 0 to 1000');
@@ -145,7 +150,7 @@ export class OcrEngine {
     };
   }
 
-  async close() {if(this.closed)return;this.closed=true;await this.pending;await this.needleExtractor.close();await this.layoutProvider?.close();await this.bundle.close();}
+  async close() {if(this.closed)return;this.closed=true;await this.pending;await this.needleExtractor.close();await this.captchaExtractor.close();await this.layoutProvider?.close();await this.bundle.close();}
   async [Symbol.asyncDispose]() {await this.close();}
 }
 export {resolveScript,ModelBundle};

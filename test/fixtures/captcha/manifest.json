@@ -1,0 +1,30 @@
+[
+  {
+    "file": "captcha-1.png",
+    "expected": "ABC123",
+    "width": 340,
+    "height": 100,
+    "sha256": "cba555c0149994c77ace206143975b97560ccde1b316b2555a65f351cd27101d"
+  },
+  {
+    "file": "captcha-2.png",
+    "expected": "K7Q9PX",
+    "width": 340,
+    "height": 100,
+    "sha256": "4d0c67621c610cc8c6f64f1de949cbcbf0a09257bd75d9ff5407606cc44590eb"
+  },
+  {
+    "file": "captcha-3.png",
+    "expected": "8ZM4TW",
+    "width": 340,
+    "height": 100,
+    "sha256": "356375e2f941e33e358b0088fdb56bfae0b5f6dde54978d5344b03885c30461d"
+  },
+  {
+    "file": "captcha-4.png",
+    "expected": "R5N2VC",
+    "width": 340,
+    "height": 100,
+    "sha256": "f35d6e64c425e52479ecf06e48cb384552afec414709aaae6d6083e954239bff"
+  }
+]

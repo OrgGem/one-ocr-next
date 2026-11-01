@@ -13,12 +13,14 @@ hai ảnh còn khác là Arabic và Devanagari. Xem
 
 ## Build và deploy Docker
 
-Repo và Docker image có sẵn `models/oneocr.onemodel` (~56 MiB) và model phân
-tích bố cục tùy chọn `models/deepdoc-layout.onnx` (12.2 MB). Container chạy
-độc lập, không cần mount hoặc tải model khi khởi động. DeepDoc chỉ chạy khi
-request chọn `layout=deepdoc`; model ONNX được nạp vào bộ nhớ khi dùng lần đầu.
-OneOCR giữ nguyên SHA-256
+Dockerfile đóng gói `models/oneocr.onemodel` (~56 MiB), DeepDoc layout
+`deepdoc-layout.onnx` (12.2 MB), Needle JSON model (35.3 MB), và ddddocr CAPTCHA
+model `common_old.onnx` (13.6 MB) cùng charset (57 KB). Container build từ cây
+này chạy độc lập, không cần mount hoặc tải model khi khởi động. Model tùy chọn
+được kiểm tra/nạp khi feature tương ứng được gọi lần đầu. OneOCR giữ nguyên SHA-256
 `076001d9d8ca2982e88d32e20d074efc52dcccf4982119ce1e97b005215220dc`.
+`extract=ddddocr` bật nhận dạng CAPTCHA trực tiếp trên ảnh; mặc định OneOCR
+không đổi.
 
 ```bash
 git clone https://github.com/OrgGem/one-ocr-next.git
@@ -48,7 +50,10 @@ Mặc định service publish tại `127.0.0.1:8001`, yêu cầu Bearer API key,
 Xem thêm [tiền xử lý và bố cục ngữ nghĩa](docs/PREPROCESSING-LAYOUT.md) cùng
 [bằng chứng và benchmark layout](docs/evidence/preprocessing-layout.md), và
 [trích xuất JSON bằng Needle sau OCR](docs/NEEDLE-EXTRACTION.md) với
-[receipt extraction](docs/evidence/needle-extraction.md).
+[receipt extraction](docs/evidence/needle-extraction.md). PDF được raster hóa
+và OCR từng trang; xem [hướng dẫn PDF](docs/PDF-INPUT.md) và
+[receipt PDF](docs/evidence/pdf-input.md). CAPTCHA OCR dùng cùng endpoint với
+`extract=ddddocr`; xem [hướng dẫn ddddocr](docs/CAPTCHA-EXTRACTION.md).
 Không commit `.env`; công cụ tạo key không ghi đè cấu hình đã có.
 
 GitHub Actions kiểm thử runtime, build image có model, chạy Compose và kiểm

@@ -15,15 +15,21 @@
     "prepare-models": "node tools/prepare-models.mjs",
     "test": "node --test test/*.test.mjs",
     "test:unit": "node --test test/core.test.mjs test/features.test.mjs test/vietnamese-metrics.test.mjs test/server.test.mjs",
+    "fixtures:pdf": "node test/fixtures/create-pdf-fixture.mjs",
     "init:service": "node tools/init-service.mjs",
     "test:service": "node tools/verify-service.mjs",
     "test:vi": "node test/vietnamese-tables.mjs",
     "start": "node src/server.mjs"
   },
   "dependencies": {
+    "@napi-rs/canvas": "1.1.0",
     "bidi-js": "1.0.3",
     "cactus-needle": "0.3.0",
     "onnxruntime-node": "1.24.3",
+    "pdfjs-dist": "6.4.299",
     "sharp": "0.35.5"
+  },
+  "devDependencies": {
+    "pdf-lib": "1.17.1"
   }
 }

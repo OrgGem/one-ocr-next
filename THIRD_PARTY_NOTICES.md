@@ -84,3 +84,32 @@ ONNX Runtime Node 1.24.3 (Microsoft, MIT), sharp 0.35.5 (Apache-2.0, including
 its separately licensed native dependencies), and bidi-js 1.0.3 (MIT). Their
 packages include license files. Python analysis dependencies are not needed
 in production.
+
+PDF rasterization uses Mozilla's
+[`pdfjs-dist` 6.4.299](https://www.npmjs.com/package/pdfjs-dist/v/6.4.299),
+licensed [Apache-2.0](https://github.com/mozilla/pdf.js/blob/master/LICENSE), and
+[`@napi-rs/canvas` 1.1.0](https://www.npmjs.com/package/@napi-rs/canvas/v/1.1.0),
+licensed [MIT](https://github.com/Brooooooklyn/canvas/blob/main/LICENSE). Both
+versions are pinned in `package-lock.json`; their package archives include
+their license files. Upstream projects:
+[PDF.js](https://github.com/mozilla/pdf.js) and
+[@napi-rs/canvas](https://github.com/Brooooooklyn/canvas).
+The deterministic test PDF is generated with test-only
+[`pdf-lib` 1.17.1](https://github.com/Hopding/pdf-lib), licensed
+[MIT](https://github.com/Hopding/pdf-lib/blob/master/LICENSE); its generator
+and fixture manifest are under `test/fixtures/`.
+
+The optional CAPTCHA OCR model and its default charset are assets from
+[`sml2h3/ddddocr` commit `c40f56f95412e10bcb9bd0bd24411e92f896d238`](https://github.com/sml2h3/ddddocr/tree/c40f56f95412e10bcb9bd0bd24411e92f896d238),
+licensed MIT. `models/common_old.onnx` is 13,606,051 bytes, SHA-256
+`b8f2ad9cbc1f2e3922a6cb9459e30824e7e2467f3fb4fd61420640e34ea0bf68`;
+`models/common_old-charset.json` is 57,249 bytes, SHA-256
+`342d871c34fd467420cd39b58a4624b505da53114e77a69b43b48b8a3ee1b24d`. The
+charset JSON is derived from the default charset function in the pinned source.
+See the exact upstream [MIT license](https://github.com/sml2h3/ddddocr/blob/c40f56f95412e10bcb9bd0bd24411e92f896d238/LICENSE).
+The pinned [inference implementation](https://github.com/sml2h3/ddddocr/blob/c40f56f95412e10bcb9bd0bd24411e92f896d238/ddddocr/core/ocr_engine.py),
+[image preprocessing](https://github.com/sml2h3/ddddocr/blob/c40f56f95412e10bcb9bd0bd24411e92f896d238/ddddocr/preprocessing/image_processor.py),
+and [default charset source](https://github.com/sml2h3/ddddocr/blob/c40f56f95412e10bcb9bd0bd24411e92f896d238/ddddocr/models/charset_manager.py)
+document the upstream inference contract.
+The Node integration uses the already-pinned ONNX Runtime and Sharp; no Python
+runtime is included.

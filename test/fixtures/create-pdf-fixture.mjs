@@ -1,0 +1,31 @@
+import {createHash} from 'node:crypto';
+import {mkdir,writeFile} from 'node:fs/promises';
+import {dirname,resolve} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {degrees,PDFDocument,StandardFonts} from 'pdf-lib';
+
+const root=resolve(dirname(fileURLToPath(import.meta.url)));
+const output=resolve(root,'pdf-invoice-multipage.pdf');
+const pdf=await PDFDocument.create({updateMetadata:false});
+pdf.setTitle('OneOCR deterministic PDF fixture');
+pdf.setSubject('Two invoice pages and one rotated page for PDF rasterization tests');
+pdf.setCreationDate(new Date('2020-01-01T00:00:00Z'));
+pdf.setModificationDate(new Date('2020-01-01T00:00:00Z'));
+const regular=await pdf.embedFont(StandardFonts.Helvetica),bold=await pdf.embedFont(StandardFonts.HelveticaBold);
+const invoice=pdf.addPage([595.28,841.89]);
+invoice.drawText('ONEOCR PDF PAGE 1',{x:60,y:760,font:bold,size:20});
+invoice.drawText('INVOICE NUMBER: INV-042',{x:60,y:700,font:regular,size:18});
+invoice.drawText('TOTAL: 1250.00 USD',{x:60,y:660,font:regular,size:18});
+const landscape=pdf.addPage([841.89,595.28]);
+landscape.drawText('ONEOCR PDF PAGE 2 LANDSCAPE',{x:60,y:500,font:bold,size:20});
+landscape.drawText('Page selection and rendered dimensions are verified by the API test.',{x:60,y:455,font:regular,size:14});
+const rotated=pdf.addPage([595.28,841.89]);
+rotated.setRotation(degrees(90));
+rotated.drawText('ROTATED PDF PAGE 3',{x:60,y:760,font:bold,size:20});
+const bytes=Buffer.from(await pdf.save({useObjectStreams:false,addDefaultPage:false,objectsPerTick:50}));
+await mkdir(root,{recursive:true});
+await writeFile(output,bytes);
+const receipt={fixture:'pdf-invoice-multipage.pdf',generator:'pdf-lib@1.17.1',license:'MIT',pages:3,
+  page_content:['portrait invoice with invoice number and total','landscape text page','portrait page with PDF /Rotate 90'],bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')};
+await writeFile(resolve(root,'pdf-invoice-multipage.json'),`${JSON.stringify(receipt,null,2)}\n`);
+process.stdout.write(`${JSON.stringify(receipt)}\n`);

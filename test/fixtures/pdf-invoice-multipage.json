@@ -1,0 +1,13 @@
+{
+  "fixture": "pdf-invoice-multipage.pdf",
+  "generator": "pdf-lib@1.17.1",
+  "license": "MIT",
+  "pages": 3,
+  "page_content": [
+    "portrait invoice with invoice number and total",
+    "landscape text page",
+    "portrait page with PDF /Rotate 90"
+  ],
+  "bytes": 2611,
+  "sha256": "ce58d4c75d96acc0b3376502a5d2862e190cc1c4ce23c511ee65f73f0a26b659"
+}
