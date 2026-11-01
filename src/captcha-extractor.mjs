@@ -4,6 +4,7 @@ import {readFile,stat} from 'node:fs/promises';
 import {performance} from 'node:perf_hooks';
 import * as ort from 'onnxruntime-node';
 import sharp from 'sharp';
+import {processCaptchaPixels} from './captcha-preprocess.mjs';
 
 export const CAPTCHA_MODEL={
   name:'common_old.onnx',
@@ -29,6 +30,7 @@ export const CAPTCHA_MAX_NORMALIZED_WIDTH=512;
 const CAPTCHA_HEIGHT=64;
 const CAPTCHA_CLASSES=CAPTCHA_CHARSET.entries;
 const CAPTCHA_MAX_STEPS=CAPTCHA_MAX_NORMALIZED_WIDTH/8;
+const YIELD_PIXEL_STEP=32_768;
 
 export class CaptchaError extends Error {
   constructor(status,code,message){super(message);this.name='CaptchaError';this.status=status;this.code=code;}
@@ -40,21 +42,21 @@ export class DdddOcrExtractor {
     this.session=undefined;this.charset=undefined;this.sessionPromise=undefined;this.activePromise=undefined;this.closed=false;this.closePromise=undefined;
   }
 
-  async extract(input,{signal,deadlineAt,maxPixels=CAPTCHA_MAX_INPUT_PIXELS}={}) {
+  async extract(input,{signal,deadlineAt,maxPixels=CAPTCHA_MAX_INPUT_PIXELS,captchaPreprocess}={}) {
     if(this.closed)throw new CaptchaError(503,'captcha_unavailable','CAPTCHA recognition is unavailable');
     if(this.activePromise)throw new CaptchaError(503,'captcha_busy','CAPTCHA recognition is busy; retry later');
-    const work=this.#extract(input,{signal,deadlineAt,maxPixels});
+    const work=this.#extract(input,{signal,deadlineAt,maxPixels,captchaPreprocess});
     this.activePromise=work;
     try{return await work;}
     finally{if(this.activePromise===work)this.activePromise=undefined;}
   }
 
-  async #extract(input,{signal,deadlineAt,maxPixels}) {
+  async #extract(input,{signal,deadlineAt,maxPixels,captchaPreprocess}) {
     const started=performance.now(),request={signal,deadlineAt};
     assertActive(request);
     if(!(input instanceof Uint8Array)||input.byteLength===0)throw new CaptchaError(400,'invalid_image','Supply one non-empty image');
     if(input.byteLength>CAPTCHA_MAX_INPUT_BYTES)throw new CaptchaError(413,'captcha_image_too_large','CAPTCHA image exceeds the 8 MiB limit');
-    const {width,height,normalizedWidth,tensor}=await this.#preprocess(input,{...request,maxPixels});
+    const {width,height,normalizedWidth,tensor,preprocessing}=await this.#preprocess(input,{...request,maxPixels,captchaPreprocess});
     assertActive(request);
     const {session,charset}=await this.#getSession(request);
     assertActive(request);
@@ -67,10 +69,10 @@ export class DdddOcrExtractor {
     assertActive(request);
     const output=outputs?.[session.outputNames[0]];
     const text=decodeOutput(output,charset,normalizedWidth);
-    return {text,status:text?'success':'no_match',input:{width,height,normalized_width:normalizedWidth},elapsed_ms:performance.now()-started};
+    return {text,status:text?'success':'no_match',input:{width,height,normalized_width:normalizedWidth},elapsed_ms:performance.now()-started,...(preprocessing?{preprocessing}:{})};
   }
 
-  async #preprocess(input,{signal,deadlineAt,maxPixels}) {
+  async #preprocess(input,{signal,deadlineAt,maxPixels,captchaPreprocess}) {
     const inputLimit=Math.min(CAPTCHA_MAX_INPUT_PIXELS,maxPixels);
     let metadata;
     try{metadata=await this.imageProcessor(input,{failOn:'error'}).metadata();}
@@ -80,6 +82,7 @@ export class DdddOcrExtractor {
     if(!Number.isSafeInteger(width)||!Number.isSafeInteger(height)||width<2||height<2||width>CAPTCHA_MAX_DIMENSION||height>CAPTCHA_MAX_DIMENSION||width*height>inputLimit) {
       throw new CaptchaError(422,'captcha_image_dimensions','CAPTCHA image dimensions exceed the supported limit');
     }
+    if(captchaPreprocess?.enabled)return this.#preprocessEnhanced(input,{metadata,width,height,inputLimit,captchaPreprocess,signal,deadlineAt});
     const normalizedWidth=Math.floor(width*CAPTCHA_HEIGHT/height);
     if(!Number.isSafeInteger(normalizedWidth)||normalizedWidth<8||normalizedWidth>CAPTCHA_MAX_NORMALIZED_WIDTH) {
       throw new CaptchaError(422,'captcha_image_dimensions','CAPTCHA aspect ratio produces an unsupported normalized width');
@@ -100,7 +103,35 @@ export class DdddOcrExtractor {
       const luminance=(19595*data[from]+38470*data[from+1]+7471*data[from+2]+32768)>>16;
       tensor[to]=luminance/255;
     }
-    return {width,height,normalizedWidth,tensor};
+    return {width,height,normalizedWidth,tensor,...(captchaPreprocess?{preprocessing:disabledPreprocess(captchaPreprocess,width,height)}:{})};
+  }
+
+  async #preprocessEnhanced(input,{metadata,width,height,inputLimit,captchaPreprocess,signal,deadlineAt}) {
+    const oriented=metadata.autoOrient??{width,height};
+    const sourceWidth=oriented.width,sourceHeight=oriented.height;
+    const scale=Math.min(1,1200/sourceWidth,1200/sourceHeight,Math.sqrt(1_000_000/(sourceWidth*sourceHeight)));
+    let workWidth=Math.max(2,Math.floor(sourceWidth*scale)),workHeight=Math.max(2,Math.floor(sourceHeight*scale));
+    while(workWidth*workHeight>1_000_000){if(workWidth>=workHeight)workWidth--;else workHeight--;}
+    const normalizedWidth=Math.floor(workWidth*CAPTCHA_HEIGHT/workHeight);
+    if(!Number.isSafeInteger(normalizedWidth)||normalizedWidth<8||normalizedWidth>CAPTCHA_MAX_NORMALIZED_WIDTH)throw new CaptchaError(422,'captcha_image_dimensions','CAPTCHA aspect ratio produces an unsupported normalized width');
+    let raster;
+    try{raster=await this.imageProcessor(input,{limitInputPixels:inputLimit,failOn:'error'}).rotate().resize(workWidth,workHeight,{fit:'fill',kernel:'lanczos3',fastShrinkOnLoad:false}).removeAlpha().greyscale().raw().toBuffer({resolveWithObject:true});}
+    catch{throw new CaptchaError(400,'invalid_image','Unable to decode the supplied image');}
+    assertActive({signal,deadlineAt});
+    if(raster.info.width!==workWidth||raster.info.height!==workHeight||raster.info.channels!==1||raster.data.length!==workWidth*workHeight)throw new CaptchaError(502,'captcha_image_processing_failed','Unable to create the bounded CAPTCHA work raster');
+    const scaleX=workWidth/sourceWidth,scaleY=workHeight/sourceHeight;
+    let processed;
+    try{processed=await processCaptchaPixels(raster.data,workWidth,workHeight,{...captchaPreprocess,scaleX,scaleY},()=>assertActive({signal,deadlineAt}));}
+    catch(error){if(signal?.aborted||error?.code==='request_timeout')throw error;throw new CaptchaError(502,'captcha_image_processing_failed','Unable to preprocess the CAPTCHA image');}
+    let scaled;
+    try{scaled=await this.imageProcessor(processed.gray,{raw:{width:workWidth,height:workHeight,channels:1},limitInputPixels:1_000_000,failOn:'error'}).resize(normalizedWidth,CAPTCHA_HEIGHT,{fit:'fill',kernel:'lanczos3',fastShrinkOnLoad:false}).greyscale().raw().toBuffer({resolveWithObject:true});}
+    catch(error){if(signal?.aborted)throw signal.reason??error;throw new CaptchaError(502,'captcha_image_processing_failed','Unable to resize the preprocessed CAPTCHA image');}
+    assertActive({signal,deadlineAt});
+    if(scaled.info.width!==normalizedWidth||scaled.info.height!==CAPTCHA_HEIGHT||scaled.info.channels!==1||scaled.data.length!==normalizedWidth*CAPTCHA_HEIGHT)throw new CaptchaError(502,'captcha_image_processing_failed','Preprocessed CAPTCHA tensor dimensions are invalid');
+    const tensor=new Float32Array(normalizedWidth*CAPTCHA_HEIGHT);
+    for(let i=0;i<tensor.length;i++){tensor[i]=scaled.data[i]/255;if(i>0&&i%YIELD_PIXEL_STEP===0)assertActive({signal,deadlineAt});}
+    processed.stats.applied_order.push('resize_to_model');
+    return {width,height,normalizedWidth,tensor,preprocessing:processed.stats};
   }
 
   async #getSession(request) {
@@ -151,6 +182,13 @@ export class DdddOcrExtractor {
     })();
     return this.closePromise;
   }
+}
+
+function disabledPreprocess(config,width,height) {
+  return {enabled:false,configured:config.configured,applied_order:[],working_raster:{width,height,scale_x:1,scale_y:1,created:false,pixels:null},
+    threshold:null,straight_lines:{axes:[],min_length_px:{horizontal:null,vertical:null},max_width_px:config.lineMaxWidthPx??1,candidate_runs:0,rejected_thick_components:0,pixels_removed:0,crossing_pixels_preserved:0},
+    wavy_lines:{enabled:false,min_length_px:null,max_width_px:config.lineMaxWidthPx??1,candidate_paths:0,pixels_removed:0,branch_pixels_preserved:0,rejected_thick_columns:0},
+    dots:{max_area_px:config.dotsMaxArea??null,connectivity:8,components_removed:0,pixels_removed:0}};
 }
 
 function decodeOutput(output,charset,inputWidth) {

@@ -3,6 +3,8 @@ import {resolveScript} from './models.mjs';
 import {parsePdfPages,PDF_DEFAULT_DPI,PDF_MIN_DPI,PDF_MAX_DPI} from './pdf-options.mjs';
 import {CAPTCHA_MAX_INPUT_BYTES} from './captcha-extractor.mjs';
 
+export const CAPTCHA_PREPROCESS_QUERY_KEYS=new Set(['captcha_threshold','captcha_polarity','captcha_dots_max_area','captcha_remove_lines','captcha_line_min_length_px','captcha_line_max_width_px','captcha_remove_wavy_lines']);
+
 export class HttpError extends Error {
   constructor(status,code,message){super(message);this.status=status;this.code=code;}
 }
@@ -22,7 +24,7 @@ export function authorized(header,key) {
 }
 
 export function ocrOptions(params) {
-  const allowed=new Set(['language','script','max_lines','resize_long','resize_short','min_confidence','reject_low_quality','layout','layout_threshold','max_regions','max_dimension','rotation','deskew','padding','extract','pdf_dpi','pdf_pages']);
+  const allowed=new Set(['language','script','max_lines','resize_long','resize_short','min_confidence','reject_low_quality','layout','layout_threshold','max_regions','max_dimension','rotation','deskew','padding','extract','pdf_dpi','pdf_pages',...CAPTCHA_PREPROCESS_QUERY_KEYS]);
   for(const key of params.keys()) {
     if(!allowed.has(key))throw new HttpError(422,'invalid_options',`Unknown parameter: ${key}`);
     if(params.getAll(key).length!==1)throw new HttpError(422,'invalid_options',`Duplicate parameter: ${key}`);
@@ -78,7 +80,35 @@ export function ocrOptions(params) {
       options.rejectLowQuality=value==='true';
     }
   } catch(error){if(error?.name==='PdfInputError')throw new HttpError(error.status,error.code,error.message);throw new HttpError(422,'invalid_options',error.message);}
+  if([...CAPTCHA_PREPROCESS_QUERY_KEYS].some(key=>params.has(key))) {
+    try{options.captchaPreprocess=parseCaptchaPreprocess(params);}
+    catch(error){throw new HttpError(422,'invalid_options',error.message);}
+  }
   return options;
+}
+
+function parseCaptchaPreprocess(params) {
+  const configured={};let threshold=null,polarity=null,dotsMaxArea=null,removeLines=null,lineMinLengthPx=null,lineMaxWidthPx=null,removeWavyLines=false;
+  if(params.has('captcha_threshold')){
+    const value=params.get('captcha_threshold');
+    if(value==='auto')threshold='auto';else threshold=integer(value,'captcha_threshold',0,255);
+    configured.threshold=threshold;
+  }
+  if(params.has('captcha_polarity')){
+    polarity=params.get('captcha_polarity');if(!['auto','dark','light'].includes(polarity))throw new RangeError('captcha_polarity must be auto, dark, or light');
+    configured.polarity=polarity;
+  }
+  if(params.has('captcha_dots_max_area')){dotsMaxArea=integer(params.get('captcha_dots_max_area'),'captcha_dots_max_area',1,8);configured.dots_max_area=dotsMaxArea;}
+  if(params.has('captcha_remove_lines')){removeLines=params.get('captcha_remove_lines');if(!['horizontal','vertical','grid'].includes(removeLines))throw new RangeError('captcha_remove_lines must be horizontal, vertical, or grid');configured.remove_lines=removeLines;}
+  if(params.has('captcha_remove_wavy_lines')){
+    const value=params.get('captcha_remove_wavy_lines');if(!['true','false'].includes(value))throw new RangeError('captcha_remove_wavy_lines must be true or false');
+    removeWavyLines=value==='true';configured.remove_wavy_lines=removeWavyLines;
+  }
+  if(params.has('captcha_line_min_length_px')){lineMinLengthPx=integer(params.get('captcha_line_min_length_px'),'captcha_line_min_length_px',8,1024);configured.line_min_length_px=lineMinLengthPx;}
+  if(params.has('captcha_line_max_width_px')){lineMaxWidthPx=integer(params.get('captcha_line_max_width_px'),'captcha_line_max_width_px',1,3);configured.line_max_width_px=lineMaxWidthPx;}
+  if((lineMinLengthPx!==null||lineMaxWidthPx!==null)&&removeLines===null&&removeWavyLines!==true)throw new RangeError('captcha line tuning requires captcha_remove_lines or captcha_remove_wavy_lines=true');
+  const enabled=threshold!==null||polarity!==null||dotsMaxArea!==null||removeLines!==null||removeWavyLines;
+  return {enabled,configured,threshold,polarity,dotsMaxArea,removeLines,lineMinLengthPx,lineMaxWidthPx,removeWavyLines};
 }
 
 export function readBody(request,limit,signal,{tooLargeCode='image_too_large'}={}) {

@@ -11,56 +11,110 @@ khác engine gốc. Đối chiếu hiện tại khớp text và danh sách từ 
 hai ảnh còn khác là Arabic và Devanagari. Xem
 [báo cáo và các giới hạn](docs/PORTING-REPORT.md) trước khi dùng thay thế engine gốc.
 
-## Build và deploy Docker
+## Docker Hub: image 1.1
 
-Dockerfile đóng gói `models/oneocr.onemodel` (~56 MiB), DeepDoc layout
-`deepdoc-layout.onnx` (12.2 MB), Needle JSON model (35.3 MB), và ddddocr CAPTCHA
-model `common_old.onnx` (13.6 MB) cùng charset (57 KB). Container build từ cây
-này chạy độc lập, không cần mount hoặc tải model khi khởi động. Model tùy chọn
-được kiểm tra/nạp khi feature tương ứng được gọi lần đầu. OneOCR giữ nguyên SHA-256
+Image `gemvn90/one-ocr-next:1.1` đóng gói OneOCR (`oneocr.onemodel`, ~56 MiB),
+DeepDoc layout (12.2 MB), Needle JSON (35.3 MB), và ddddocr CAPTCHA model cùng
+charset (13.6 MB + 57 KB). Các model tùy chọn được xác minh/nạp khi feature
+tương ứng được gọi lần đầu; không cần volume model hoặc runtime download.
+OneOCR giữ nguyên SHA-256
 `076001d9d8ca2982e88d32e20d074efc52dcccf4982119ce1e97b005215220dc`.
-`extract=ddddocr` bật nhận dạng CAPTCHA trực tiếp trên ảnh; mặc định OneOCR
-không đổi.
+Tag `1.1` là phiên bản image; package Node.js và API/OpenAPI contract vẫn là
+`0.2.0`.
+
+Ví dụ Linux/macOS Bash. Image được phát hành cho `linux/amd64`; các lệnh chọn
+platform đó (host ARM cần hỗ trợ emulation). Key 256-bit được sinh bằng Node có
+sẵn trong image, chỉ giữ trong biến môi trường và không in ra terminal. Port
+chỉ bind loopback:
+
+```bash
+set -e
+docker pull --platform linux/amd64 gemvn90/one-ocr-next:1.1
+export ONEOCR_API_KEY="$(docker run --platform linux/amd64 --rm \
+  --entrypoint node gemvn90/one-ocr-next:1.1 -e \
+  "process.stdout.write(require('node:crypto').randomBytes(32).toString('hex'))")"
+: "${ONEOCR_API_KEY:?API key generation failed}"
+
+docker run --detach --name one-ocr-next --init \
+  --platform linux/amd64 \
+  --restart unless-stopped \
+  --read-only --tmpfs /tmp:rw,noexec,nosuid,size=64m \
+  --cap-drop ALL --security-opt no-new-privileges:true \
+  --pids-limit 256 --memory 2g --cpus 2 \
+  --publish 127.0.0.1:8001:8001 \
+  --env ONEOCR_API_KEY \
+  gemvn90/one-ocr-next:1.1
+
+ready=0
+for ((attempt = 0; attempt < 30; attempt++)); do
+  if curl --silent --fail http://127.0.0.1:8001/health/ready >/dev/null; then
+    ready=1
+    break
+  fi
+  sleep 1
+done
+if [ "$ready" -ne 1 ]; then
+  docker logs --tail 100 one-ocr-next
+  echo 'Service did not become ready within 30 seconds.' >&2
+  exit 1
+fi
+curl --fail http://127.0.0.1:8001/health/ready
+curl --fail-with-body -H "Authorization: Bearer $ONEOCR_API_KEY" \
+  -F file=@image.png \
+  'http://127.0.0.1:8001/v1/ocr?language=vi'
+```
+
+Trên Windows PowerShell, dùng các lệnh thay thế cho khối Bash trên:
+
+```powershell
+$image = 'gemvn90/one-ocr-next:1.1'
+docker pull --platform linux/amd64 $image
+$env:ONEOCR_API_KEY = (docker run --platform linux/amd64 --rm --entrypoint node $image -e "process.stdout.write(require('node:crypto').randomBytes(32).toString('hex'))").Trim()
+if (-not $env:ONEOCR_API_KEY) { throw 'API key generation failed' }
+docker run --detach --name one-ocr-next --init --platform linux/amd64 --restart unless-stopped --read-only --tmpfs "/tmp:rw,noexec,nosuid,size=64m" --cap-drop ALL --security-opt "no-new-privileges:true" --pids-limit 256 --memory 2g --cpus 2 --publish 127.0.0.1:8001:8001 --env ONEOCR_API_KEY $image
+$ready = $false
+for ($attempt = 0; $attempt -lt 30; $attempt++) {
+  curl.exe --silent --fail http://127.0.0.1:8001/health/ready | Out-Null
+  if ($LASTEXITCODE -eq 0) { $ready = $true; break }
+  Start-Sleep -Seconds 1
+}
+if (-not $ready) { docker logs --tail 100 one-ocr-next; throw 'Service did not become ready within 30 seconds.' }
+curl.exe --fail http://127.0.0.1:8001/health/ready
+curl.exe --fail-with-body -H "Authorization: Bearer $env:ONEOCR_API_KEY" -F "file=@image.png" "http://127.0.0.1:8001/v1/ocr?language=vi"
+```
+
+Để chạy từ checkout bằng Compose, `tools/init-service.mjs` tạo `.env` và key
+ngẫu nhiên một lần. Script này nằm trong source repo, không được đóng gói vào
+image:
 
 ```bash
 git clone https://github.com/OrgGem/one-ocr-next.git
 cd one-ocr-next
-node tools/init-service.mjs            # tạo .env và API key ngẫu nhiên
-docker compose up -d --build --wait
-curl --fail http://127.0.0.1:8001/health/ready
-
+node tools/init-service.mjs
+ONEOCR_IMAGE=gemvn90/one-ocr-next:1.1 docker compose pull ocr
+ONEOCR_IMAGE=gemvn90/one-ocr-next:1.1 docker compose up -d --no-build --wait
 set -a; . ./.env; set +a
-curl --fail -H "Authorization: Bearer $ONEOCR_API_KEY" \
-  -F file=@test/vietnamese-tables/fixtures/vi-table-grid.png \
-  'http://127.0.0.1:8001/v1/ocr?language=vi'
+curl --fail http://127.0.0.1:8001/health/ready
+curl --fail-with-body -H "Authorization: Bearer $ONEOCR_API_KEY" \
+  -F file=@image.png 'http://127.0.0.1:8001/v1/ocr?language=vi'
 ```
 
-Nếu host chỉ cài Docker, có thể tạo `.env` bằng Node trong image:
+Mặc định service bind tại `127.0.0.1:8001`, yêu cầu Bearer API key, chạy user
+`node`, có healthcheck và giới hạn CPU/RAM. Xem [thiết kế API và vận hành](docs/SERVICE.md)
+và [OpenAPI](docs/openapi.json). Layout gắn nhãn vùng semantic nhưng không tạo
+hàng/cột bảng: [hướng dẫn](docs/PREPROCESSING-LAYOUT.md),
+[receipt](docs/evidence/preprocessing-layout.md). PDF được raster hóa và OCR
+từng trang: [hướng dẫn](docs/PDF-INPUT.md), [receipt](docs/evidence/pdf-input.md).
+Needle chạy sau OCR với schema JSON: [hướng dẫn](docs/NEEDLE-EXTRACTION.md),
+[receipt](docs/evidence/needle-extraction.md). CAPTCHA chạy trực tiếp trên ảnh;
+các bộ lọc `captcha_*` mặc định tắt: [hướng dẫn](docs/CAPTCHA-EXTRACTION.md),
+[receipt và false positives](docs/evidence/captcha-preprocess.md).
+Không commit `.env` hoặc API key.
 
-```bash
-docker build -t oneocr-next:local .
-docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/workspace" \
-  -w /workspace --entrypoint node oneocr-next:local tools/init-service.mjs
-docker compose up -d --wait
-```
-
-Mặc định service publish tại `127.0.0.1:8001`, yêu cầu Bearer API key, chạy user
-`node`, filesystem read-only, giới hạn CPU/RAM và có healthcheck. Xem
-[thiết kế API và vận hành](docs/SERVICE.md), [OpenAPI](docs/openapi.json).
-Xem thêm [tiền xử lý và bố cục ngữ nghĩa](docs/PREPROCESSING-LAYOUT.md) cùng
-[bằng chứng và benchmark layout](docs/evidence/preprocessing-layout.md), và
-[trích xuất JSON bằng Needle sau OCR](docs/NEEDLE-EXTRACTION.md) với
-[receipt extraction](docs/evidence/needle-extraction.md). PDF được raster hóa
-và OCR từng trang; xem [hướng dẫn PDF](docs/PDF-INPUT.md) và
-[receipt PDF](docs/evidence/pdf-input.md). CAPTCHA OCR dùng cùng endpoint với
-`extract=ddddocr`; xem [hướng dẫn ddddocr](docs/CAPTCHA-EXTRACTION.md).
-Không commit `.env`; công cụ tạo key không ghi đè cấu hình đã có.
-
-GitHub Actions kiểm thử runtime, build image có model, chạy Compose và kiểm
-tra OCR thật qua HTTP. Sau khi các bước đạt, push trên `main`/tag `v*` sẽ publish
-image tới `ghcr.io/orggem/one-ocr-next` với tag `latest`/version và `sha-<commit>`.
-Khả năng publish thực tế phụ thuộc quyền Packages/Actions của repo; xem trạng
-thái workflow trước khi dùng image từ registry.
+GitHub Actions cũng kiểm thử runtime, build image, chạy Compose và gọi OCR qua
+HTTP; workflow publish riêng tới `ghcr.io/orggem/one-ocr-next`. Tag Docker Hub
+`gemvn90/one-ocr-next:1.1` là bản release có version rõ ràng. Xem trạng thái
+workflow và kiểm tra manifest registry trước khi coi một lần publish hoàn tất.
 
 ## Chạy trên Linux
 
@@ -136,45 +190,98 @@ Devanagari, Greek, Thai, Hebrew, Tamil. Các alias phổ biến: `vi`, `en`, `zh
 
 ## HTTP
 
-```bash
-ONEOCR_MODEL_PATH=models/oneocr.onemodel node --env-file=.env src/server.mjs
-curl --fail http://127.0.0.1:8001/health/ready
-curl --fail -H "Authorization: Bearer $ONEOCR_API_KEY" -F file=@image.png \
-  'http://127.0.0.1:8001/v1/ocr?language=vi'
+Trong checkout, chạy `node tools/init-service.mjs` một lần để tạo `.env` và API
+key nếu chưa có; script không in key và không ghi đè file cũ. Cài dependency
+Linux bằng `npm ci` trước khi chạy source server.
 
-# Tùy chọn phát hiện vùng ngữ nghĩa và tiền xử lý có ánh xạ tọa độ.
-curl --fail -H "Authorization: Bearer $ONEOCR_API_KEY" \
-  -F file=@test/vietnamese-tables/fixtures/vi-table-grid.png \
-  'http://127.0.0.1:8001/v1/ocr?language=vi&layout=deepdoc&max_dimension=1600&deskew=true&padding=16'
+```bash
+# Terminal 1: local source runtime. Override image-only model paths from .env.
+set -a; . ./.env; set +a
+ONEOCR_MODEL_PATH=models/oneocr.onemodel \
+ONEOCR_LAYOUT_MODEL_PATH=models/deepdoc-layout.onnx \
+ONEOCR_NEEDLE_MODEL_PATH=models/needle3.cact \
+ONEOCR_CAPTCHA_MODEL_PATH=models/common_old.onnx \
+ONEOCR_CAPTCHA_CHARSET_PATH=models/common_old-charset.json \
+node src/server.mjs
 ```
 
-POST `/v1/ocr` nhận ảnh raw hoặc một file multipart `file`/`image`; các alias
-`/`, `/ocr`, `/api/v1/ocr` giữ tương thích. Query hỗ trợ `language`, `script`,
-`max_lines`, `resize_long`, `resize_short`, `min_confidence`, `reject_low_quality`.
-Giới hạn mặc định: request 20 MiB, ảnh 40 triệu pixel và mỗi chiều tối đa 10.000,
-tối đa 8 request đang upload/xử lý/chờ. Có Bearer auth khi đặt `ONEOCR_API_KEY`
-(Compose bắt buộc). Request có deadline 60 giây, request ID và log JSON không
-ghi nội dung ảnh/text/key. SIGINT/SIGTERM ngừng nhận request và drain session.
+Trong terminal thứ hai, nạp cùng API key rồi gọi các mode trên endpoint chung:
+
+```bash
+set -a; . ./.env; set +a
+curl --fail http://127.0.0.1:8001/health/ready
+
+# Default OneOCR on an image.
+curl --fail-with-body -H "Authorization: Bearer $ONEOCR_API_KEY" \
+  -F file=@image.png \
+  'http://127.0.0.1:8001/v1/ocr?language=vi'
+
+# Optional semantic regions and mapped image preprocessing.
+curl --fail-with-body -H "Authorization: Bearer $ONEOCR_API_KEY" \
+  -F file=@test/vietnamese-tables/fixtures/vi-table-grid.png \
+  'http://127.0.0.1:8001/v1/ocr?language=vi&layout=deepdoc&max_dimension=1600&deskew=true&padding=16'
+
+# OneOCR on selected PDF pages; PDF input is rasterized page by page.
+curl --fail-with-body -H "Authorization: Bearer $ONEOCR_API_KEY" \
+  -H 'Content-Type: application/pdf' --data-binary @invoice.pdf \
+  'http://127.0.0.1:8001/v1/ocr?language=vi&pdf_dpi=150&pdf_pages=1-2'
+
+# Opt-in Needle JSON extraction runs after OneOCR on the returned text.
+curl --fail-with-body -H "Authorization: Bearer $ONEOCR_API_KEY" \
+  -F file=@invoice.png \
+  -F 'schema={"type":"object","properties":{"invoice_number":{"type":"string"},"total":{"type":"string"}},"required":["invoice_number","total"],"additionalProperties":false}' \
+  'http://127.0.0.1:8001/v1/ocr?language=vi&extract=needle'
+
+# Direct ddddocr CAPTCHA mode with composable cleanup options (all are optional).
+curl --fail-with-body -H "Authorization: Bearer $ONEOCR_API_KEY" \
+  -H 'Content-Type: image/png' --data-binary @captcha.png \
+  'http://127.0.0.1:8001/v1/ocr?extract=ddddocr&captcha_threshold=auto&captcha_polarity=auto&captcha_remove_lines=grid&captcha_line_min_length_px=96&captcha_line_max_width_px=1&captcha_remove_wavy_lines=true&captcha_dots_max_area=2'
+```
+
+Các mode trên dùng cùng `POST /v1/ocr`; alias `/`, `/ocr`, `/api/v1/ocr` giữ
+tương thích. `layout=deepdoc` thêm nhãn vùng semantic; `lines[].layout` gốc của
+OneOCR chỉ mô tả hướng glyph, còn DeepDoc không khôi phục hàng/cột bảng.
+`extract=needle` cần multipart kèm trường `schema`; PDF dùng cùng schema riêng
+cho từng trang. `extract=ddddocr` chạy model trực tiếp, không chạy OneOCR và trả
+response khác. Request bình thường tối đa 20 MiB/40 triệu pixel; PDF và mode
+CAPTCHA có giới hạn riêng. Service nhận tối đa 8 request upload/xử lý/chờ, có
+Bearer auth khi `ONEOCR_API_KEY` được đặt (Compose bắt buộc), deadline 60 giây,
+request ID và log JSON không ghi ảnh/text/key. Xem
+[PDF](docs/PDF-INPUT.md), [Needle](docs/NEEDLE-EXTRACTION.md),
+[layout/preprocessing](docs/PREPROCESSING-LAYOUT.md) và
+[CAPTCHA](docs/CAPTCHA-EXTRACTION.md) để biết giới hạn/response.
+
+CAPTCHA cleanup mặc định tắt; không truyền `captcha_*` thì tensor path giữ nguyên.
+Có thể kết hợp `captcha_threshold=auto|0..255`,
+`captcha_polarity=auto|dark|light`, `captcha_remove_lines=horizontal|vertical|grid`,
+`captcha_line_min_length_px=8..1024`, `captcha_line_max_width_px=1..3`,
+`captcha_remove_wavy_lines=true|false` và `captcha_dots_max_area=1..8`.
+`captcha_*` chỉ hợp lệ với `extract=ddddocr`; line tuning cần bật line/wave removal;
+work raster bị giới hạn 1 MP/1200 px
+mỗi cạnh. Bộ lọc có thể xóa chi tiết chữ: test tổng hợp từng thấy grid xóa vạch
+glyph thẳng hàng và wave xóa nét glyph cong phủ ngang; chúng không khẳng định
+tăng accuracy chung. Xem [receipt preprocessing CAPTCHA](docs/evidence/captcha-preprocess.md).
 
 ## Docker Linux
 
-Dockerfile đóng gói model gốc trong image; runtime đọc/giải mã bằng Node.js.
+Dockerfile đóng gói OneOCR, DeepDoc layout, Needle và ddddocr model/charset trong
+image. Build local dùng tag `oneocr-next:local`; container chạy bằng Node.js CPU.
 
 ```bash
 docker build -t oneocr-next:local .
-docker compose up -d --wait
+docker compose up -d --build --wait
 docker compose logs --tail 100 ocr
 docker compose down
 ```
 
 Image dùng user `node`, có healthcheck, pin base image theo digest. Compose
-không mount volume model. Runtime không chứa DLL Windows. Hiện đã kiểm tra
-Linux amd64; GPU/ARM64 chưa được kiểm chứng.
+không mount volume model. Runtime không chứa DLL Windows. Linux amd64 đã được
+kiểm chứng; GPU/ARM64 chưa được kiểm chứng.
 
 ## Kiểm tra và đối chiếu
 
 ```bash
-npm test                             # container, Unicode, 34 model, OCR, HTTP
+npm test                             # full functional/regression suite; gần nhất 70/70, không phải điểm accuracy
 npm run test:unit                    # không cần model, kiểm tra HTTP bằng fake engine
 npm run test:service                 # gọi service Docker đang chạy, đọc key từ .env
 node test/calibration-parity.mjs      # 23 quan sát input/output từ DLL gốc
@@ -200,5 +307,11 @@ chính là đường chạy trong decoder mặc định. Các kiểm tra compone
 hoặc thống kê native đã ghi; chúng không thay thế đối chiếu ảnh end-to-end.
 
 Model giữ nguyên nguồn gốc của bộ file được cung cấp; việc đóng gói không gán
-license mã JavaScript cho model. Chỉ model gốc được đưa vào Git/image; tài nguyên
-giải mã và DLL nghiên cứu được bỏ qua. Xem [nguồn tham khảo](THIRD_PARTY_NOTICES.md).
+license mã JavaScript cho model OneOCR. Git và image có model OneOCR, DeepDoc,
+Needle, ddddocr và charset được pin; tài nguyên nghiên cứu Windows/DLL không
+được đóng gói trong runtime. `npm test` gần nhất đạt 70/70 functional tests;
+suite chất lượng riêng `npm run test:vi` đạt 7/8 ảnh tổng hợp và trả exit 1 vì
+dấu tiếng Việt rời còn lỗi. Điều này không phải tuyên bố accuracy/parity chung.
+CAPTCHA cleanup có các false positive đã ghi nhận và một thay đổi output trên
+fixture; xem [receipt CAPTCHA](docs/evidence/captcha-preprocess.md). Xem
+[nguồn tham khảo](THIRD_PARTY_NOTICES.md).

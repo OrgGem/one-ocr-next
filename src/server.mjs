@@ -4,7 +4,7 @@ import {existsSync} from 'node:fs';
 import {readFile} from 'node:fs/promises';
 import {pathToFileURL} from 'node:url';
 import {OcrEngine} from './index.mjs';
-import {HttpError,authorized,imageInput,integer,ocrOptions,readBody,serviceConfig} from './http.mjs';
+import {HttpError,authorized,imageInput,integer,ocrOptions,readBody,serviceConfig,CAPTCHA_PREPROCESS_QUERY_KEYS} from './http.mjs';
 import {CaptchaError,CAPTCHA_MODEL,CAPTCHA_CHARSET,CAPTCHA_RUNTIME,CAPTCHA_MAX_INPUT_BYTES,CAPTCHA_MAX_INPUT_PIXELS} from './captcha-extractor.mjs';
 import {ExtractionSchemaError,parseNeedleSchema} from './needle-schema.mjs';
 import {NEEDLE_MODEL,NEEDLE_MAX_INSTRUCTION_BYTES,NEEDLE_MAX_OUTPUT_TOKENS,NEEDLE_RUNTIME} from './needle-extractor.mjs';
@@ -69,8 +69,8 @@ export async function serve(options={}) {
     let extractionReserved=false,pdfReserved=false,captchaReserved=false;
     try {
       if(url.searchParams.get('extract')==='ddddocr') {
-        for(const key of url.searchParams.keys())if(key!=='extract')throw new HttpError(422,'ddddocr_options_unsupported','extract=ddddocr does not accept OCR, layout, preprocessing or PDF options');
-      }
+        for(const key of url.searchParams.keys())if(key!=='extract'&&!CAPTCHA_PREPROCESS_QUERY_KEYS.has(key))throw new HttpError(422,'ddddocr_options_unsupported','extract=ddddocr accepts only captcha_* preprocessing options');
+      } else if([...url.searchParams.keys()].some(key=>key.startsWith('captcha_')))throw new HttpError(422,'captcha_options_unsupported','captcha_* options require extract=ddddocr');
       const ocr=ocrOptions(url.searchParams);
       if(ocr.extraction==='ddddocr') {
         if(captchaPending>=1){response.setHeader('retry-after','1');throw new HttpError(503,'captcha_busy','CAPTCHA recognition is busy; retry later');}
@@ -103,7 +103,7 @@ export async function serve(options={}) {
       if(controller.signal.aborted)throw controller.signal.reason;
       const {pdf:pdfOptions,...engineOptions}=ocr;
       const responseBody=ocr.extraction==='ddddocr'
-        ?await recognizeCaptcha({input,engine,maxPixels,requestId,controller,deadlineAt})
+        ?await recognizeCaptcha({input,engine,maxPixels,captchaPreprocess:ocr.captchaPreprocess,requestId,controller,deadlineAt})
         :pdfRequest
           ?await recognizePdf({input:input.pdf,pdfOptions:pdfOptions??{dpi:PDF_DEFAULT_DPI,pages:null},engine,engineOptions,schema,instruction:input.instruction,maxPixels,requestId,controller,deadlineAt,extractionTimeoutMs,emit})
           :await recognizeImage({input:ocr.extraction==='needle'?input.image:input,engine,engineOptions,schema,instruction:input.instruction,maxPixels,requestId,controller,deadlineAt,extractionTimeoutMs,emit});
@@ -150,16 +150,16 @@ function extractionUnavailable(code) {
   return {provider:NEEDLE_RUNTIME.provider,model:{name:NEEDLE_MODEL.name,revision:NEEDLE_MODEL.revision,sha256:NEEDLE_MODEL.sha256,runtime:NEEDLE_RUNTIME.package,runtime_version:NEEDLE_RUNTIME.version},schema_validation:'valid',output_validation:'not_run',status:'unavailable',error:{code},elapsed_ms:0};
 }
 
-async function recognizeCaptcha({input,engine,maxPixels,requestId,controller,deadlineAt}) {
+async function recognizeCaptcha({input,engine,maxPixels,captchaPreprocess,requestId,controller,deadlineAt}) {
   assertRequestActive(controller,deadlineAt);
   if(typeof engine.extractCaptcha!=='function')throw new CaptchaError(503,'captcha_unavailable','CAPTCHA recognition is unavailable');
-  const result=await engine.extractCaptcha(input,{signal:controller.signal,deadlineAt,maxPixels:Math.min(maxPixels,CAPTCHA_MAX_INPUT_PIXELS)});
+  const result=await engine.extractCaptcha(input,{signal:controller.signal,deadlineAt,maxPixels:Math.min(maxPixels,CAPTCHA_MAX_INPUT_PIXELS),captchaPreprocess});
   assertRequestActive(controller,deadlineAt);
   return {request_id:requestId,text:result.text,extraction:{
     provider:'ddddocr-onnxruntime',
     model:{name:CAPTCHA_MODEL.name,revision:CAPTCHA_MODEL.revision,sha256:CAPTCHA_MODEL.sha256,charset_sha256:CAPTCHA_CHARSET.sha256},
     runtime:{package:CAPTCHA_RUNTIME.package,version:CAPTCHA_RUNTIME.version,execution_provider:CAPTCHA_RUNTIME.executionProvider},
-    status:result.status,input:result.input,elapsed_ms:result.elapsed_ms,
+    status:result.status,input:result.input,elapsed_ms:result.elapsed_ms,...(result.preprocessing?{preprocessing:result.preprocessing}:{})
   }};
 }
 

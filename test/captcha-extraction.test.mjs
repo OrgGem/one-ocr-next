@@ -4,6 +4,7 @@ import {test} from 'node:test';
 import {setTimeout as delay} from 'node:timers/promises';
 import sharp from 'sharp';
 import {DdddOcrExtractor,CaptchaError,CAPTCHA_MODEL,CAPTCHA_CHARSET} from '../src/captcha-extractor.mjs';
+import {ocrOptions} from '../src/http.mjs';
 import {serve} from '../src/server.mjs';
 
 const fixtures=new URL('./fixtures/captcha/',import.meta.url);
@@ -54,7 +55,27 @@ test('extract=ddddocr runs direct image inference and returns pinned metadata wi
     const form=new FormData();form.set('image',new Blob([png],{type:'image/png'}),'captcha.png');
     const multipart=await fetch(app.url+'/v1/ocr?extract=ddddocr',{method:'POST',body:form});
     assert.equal(multipart.status,200);assert.equal((await multipart.json()).text,'aBC123');
+    const transformed=await raw(app,png,'/v1/ocr?extract=ddddocr&captcha_threshold=auto&captcha_dots_max_area=1');
+    assert.equal(transformed.status,200);const transformedBody=await transformed.json();
+    assert.equal(transformedBody.extraction.preprocessing.enabled,true);
+    assert.deepEqual(transformedBody.extraction.preprocessing.applied_order,['grayscale','threshold','polarity','isolated_components','resize_to_model']);
+    assert.equal(transformedBody.extraction.preprocessing.threshold.method,'otsu');
   } finally {await app.close();await extractor.close();}
+});
+
+test('CAPTCHA options reject invalid values with invalid_options before recognition',async()=>{
+  let calls=0;const app=await start(fakeEngine({extractCaptcha:async()=>{calls++;return {text:'x'};}}));
+  try {
+    for(const option of ['captcha_threshold=256','captcha_polarity=bright','captcha_dots_max_area=9','captcha_line_min_length_px=20','captcha_remove_wavy_lines=yes']){
+      const response=await raw(app,png,`/v1/ocr?extract=ddddocr&${option}`);
+      assert.equal(response.status,422);assert.equal((await response.json()).error,'invalid_options');
+    }
+    const scope=await raw(app,png,'/v1/ocr?captcha_threshold=auto');
+    assert.equal(scope.status,422);assert.equal((await scope.json()).error,'captcha_options_unsupported');
+    const tuneOnly=await raw(app,png,'/v1/ocr?extract=ddddocr&captcha_line_min_length_px=20');
+    assert.equal(tuneOnly.status,422);assert.equal((await tuneOnly.json()).error,'invalid_options');
+    assert.equal(calls,0);
+  } finally {await app.close();}
 });
 
 test('no-match response uses empty top-level text and explicit status',async()=>{
@@ -131,6 +152,48 @@ test('wide image rejects normalized width before resize, tensor allocation or mo
   try {
     await assert.rejects(extractor.extract(Buffer.from('bounded metadata probe')),error=>error.status===422&&error.code==='captcha_image_dimensions');
     assert.equal(pipelines,1);assert.equal(resizes,0);assert.equal(sessionCreates,0);
+  } finally {await extractor.close();}
+});
+
+test('enhanced wide image rejects normalized width before bounded rasterization or model loading',async()=>{
+  let sessionCreates=0,resizes=0,rotates=0;
+  const runtime={Tensor:FakeTensor,InferenceSession:{create:async()=>{sessionCreates++;throw new Error('must not create session');}}};
+  const imageProcessor=()=>({metadata:async()=>({width:4096,height:500,autoOrient:{width:4096,height:500}}),rotate(){rotates++;return this;},resize(){resizes++;throw new Error('must not resize');}});
+  const extractor=new DdddOcrExtractor({runtime,imageProcessor});
+  const captchaPreprocess=ocrOptions(new URLSearchParams('captcha_threshold=auto')).captchaPreprocess;
+  try {
+    await assert.rejects(extractor.extract(Buffer.from('bounded metadata probe'),{captchaPreprocess}),error=>error.status===422&&error.code==='captcha_image_dimensions');
+    assert.equal(rotates,0);assert.equal(resizes,0);assert.equal(sessionCreates,0);
+  } finally {await extractor.close();}
+});
+
+test('captcha_remove_wavy_lines=false uses the byte-identical default tensor path',async()=>{
+  const charset=JSON.parse(await readFile(new URL('../models/common_old-charset.json',import.meta.url),'utf8'));
+  const tensors=[];const runtime={Tensor:FakeTensor,InferenceSession:{create:async()=>({
+    inputNames:['input1'],outputNames:['387'],inputMetadata:[{type:'float32',shape:[1,1,64,'image_width']}],outputMetadata:[{type:'float32',shape:[1,'seqlen']}],
+    run:async feeds=>{tensors.push(Float32Array.from(feeds.input1.data));return {'387':{type:'float32',dims:[28,1,8210],data:new Float32Array(28*8210)}};},release:async()=>{}
+  })}};
+  const extractor=new DdddOcrExtractor({runtime});
+  const noOp=ocrOptions(new URLSearchParams('captcha_remove_wavy_lines=false')).captchaPreprocess;
+  try {
+    const plain=await extractor.extract(png),configured=await extractor.extract(png,{captchaPreprocess:noOp});
+    assert.equal(plain.text,configured.text);assert.equal(configured.preprocessing.enabled,false);
+    assert.deepEqual(tensors[0],tensors[1]);
+  } finally {await extractor.close();}
+});
+
+test('real model compares clean, synthetic noisy, and preprocessed CAPTCHA input',async()=>{
+  const {data,info}=await sharp(png).removeAlpha().toColourspace('srgb').raw().toBuffer({resolveWithObject:true});
+  for(let x=8;x<info.width-8;x++)for(let channel=0;channel<info.channels;channel++)data[(50*info.width+x)*info.channels+channel]=0;
+  for(const [x,y] of [[4,4],[info.width-5,info.height-5]])for(let channel=0;channel<info.channels;channel++)data[(y*info.width+x)*info.channels+channel]=0;
+  const noisy=await sharp(data,{raw:{width:info.width,height:info.height,channels:info.channels}}).png().toBuffer();
+  const extractor=new DdddOcrExtractor();
+  try {
+    const plain=await extractor.extract(png),unclean=await extractor.extract(noisy);
+    const enhanced=await extractor.extract(noisy,{captchaPreprocess:ocrOptions(new URLSearchParams('captcha_threshold=auto&captcha_polarity=auto&captcha_remove_lines=horizontal&captcha_dots_max_area=1')).captchaPreprocess});
+    assert.equal(plain.text,'aBC123');assert.equal(typeof unclean.text,'string');assert.equal(typeof enhanced.text,'string');
+    assert.equal(enhanced.preprocessing.enabled,true);assert.ok(enhanced.preprocessing.straight_lines.pixels_removed>0);
+    assert.ok(enhanced.preprocessing.dots.pixels_removed>0);
   } finally {await extractor.close();}
 });
 

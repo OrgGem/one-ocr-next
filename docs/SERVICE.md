@@ -52,7 +52,8 @@ Query mặc định: `language` hoặc `script`, `max_lines`, `resize_long`,
 `layout=deepdoc`, `layout_threshold`, `max_regions`, `max_dimension`, `rotation`,
 `deskew`, `padding`, `extract=needle|ddddocr`, `pdf_dpi` và `pdf_pages`. `pdf_dpi` và
 `pdf_pages` chỉ hợp lệ với PDF. Query lặp, không biết hoặc ngoài giới hạn trả
-422.
+422. Các tham số `captcha_*` chỉ dùng với `extract=ddddocr`; gửi chúng ở mode
+khác trả `captcha_options_unsupported`.
 
 Kết quả giữ các trường của engine: `text`, `text_angle`, `lines[].words[]`,
 `bounding_rect`, confidence, style, rejection, `width`, `height`, `elapsed_ms`,
@@ -108,15 +109,45 @@ hoặc lỗi render trả 422; renderer bận trả 503 `pdf_renderer_busy`; dea
 
 `extract=ddddocr` chạy model CAPTCHA cục bộ trực tiếp trên một ảnh và bỏ qua
 OneOCR. Nhận raw image hoặc multipart với đúng một file `file`/`image`; không
-nhận PDF, schema/instruction, language/script, layout, tiền xử lý hoặc PDF
-options. Các tham số không tương thích bị từ chối 422. Toàn bộ raw/multipart body
-bị giới hạn ở `min(ONEOCR_MAX_BODY_BYTES, 8 MiB)`, gồm multipart boundary.
+nhận PDF, schema/instruction, language/script, layout, OneOCR preprocessing
+hoặc PDF options. Các tham số không tương thích bị từ chối 422. Toàn bộ
+raw/multipart body bị giới hạn ở `min(ONEOCR_MAX_BODY_BYTES, 8 MiB)`, gồm
+multipart boundary.
 
 Response chỉ có prediction `text` và metadata `extraction`; `no_match` trả text
 rỗng. API không trả confidence/boxes và không sửa hoa-thường. Một CAPTCHA request
 chạy cùng deadline service, với một inference slot mỗi process. Xem
 [hướng dẫn ddddocr](CAPTCHA-EXTRACTION.md) về checksum, giới hạn ảnh và case
 accuracy caveat.
+
+Các bộ lọc riêng của CAPTCHA đều opt-in và có thể kết hợp: `captcha_threshold`
+nhận `auto` hoặc `0..255`; `captcha_polarity` nhận `auto|dark|light`;
+`captcha_remove_lines` nhận `horizontal|vertical|grid`;
+`captcha_line_min_length_px` nhận `8..1024`;
+`captcha_line_max_width_px` nhận `1..3` (mặc định 1);
+`captcha_remove_wavy_lines` nhận `true|false`; `captcha_dots_max_area` nhận
+`1..8`. Giá trị ngưỡng dùng mức xám 8-bit. Chiều dài/độ rộng đường và diện tích chấm tính bằng pixel của working
+raster, có cạnh dài tối đa 1200 pixel và tối đa 1 megapixel. Tham số tuning
+đường cần bật ít nhất một loại straight-line hoặc wavy-line removal; nếu không,
+API trả 422 `invalid_options`. Khi bỏ tham số chiều dài, horizontal mặc định
+`max(8, ceil(65% chiều rộng working raster))`, vertical mặc định
+`max(8, ceil(90% chiều cao))`; `grid` dùng cả hai. Wavy-line dùng độ dài lớn
+hơn giữa `max(8, ceil(80% chiều rộng))` và giá trị chiều dài tùy chỉnh (nếu có).
+
+Khi pipeline bật, thứ tự cố định là threshold/polarity, straight lines, wavy
+lines, dots, rồi resize về kích thước model. Bỏ threshold/polarity trong pipeline
+sẽ dùng `auto`; gửi `captcha_threshold=auto` hoặc `captcha_polarity=auto` một
+mình vẫn bật preprocessing nhị phân. Nếu không có tham số cleanup, tensor đầu
+vào CAPTCHA giữ nguyên.
+`extraction.preprocessing` chỉ xuất hiện khi có query `captcha_*` và ghi config,
+thứ tự thực tế (`grayscale`, `threshold`, `polarity`, các filter được bật,
+`resize_to_model`), scale/dimensions raster cùng số liệu tác động filter. Raster
+được EXIF auto-orient trước khi scale; `scale_x/y` tính từ kích thước đã orient,
+còn `input.width/height` là kích thước decoder báo. `auto`
+threshold dùng Otsu; `auto` polarity chọn phía có ít pixel hơn làm foreground. Dot
+removal có thể xóa dấu chấm glyph hoặc nét mảnh. Wavy-line removal chỉ dò đường
+mảnh, trơn, gần hết chiều ngang và không phải dewarp tổng quát; không bảo đảm
+tăng độ chính xác cho mọi CAPTCHA.
 
 ## Tiền xử lý và layout tùy chọn
 

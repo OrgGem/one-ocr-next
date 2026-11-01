@@ -14,7 +14,7 @@ The preprocessing path resizes an accepted image to height 64 with width `floor(
 
 ## API and resource bounds
 
-Use one raw supported image MIME/octet-stream body, or one multipart `file`/`image` part. The entire HTTP body, including multipart framing, is limited to `min(ONEOCR_MAX_BODY_BYTES, 8 MiB)`. A request may not combine this mode with other query options, schema or instruction parts, or PDF input. CAPTCHA inference is direct and does not call the document OCR engine.
+This receipt records the original CAPTCHA mode before cleanup options were added. The current route accepts optional `captcha_*` cleanup parameters with `extract=ddddocr`; document OCR/layout/preprocessing/PDF options, schema/instruction parts, and PDF input remain unsupported in CAPTCHA mode. See the [current CAPTCHA preprocessing guide](../CAPTCHA-EXTRACTION.md) and [preprocessing evidence receipt](captcha-preprocess.md) for that contract and its limits. Requests still use one raw supported image MIME/octet-stream body or one multipart `file`/`image` part, with the entire HTTP body (including multipart framing) capped at `min(ONEOCR_MAX_BODY_BYTES, 8 MiB)`. CAPTCHA inference is direct and does not call the document OCR engine.
 
 The extractor limits decoded images to min(`ONEOCR_MAX_PIXELS`, 4,000,000) source pixels (4,000,000 by default), 4,096 pixels per dimension, normalized width 8–512 pixels, and at most 64 output steps. A single CAPTCHA inference is admitted at a time. HTTP request deadlines apply throughout; ONNX Runtime's native inference cannot be interrupted, so a timed-out call retains its slot until native execution settles and the result is discarded.
 
